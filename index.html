@@ -97,14 +97,29 @@
   .hero::before {
     content: '';
     position: absolute; inset: 0;
-    background: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='rgba(61,122,181,0.09)' stroke-width='1'%3E%3Crect x='0' y='0' width='80' height='80'/%3E%3C/g%3E%3C/svg%3E");
-    background-size: 80px 80px;
+    background: url('inspire-hero.png') center center / cover no-repeat;
+    opacity: 0.18;
+  }
+  .hero::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(160deg, rgba(22,40,64,0.82) 0%, rgba(30,74,114,0.75) 55%, rgba(30,58,88,0.82) 100%);
   }
   .hero-ornament {
     position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
     width: 600px; height: 600px;
     border-radius: 50%;
     background: radial-gradient(circle, rgba(184,130,42,0.08) 0%, transparent 70%);
+    pointer-events: none; z-index: 1;
+  }
+  /* Hero graphic - sits prominently in hero */
+  .hero-graphic {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: min(700px, 85%);
+    opacity: 0.22;
+    z-index: 1;
     pointer-events: none;
   }
   .hero-content {
@@ -793,7 +808,8 @@
 <!-- HERO -->
 <section class="hero" id="home">
   <div class="hero-ornament"></div>
-  <div class="hero-content">
+  <img src="inspire-hero.png" alt="" class="hero-graphic">
+  <div class="hero-content" style="position:relative;z-index:2">
     <p class="hero-eyebrow">Welcome</p>
     <h1>Inspire with <em>Dr. Nick</em></h1>
     <p class="hero-sub">Real stories. Honest perspective. Faith-filled encouragement for everyday life.</p>
@@ -947,6 +963,10 @@
 <!-- BLOG -->
 <section class="blog" id="blog">
   <div class="container">
+    <!-- Banner -->
+    <div class="fade-up" style="margin-bottom:3rem;border-radius:8px;overflow:hidden;box-shadow:0 8px 40px rgba(22,40,64,0.2)">
+      <img src="matter-of-perspective-banner.png" alt="Dr. Nick's Matter of Perspective" style="width:100%;display:block;border-radius:8px">
+    </div>
     <div class="blog-header">
       <div>
         <p class="section-label">Latest Reflections</p>
