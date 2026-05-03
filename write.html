@@ -106,9 +106,9 @@
   }
 
   /* ── MAIN CONTENT ── */
-  .admin-main { background:var(--warm-white); padding:2rem; overflow-y:auto; }
-  .admin-panel { display:none; }
-  .admin-panel.active { display:block; }
+  .admin-main { background:var(--warm-white); padding:2rem; overflow-y:auto; min-height:calc(100vh - 60px); }
+  .admin-panel { display:none !important; }
+  .admin-panel.active { display:block !important; }
   .panel-title {
     font-family:'Playfair Display',serif; font-size:1.6rem; font-weight:700;
     color:var(--navy); margin-bottom:0.3rem;
