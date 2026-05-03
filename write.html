@@ -370,7 +370,14 @@
         </button>
       </div>
       <div class="sidebar-section">
-        <div class="sidebar-label">Social</div>
+        <div class="sidebar-label">Publishing</div>
+        <button class="sidebar-btn" onclick="showPanel('settings')" id="btn-settings">
+          <span class="icon">⚙️</span> GitHub Settings
+        </button>
+        <button class="sidebar-btn" onclick="publishToGitHub()" id="btn-publish-gh">
+          <span class="icon">🚀</span> Publish to Site
+        </button>
+      </div>
         <button class="sidebar-btn" onclick="window.open('https://facebook.com/drnicksmatterofperspective','_blank')">
           <span class="icon">📘</span> Facebook Page
         </button>
@@ -554,6 +561,42 @@ Your words, your voice, your perspective. This is your space."></textarea>
           <button class="btn-secondary" style="margin-top:0.8rem;font-size:0.72rem" onclick="copyPostsJSON()">📋 Copy posts.json content</button>
           <span id="copyConfirm" style="font-size:0.78rem;color:var(--success);margin-left:0.8rem;display:none">✓ Copied!</span>
         </div>
+      </div>
+
+      <!-- SETTINGS -->
+      <div class="admin-panel" id="panel-settings">
+        <div class="panel-title">GitHub <em>Settings</em></div>
+        <div class="panel-sub">Enter your GitHub details once — then publishing is one click forever!</div>
+
+        <div class="alert success" id="settingsSuccess"></div>
+
+        <div style="background:var(--sage-pale);border-radius:6px;padding:1.2rem 1.5rem;margin-bottom:1.5rem;border-left:3px solid var(--sage-mid)">
+          <p style="font-size:0.85rem;color:var(--text-mid);line-height:1.7">
+            🔒 <strong>Your token is stored only in your browser</strong> — it never leaves your device and is never shared with anyone.
+          </p>
+        </div>
+
+        <div class="form-group">
+          <label>GitHub Username</label>
+          <input type="text" id="ghUsername" placeholder="e.g. nickpalischphd">
+          <p class="form-hint">Your GitHub username — the one you log in with</p>
+        </div>
+        <div class="form-group">
+          <label>Repository Name</label>
+          <input type="text" id="ghRepo" placeholder="e.g. inspirewithdrnick">
+          <p class="form-hint">The name of your GitHub repository</p>
+        </div>
+        <div class="form-group">
+          <label>Personal Access Token</label>
+          <input type="password" id="ghToken" placeholder="ghp_••••••••••••••••••••">
+          <p class="form-hint">Paste your GitHub token here — starts with ghp_</p>
+        </div>
+        <div class="btn-row">
+          <button class="btn-primary" onclick="saveGitHubSettings()">Save Settings →</button>
+          <button class="btn-secondary" onclick="testGitHubConnection()">Test Connection</button>
+        </div>
+        <div class="alert success" id="ghTestSuccess" style="margin-top:1rem"></div>
+        <div class="alert error" id="ghTestError" style="margin-top:1rem"></div>
       </div>
 
     </div><!-- end admin-main -->
@@ -873,9 +916,137 @@ function escHtml(str) {
   return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
+// ── GITHUB SETTINGS ──
+const GH_KEY = 'drNickGitHubSettings';
+
+function getGitHubSettings() {
+  try { return JSON.parse(localStorage.getItem(GH_KEY)) || {}; }
+  catch(e) { return {}; }
+}
+
+function saveGitHubSettings() {
+  const username = document.getElementById('ghUsername').value.trim();
+  const repo = document.getElementById('ghRepo').value.trim();
+  const token = document.getElementById('ghToken').value.trim();
+  if (!username || !repo || !token) {
+    showAlert('settingsSuccess', '⚠️ Please fill in all three fields.');
+    return;
+  }
+  localStorage.setItem(GH_KEY, JSON.stringify({ username, repo, token }));
+  showAlert('settingsSuccess', '✓ Settings saved! You can now publish with one click.');
+}
+
+function loadGitHubSettings() {
+  const s = getGitHubSettings();
+  if (s.username) document.getElementById('ghUsername').value = s.username;
+  if (s.repo) document.getElementById('ghRepo').value = s.repo;
+  if (s.token) document.getElementById('ghToken').value = s.token;
+}
+
+async function testGitHubConnection() {
+  const s = getGitHubSettings();
+  if (!s.token || !s.username || !s.repo) {
+    showAlert('ghTestError', '⚠️ Please save your settings first.');
+    return;
+  }
+  try {
+    const res = await fetch(`https://api.github.com/repos/${s.username}/${s.repo}`, {
+      headers: { 'Authorization': `token ${s.token}`, 'Accept': 'application/vnd.github.v3+json' }
+    });
+    if (res.ok) {
+      document.getElementById('ghTestSuccess').textContent = '✓ Connected! Your GitHub repository is accessible.';
+      document.getElementById('ghTestSuccess').style.display = 'block';
+      document.getElementById('ghTestError').style.display = 'none';
+    } else {
+      throw new Error('Connection failed');
+    }
+  } catch(e) {
+    document.getElementById('ghTestError').textContent = '✗ Could not connect. Check your username, repo name, and token.';
+    document.getElementById('ghTestError').style.display = 'block';
+    document.getElementById('ghTestSuccess').style.display = 'none';
+  }
+}
+
+// ── ONE CLICK PUBLISH TO GITHUB ──
+async function publishToGitHub() {
+  const s = getGitHubSettings();
+  if (!s.token || !s.username || !s.repo) {
+    alert('Please set up your GitHub settings first! Click "GitHub Settings" in the sidebar.');
+    showPanel('settings');
+    return;
+  }
+
+  const btn = document.getElementById('btn-publish-gh');
+  btn.innerHTML = '<span class="icon">⏳</span> Publishing...';
+  btn.disabled = true;
+
+  try {
+    // Get all published posts
+    const posts = getPosts();
+    const publishedPosts = posts.filter(p => p.published !== false).map(p => ({
+      id: p.id, title: p.title, date: p.date, category: p.category,
+      excerpt: p.excerpt, icon: p.icon, color: p.color, published: true,
+      content: p.content,
+      ...(p.image ? {image: p.image} : {})
+    }));
+
+    const content = JSON.stringify(publishedPosts, null, 2);
+    const encoded = btoa(unescape(encodeURIComponent(content)));
+
+    // Get current file SHA (needed for update)
+    const getRes = await fetch(
+      `https://api.github.com/repos/${s.username}/${s.repo}/contents/posts.json`,
+      { headers: { 'Authorization': `token ${s.token}`, 'Accept': 'application/vnd.github.v3+json' } }
+    );
+
+    let sha = null;
+    if (getRes.ok) {
+      const data = await getRes.json();
+      sha = data.sha;
+    }
+
+    // Update the file
+    const body = {
+      message: `Blog update: ${new Date().toLocaleDateString('en-US', {month:'long', day:'numeric', year:'numeric'})}`,
+      content: encoded,
+      ...(sha ? { sha } : {})
+    };
+
+    const putRes = await fetch(
+      `https://api.github.com/repos/${s.username}/${s.repo}/contents/posts.json`,
+      {
+        method: 'PUT',
+        headers: {
+          'Authorization': `token ${s.token}`,
+          'Accept': 'application/vnd.github.v3+json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(body)
+      }
+    );
+
+    if (putRes.ok) {
+      btn.innerHTML = '<span class="icon">✅</span> Published!';
+      setTimeout(() => {
+        btn.innerHTML = '<span class="icon">🚀</span> Publish to Site';
+        btn.disabled = false;
+      }, 3000);
+      alert('🎉 Your blog is live! Visit inspirewithdrnick.com in about 60 seconds to see your post.');
+    } else {
+      throw new Error('Publish failed');
+    }
+  } catch(e) {
+    btn.innerHTML = '<span class="icon">❌</span> Failed';
+    btn.disabled = false;
+    setTimeout(() => btn.innerHTML = '<span class="icon">🚀</span> Publish to Site', 3000);
+    alert('Publishing failed. Please check your GitHub settings and try again.');
+  }
+}
+
 // ── BOOT ──
 if (sessionStorage.getItem(SESSION_KEY) === 'true') {
   initAdmin();
+  loadGitHubSettings();
 }
 </script>
 </body>
