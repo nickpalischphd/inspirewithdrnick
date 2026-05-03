@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blog Manager — Inspire with Dr. Nick</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&family=Source+Serif+4:opsz,wght@8..60,300;8..60,400@display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:#162840;--blue:#1e4a72;--blue-mid:#2a5f8f;
+    --gold:#b8822a;--gold-light:#d4a044;
+    --sage-dark:#3d5e44;--sage-mid:#5e8066;--sage-pale:#e8f0e9;
+    --sand-light:#e8ddc8;--sand-pale:#f5f0e6;--parchment:#ede6d5;
+    --cream:#f4f1ec;--warm-white:#f9f7f2;
+    --text-dark:#1a1e24;--text-mid:#364050;--text-light:#6a7585;
+    --border:#d8d0be;--shadow:0 4px 24px rgba(22,40,64,0.12);
+    --success:#2d8a4e;--danger:#c0392b;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Lato',sans-serif; background:var(--cream); color:var(--text-dark); min-height:100vh; }
+
+  /* ── LOGIN SCREEN ── */
+  #loginScreen {
+    min-height:100vh; display:flex; align-items:center; justify-content:center;
+    background:linear-gradient(160deg,var(--navy) 0%,var(--blue) 55%,var(--sage-dark) 100%);
+    padding:2rem;
+  }
+  .login-box {
+    background:#fff; border-radius:8px; padding:3rem 2.5rem;
+    max-width:400px; width:100%; box-shadow:0 20px 60px rgba(0,0,0,0.3);
+    text-align:center;
+  }
+  .login-logo {
+    font-family:'Playfair Display',serif; font-size:1.4rem; font-weight:700;
+    color:var(--navy); margin-bottom:0.3rem;
+  }
+  .login-logo em { font-style:italic; color:var(--gold); }
+  .login-sub {
+    font-size:0.75rem; font-weight:700; letter-spacing:0.15em; text-transform:uppercase;
+    color:var(--text-light); margin-bottom:2rem;
+  }
+  .login-box input[type="password"] {
+    width:100%; padding:0.9rem 1.2rem; border:1.5px solid var(--border);
+    border-radius:4px; font-size:1rem; font-family:'Lato',sans-serif;
+    outline:none; transition:border-color 0.2s; margin-bottom:1rem;
+    text-align:center; letter-spacing:0.2em;
+  }
+  .login-box input[type="password"]:focus { border-color:var(--gold); }
+  .login-error {
+    color:var(--danger); font-size:0.8rem; margin-bottom:0.8rem; display:none;
+  }
+
+  /* ── ADMIN LAYOUT ── */
+  #adminScreen { display:none; min-height:100vh; }
+  .admin-header {
+    background:var(--navy); padding:0 2rem; height:60px;
+    display:flex; align-items:center; justify-content:space-between;
+    border-bottom:2px solid var(--gold);
+  }
+  .admin-header-brand {
+    font-family:'Playfair Display',serif; font-size:1.1rem;
+    color:var(--gold-light); font-style:italic;
+  }
+  .admin-header-nav { display:flex; gap:1rem; align-items:center; }
+  .admin-header-nav a {
+    font-size:0.72rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase;
+    color:rgba(255,255,255,0.6); text-decoration:none; transition:color 0.2s;
+  }
+  .admin-header-nav a:hover { color:var(--gold-light); }
+  .admin-header-nav a.active { color:var(--gold-light); }
+  .btn-logout {
+    font-size:0.68rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase;
+    color:rgba(255,255,255,0.4); background:none; border:1px solid rgba(255,255,255,0.2);
+    padding:0.3rem 0.8rem; border-radius:2px; cursor:pointer; transition:all 0.2s;
+  }
+  .btn-logout:hover { color:#fff; border-color:rgba(255,255,255,0.5); }
+
+  .admin-body { display:grid; grid-template-columns:260px 1fr; min-height:calc(100vh - 60px); }
+
+  /* ── SIDEBAR ── */
+  .admin-sidebar {
+    background:var(--navy-dark, #0f1e30); padding:1.5rem 0;
+    border-right:1px solid rgba(255,255,255,0.07);
+  }
+  .sidebar-section {
+    padding:0 1.2rem; margin-bottom:1.5rem;
+  }
+  .sidebar-label {
+    font-size:0.62rem; font-weight:700; letter-spacing:0.18em; text-transform:uppercase;
+    color:rgba(255,255,255,0.3); margin-bottom:0.6rem; padding:0 0.5rem;
+  }
+  .sidebar-btn {
+    width:100%; text-align:left; padding:0.65rem 0.8rem;
+    background:none; border:none; cursor:pointer; border-radius:4px;
+    font-family:'Lato',sans-serif; font-size:0.82rem; font-weight:700;
+    color:rgba(255,255,255,0.6); display:flex; align-items:center; gap:0.6rem;
+    transition:background 0.15s, color 0.15s; margin-bottom:0.2rem;
+  }
+  .sidebar-btn:hover { background:rgba(255,255,255,0.07); color:#fff; }
+  .sidebar-btn.active { background:rgba(184,130,42,0.2); color:var(--gold-light); }
+  .sidebar-btn .icon { font-size:1rem; width:20px; text-align:center; }
+  .post-count {
+    margin-left:auto; background:var(--gold); color:var(--navy);
+    font-size:0.6rem; font-weight:700; padding:0.15rem 0.5rem; border-radius:10px;
+  }
+
+  /* ── MAIN CONTENT ── */
+  .admin-main { background:var(--warm-white); padding:2rem; overflow-y:auto; }
+  .admin-panel { display:none; }
+  .admin-panel.active { display:block; }
+  .panel-title {
+    font-family:'Playfair Display',serif; font-size:1.6rem; font-weight:700;
+    color:var(--navy); margin-bottom:0.3rem;
+  }
+  .panel-title em { font-style:italic; color:var(--gold); }
+  .panel-sub {
+    font-size:0.82rem; color:var(--text-light); margin-bottom:2rem;
+  }
+
+  /* ── FORM ELEMENTS ── */
+  .form-grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:1.2rem; }
+  .form-group { margin-bottom:1.2rem; }
+  .form-group label {
+    font-size:0.68rem; font-weight:700; letter-spacing:0.12em; text-transform:uppercase;
+    color:var(--text-mid); display:block; margin-bottom:0.4rem;
+  }
+  .form-group input[type="text"],
+  .form-group input[type="email"],
+  .form-group select,
+  .form-group textarea {
+    width:100%; padding:0.75rem 1rem;
+    border:1.5px solid var(--border); border-radius:4px;
+    font-family:'Source Serif 4',serif; font-size:0.95rem;
+    color:var(--text-dark); background:#fff; outline:none;
+    transition:border-color 0.2s;
+  }
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus { border-color:var(--gold); }
+  .form-group textarea { min-height:280px; resize:vertical; line-height:1.7; }
+  .form-group textarea.short { min-height:100px; }
+  .form-hint {
+    font-size:0.72rem; color:var(--text-light); margin-top:0.3rem; line-height:1.5;
+  }
+
+  /* ── IMAGE UPLOAD ── */
+  .image-upload-area {
+    border:2px dashed var(--border); border-radius:8px; padding:2rem;
+    text-align:center; cursor:pointer; transition:all 0.2s;
+    background:var(--cream); position:relative;
+  }
+  .image-upload-area:hover { border-color:var(--gold); background:var(--sand-pale); }
+  .image-upload-area.has-image { border-style:solid; border-color:var(--sage-mid); }
+  .image-upload-area input[type="file"] {
+    position:absolute; inset:0; opacity:0; cursor:pointer; width:100%; height:100%;
+  }
+  .upload-icon { font-size:2.5rem; margin-bottom:0.5rem; display:block; }
+  .upload-text { font-size:0.82rem; color:var(--text-light); }
+  .upload-text strong { color:var(--gold); }
+  .image-preview {
+    width:100%; max-height:200px; object-fit:cover; border-radius:4px;
+    display:none; margin-bottom:0.5rem;
+  }
+  .remove-image {
+    font-size:0.72rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase;
+    color:var(--danger); background:none; border:none; cursor:pointer;
+    display:none; margin-top:0.3rem;
+  }
+
+  /* ── EMOJI PICKER ── */
+  .emoji-grid {
+    display:flex; flex-wrap:wrap; gap:0.5rem; margin-top:0.5rem;
+  }
+  .emoji-btn {
+    font-size:1.4rem; padding:0.3rem; border-radius:4px; border:1.5px solid transparent;
+    cursor:pointer; background:none; transition:all 0.15s;
+  }
+  .emoji-btn:hover { background:var(--sand-light); }
+  .emoji-btn.selected { border-color:var(--gold); background:var(--sand-pale); }
+
+  /* ── COLOR PICKER ── */
+  .color-options { display:flex; gap:0.8rem; margin-top:0.5rem; flex-wrap:wrap; }
+  .color-option {
+    padding:0.5rem 1rem; border-radius:4px; cursor:pointer; border:2px solid transparent;
+    font-size:0.72rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase;
+    transition:all 0.15s;
+  }
+  .color-option.blue { background:linear-gradient(135deg,var(--navy),var(--blue)); color:#fff; }
+  .color-option.gold { background:linear-gradient(135deg,#b5a080,var(--gold)); color:#fff; }
+  .color-option.sage { background:linear-gradient(135deg,var(--sage-dark),var(--sage-mid)); color:#fff; }
+  .color-option.selected { border-color:var(--gold); transform:scale(1.05); }
+
+  /* ── BUTTONS ── */
+  .btn-primary {
+    background:var(--gold); color:var(--navy); font-family:'Lato',sans-serif;
+    font-size:0.8rem; font-weight:700; letter-spacing:0.15em; text-transform:uppercase;
+    padding:0.9rem 2.2rem; border-radius:4px; border:none; cursor:pointer;
+    transition:background 0.2s, transform 0.15s; display:inline-block;
+  }
+  .btn-primary:hover { background:var(--gold-light); transform:translateY(-1px); }
+  .btn-secondary {
+    background:transparent; color:var(--text-mid); font-family:'Lato',sans-serif;
+    font-size:0.8rem; font-weight:700; letter-spacing:0.15em; text-transform:uppercase;
+    padding:0.9rem 2rem; border-radius:4px; border:1.5px solid var(--border);
+    cursor:pointer; transition:all 0.2s;
+  }
+  .btn-secondary:hover { border-color:var(--text-mid); color:var(--text-dark); }
+  .btn-danger-sm {
+    background:transparent; color:var(--danger); font-family:'Lato',sans-serif;
+    font-size:0.68rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase;
+    padding:0.3rem 0.7rem; border-radius:2px; border:1px solid rgba(192,57,43,0.3);
+    cursor:pointer; transition:all 0.2s;
+  }
+  .btn-danger-sm:hover { background:rgba(192,57,43,0.08); border-color:var(--danger); }
+  .btn-edit-sm {
+    background:transparent; color:var(--blue); font-family:'Lato',sans-serif;
+    font-size:0.68rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase;
+    padding:0.3rem 0.7rem; border-radius:2px; border:1px solid rgba(30,74,114,0.3);
+    cursor:pointer; transition:all 0.2s;
+  }
+  .btn-edit-sm:hover { background:rgba(30,74,114,0.08); border-color:var(--blue); }
+  .btn-row { display:flex; gap:1rem; align-items:center; flex-wrap:wrap; margin-top:1.5rem; }
+
+  /* ── ALERTS ── */
+  .alert {
+    padding:0.9rem 1.2rem; border-radius:4px; font-size:0.85rem; margin-bottom:1.2rem;
+    display:none; font-weight:600;
+  }
+  .alert.success { background:rgba(45,138,78,0.12); border:1px solid rgba(45,138,78,0.3); color:var(--success); }
+  .alert.error { background:rgba(192,57,43,0.1); border:1px solid rgba(192,57,43,0.3); color:var(--danger); }
+
+  /* ── POSTS LIST ── */
+  .posts-list { margin-top:1rem; }
+  .post-item {
+    background:#fff; border:1px solid var(--border); border-radius:6px;
+    padding:1.2rem 1.5rem; margin-bottom:0.8rem;
+    display:flex; align-items:center; gap:1rem;
+    transition:box-shadow 0.2s;
+  }
+  .post-item:hover { box-shadow:var(--shadow); }
+  .post-item-icon { font-size:1.8rem; flex-shrink:0; }
+  .post-item-info { flex:1; }
+  .post-item-title {
+    font-family:'Playfair Display',serif; font-size:1rem; font-weight:700;
+    color:var(--navy); margin-bottom:0.2rem;
+  }
+  .post-item-meta {
+    font-size:0.72rem; color:var(--text-light); letter-spacing:0.05em;
+  }
+  .post-item-meta span {
+    background:var(--sand-light); color:var(--text-mid);
+    padding:0.1rem 0.5rem; border-radius:10px; font-weight:700;
+    font-size:0.65rem; letter-spacing:0.08em; text-transform:uppercase;
+    margin-right:0.4rem;
+  }
+  .post-item-actions { display:flex; gap:0.5rem; flex-shrink:0; }
+  .post-draft { opacity:0.6; }
+  .draft-badge {
+    font-size:0.6rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase;
+    background:var(--parchment); color:var(--text-light); padding:0.2rem 0.5rem;
+    border-radius:10px; margin-left:0.4rem;
+  }
+
+  /* ── STATS CARDS ── */
+  .stats-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.2rem; margin-bottom:2rem; }
+  .stat-card {
+    background:#fff; border:1px solid var(--border); border-radius:6px;
+    padding:1.2rem 1.5rem; text-align:center;
+  }
+  .stat-number {
+    font-family:'Playfair Display',serif; font-size:2.2rem; font-weight:700;
+    color:var(--navy); display:block; line-height:1;
+  }
+  .stat-label {
+    font-size:0.68rem; font-weight:700; letter-spacing:0.12em; text-transform:uppercase;
+    color:var(--text-light); margin-top:0.4rem;
+  }
+
+  /* ── DIVIDER ── */
+  .form-divider {
+    border:none; border-top:1px solid var(--border); margin:1.5rem 0;
+  }
+
+  /* ── PUBLISH TOGGLE ── */
+  .toggle-row {
+    display:flex; align-items:center; gap:1rem; padding:1rem;
+    background:var(--sage-pale); border-radius:4px; margin-bottom:1.2rem;
+  }
+  .toggle-label { font-size:0.85rem; font-weight:700; color:var(--text-mid); }
+  .toggle { position:relative; display:inline-block; width:44px; height:24px; }
+  .toggle input { opacity:0; width:0; height:0; }
+  .toggle-slider {
+    position:absolute; cursor:pointer; inset:0; background:var(--border);
+    border-radius:24px; transition:0.3s;
+  }
+  .toggle-slider:before {
+    position:absolute; content:''; height:18px; width:18px;
+    left:3px; bottom:3px; background:white; border-radius:50%; transition:0.3s;
+  }
+  .toggle input:checked + .toggle-slider { background:var(--sage-mid); }
+  .toggle input:checked + .toggle-slider:before { transform:translateX(20px); }
+
+  /* ── RESPONSIVE ── */
+  @media(max-width:768px) {
+    .admin-body { grid-template-columns:1fr; }
+    .admin-sidebar { display:none; }
+    .form-grid-2 { grid-template-columns:1fr; }
+    .stats-grid { grid-template-columns:1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── LOGIN SCREEN ── -->
+<div id="loginScreen">
+  <div class="login-box">
+    <div class="login-logo">Inspire with <em>Dr. Nick</em></div>
+    <div class="login-sub">Blog Manager</div>
+    <div style="font-size:3rem;margin-bottom:1.5rem">✍️</div>
+    <p style="font-size:0.85rem;color:var(--text-light);margin-bottom:1.5rem;line-height:1.6">Enter your password to access the blog editor.</p>
+    <input type="password" id="passwordInput" placeholder="••••••••" onkeypress="if(event.key==='Enter')checkPassword()">
+    <div class="login-error" id="loginError">Incorrect password. Please try again.</div>
+    <button class="btn-primary" style="width:100%;padding:0.9rem" onclick="checkPassword()">Sign In →</button>
+    <p style="margin-top:1.5rem;font-size:0.72rem;color:var(--text-light)">
+      <a href="index.html" style="color:var(--gold);text-decoration:none">← Back to Website</a>
+    </p>
+  </div>
+</div>
+
+<!-- ── ADMIN SCREEN ── -->
+<div id="adminScreen">
+
+  <!-- Header -->
+  <div class="admin-header">
+    <div class="admin-header-brand">Inspire with Dr. Nick — Blog Manager</div>
+    <div class="admin-header-nav">
+      <a href="index.html" target="_blank">View Site ↗</a>
+      <button class="btn-logout" onclick="logout()">Sign Out</button>
+    </div>
+  </div>
+
+  <div class="admin-body">
+
+    <!-- Sidebar -->
+    <div class="admin-sidebar">
+      <div class="sidebar-section">
+        <div class="sidebar-label">Content</div>
+        <button class="sidebar-btn active" onclick="showPanel('dashboard')" id="btn-dashboard">
+          <span class="icon">📊</span> Dashboard
+        </button>
+        <button class="sidebar-btn" onclick="showPanel('write')" id="btn-write">
+          <span class="icon">✍️</span> Write New Post
+        </button>
+        <button class="sidebar-btn" onclick="showPanel('posts')" id="btn-posts">
+          <span class="icon">📚</span> All Posts
+          <span class="post-count" id="postCountBadge">0</span>
+        </button>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-label">Pages</div>
+        <button class="sidebar-btn" onclick="window.open('index.html','_blank')">
+          <span class="icon">🏠</span> Home Page
+        </button>
+        <button class="sidebar-btn" onclick="window.open('stories.html','_blank')">
+          <span class="icon">📖</span> Stories Page
+        </button>
+        <button class="sidebar-btn" onclick="window.open('corgis.html','_blank')">
+          <span class="icon">🐾</span> Mogwai & Friends
+        </button>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-label">Social</div>
+        <button class="sidebar-btn" onclick="window.open('https://facebook.com/drnicksmatterofperspective','_blank')">
+          <span class="icon">📘</span> Facebook Page
+        </button>
+        <button class="sidebar-btn" onclick="window.open('https://instagram.com/PalischCorgilife','_blank')">
+          <span class="icon">📸</span> Instagram
+        </button>
+        <button class="sidebar-btn" onclick="window.open('https://firstwarnwx.com','_blank')">
+          <span class="icon">⛅</span> First Warn WX
+        </button>
+      </div>
+    </div>
+
+    <!-- Main -->
+    <div class="admin-main">
+
+      <!-- DASHBOARD -->
+      <div class="admin-panel active" id="panel-dashboard">
+        <div class="panel-title">Good to see you, <em>Dr. Nick!</em></div>
+        <div class="panel-sub">What would you like to do today?</div>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <span class="stat-number" id="statTotal">0</span>
+            <div class="stat-label">Total Posts</div>
+          </div>
+          <div class="stat-card">
+            <span class="stat-number" id="statPublished">0</span>
+            <div class="stat-label">Published</div>
+          </div>
+          <div class="stat-card">
+            <span class="stat-number" id="statDraft">0</span>
+            <div class="stat-label">Drafts</div>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;margin-bottom:2rem">
+          <div style="background:#fff;border:1px solid var(--border);border-radius:6px;padding:1.5rem;cursor:pointer" onclick="showPanel('write')">
+            <div style="font-size:2rem;margin-bottom:0.8rem">✍️</div>
+            <div style="font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--navy);margin-bottom:0.3rem">Write New Post</div>
+            <div style="font-size:0.82rem;color:var(--text-light)">Share a new reflection, story, or perspective</div>
+          </div>
+          <div style="background:#fff;border:1px solid var(--border);border-radius:6px;padding:1.5rem;cursor:pointer" onclick="showPanel('posts')">
+            <div style="font-size:2rem;margin-bottom:0.8rem">📚</div>
+            <div style="font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--navy);margin-bottom:0.3rem">Manage Posts</div>
+            <div style="font-size:0.82rem;color:var(--text-light)">Edit, delete, or update existing posts</div>
+          </div>
+        </div>
+
+        <div style="background:linear-gradient(135deg,var(--navy),var(--blue));border-radius:6px;padding:1.5rem 2rem;color:#fff">
+          <div style="font-family:'Playfair Display',serif;font-size:1.1rem;font-style:italic;margin-bottom:0.5rem">"Remember, be kind to yourself and to others."</div>
+          <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold-light)">— Dr. Nick</div>
+        </div>
+      </div>
+
+      <!-- WRITE POST -->
+      <div class="admin-panel" id="panel-write">
+        <div class="panel-title" id="writeTitle">Write a New <em>Post</em></div>
+        <div class="panel-sub">Fill in the details below and click Publish when ready.</div>
+
+        <div class="alert success" id="writeSuccess"></div>
+        <div class="alert error" id="writeError"></div>
+
+        <input type="hidden" id="editingPostId">
+
+        <!-- Toggle published -->
+        <div class="toggle-row">
+          <label class="toggle">
+            <input type="checkbox" id="postPublished" checked>
+            <span class="toggle-slider"></span>
+          </label>
+          <span class="toggle-label">Publish immediately</span>
+          <span style="font-size:0.78rem;color:var(--text-light)">(turn off to save as draft)</span>
+        </div>
+
+        <div class="form-grid-2">
+          <div class="form-group" style="grid-column:1/-1">
+            <label>Post Title *</label>
+            <input type="text" id="postTitle" placeholder="What's on your heart today?">
+          </div>
+          <div class="form-group">
+            <label>Category *</label>
+            <select id="postCategory">
+              <option value="Matter of Perspective">Matter of Perspective</option>
+              <option value="Faith & Encouragement">Faith & Encouragement</option>
+              <option value="Everyday Stories">Everyday Stories</option>
+              <option value="Personal Growth">Personal Growth</option>
+              <option value="Community & Kindness">Community & Kindness</option>
+              <option value="Grief & Healing">Grief & Healing</option>
+              <option value="Weather & Wonder">Weather & Wonder</option>
+              <option value="Ministry & Faith">Ministry & Faith</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Publish Date</label>
+            <input type="text" id="postDate" placeholder="e.g. May 3, 2025">
+          </div>
+          <div class="form-group" style="grid-column:1/-1">
+            <label>Excerpt <span style="font-weight:400;text-transform:none;letter-spacing:0">(one sentence shown on blog card)</span></label>
+            <input type="text" id="postExcerpt" placeholder="A brief, inviting sentence that makes people want to read more...">
+          </div>
+        </div>
+
+        <!-- Image Upload -->
+        <div class="form-group">
+          <label>Header Image <span style="font-weight:400;text-transform:none;letter-spacing:0">(replaces the illustrated card — upload your graphic here)</span></label>
+          <div class="image-upload-area" id="uploadArea" onclick="document.getElementById('imageFile').click()">
+            <input type="file" id="imageFile" accept="image/*" style="display:none" onchange="handleImageUpload(event)">
+            <img id="imagePreview" class="image-preview" alt="Preview">
+            <span class="upload-icon" id="uploadIcon">🖼️</span>
+            <div class="upload-text" id="uploadText">
+              <strong>Click to upload your image</strong><br>
+              JPG, PNG, or GIF — your blog graphics, infographics, or photos
+            </div>
+            <button class="remove-image" id="removeImageBtn" onclick="removeImage(event)">✕ Remove image</button>
+          </div>
+          <p class="form-hint">💡 Upload your "Matter of Perspective" graphics here! They'll appear as the blog card header image.</p>
+        </div>
+
+        <hr class="form-divider">
+
+        <!-- Card appearance -->
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label>Card Icon <span style="font-weight:400;text-transform:none;letter-spacing:0">(shown when no image is uploaded)</span></label>
+            <div class="emoji-grid" id="emojiPicker">
+              <!-- filled by JS -->
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Card Color Theme <span style="font-weight:400;text-transform:none;letter-spacing:0">(shown when no image)</span></label>
+            <div class="color-options">
+              <div class="color-option blue selected" onclick="selectColor('blue',this)">Blue</div>
+              <div class="color-option gold" onclick="selectColor('gold',this)">Gold</div>
+              <div class="color-option sage" onclick="selectColor('sage',this)">Sage</div>
+            </div>
+          </div>
+        </div>
+
+        <hr class="form-divider">
+
+        <!-- Post body -->
+        <div class="form-group">
+          <label>Your Post *</label>
+          <textarea id="postContent" placeholder="Write your full reflection here...
+
+Start a new paragraph by leaving a blank line between them.
+
+Your words, your voice, your perspective. This is your space."></textarea>
+          <p class="form-hint">💡 Leave a blank line between paragraphs. Your writing will be beautifully formatted on the site.</p>
+        </div>
+
+        <div class="btn-row">
+          <button class="btn-primary" onclick="savePost()">
+            <span id="saveLabel">Publish Post →</span>
+          </button>
+          <button class="btn-secondary" onclick="clearForm()">Clear Form</button>
+          <button class="btn-secondary" onclick="showPanel('posts')" style="margin-left:auto">View All Posts</button>
+        </div>
+      </div>
+
+      <!-- ALL POSTS -->
+      <div class="admin-panel" id="panel-posts">
+        <div class="panel-title">All <em>Posts</em></div>
+        <div class="panel-sub">Click Edit to update a post or Delete to remove it.</div>
+
+        <div class="alert success" id="postsSuccess"></div>
+
+        <div style="display:flex;justify-content:flex-end;margin-bottom:1rem">
+          <button class="btn-primary" onclick="showPanel('write');clearForm()">+ Write New Post</button>
+        </div>
+
+        <div class="posts-list" id="postsList">
+          <p style="color:var(--text-light);font-style:italic;padding:2rem;text-align:center">No posts yet. Write your first one!</p>
+        </div>
+
+        <div style="margin-top:2rem;padding:1.5rem;background:var(--parchment);border-radius:6px;border-left:3px solid var(--gold)">
+          <p style="font-size:0.82rem;color:var(--text-mid);line-height:1.7">
+            <strong>📋 How to publish to your live site:</strong><br>
+            After writing posts here, copy the JSON below and paste it into your <code>posts.json</code> file on GitHub to make them live on your website.
+          </p>
+          <button class="btn-secondary" style="margin-top:0.8rem;font-size:0.72rem" onclick="copyPostsJSON()">📋 Copy posts.json content</button>
+          <span id="copyConfirm" style="font-size:0.78rem;color:var(--success);margin-left:0.8rem;display:none">✓ Copied!</span>
+        </div>
+      </div>
+
+    </div><!-- end admin-main -->
+  </div><!-- end admin-body -->
+</div><!-- end adminScreen -->
+
+<script>
+// ── PASSWORD ──
+// Change this to your own password!
+const ADMIN_PASSWORD = 'DrNick2025!';
+const SESSION_KEY = 'drNickAdminAuth';
+
+function checkPassword() {
+  const pwd = document.getElementById('passwordInput').value;
+  if (pwd === ADMIN_PASSWORD) {
+    sessionStorage.setItem(SESSION_KEY, 'true');
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('adminScreen').style.display = 'block';
+    initAdmin();
+  } else {
+    document.getElementById('loginError').style.display = 'block';
+    document.getElementById('passwordInput').value = '';
+    document.getElementById('passwordInput').focus();
+  }
+}
+
+function logout() {
+  sessionStorage.removeItem(SESSION_KEY);
+  location.reload();
+}
+
+// Auto-login if session exists
+if (sessionStorage.getItem(SESSION_KEY) === 'true') {
+  document.getElementById('loginScreen').style.display = 'none';
+  document.getElementById('adminScreen').style.display = 'block';
+}
+
+// ── DATA ──
+const POSTS_KEY = 'drNickBlogPosts_v2';
+let selectedIcon = '✍️';
+let selectedColor = 'blue';
+let uploadedImageData = null;
+
+const EMOJIS = ['✍️','🌅','✨','🙏','💛','📖','🕊️','⚡','🌿','❤️','🌟','🎤','📚','🌎','💬','🌄','🔥','💎','🦋','🌻'];
+
+function getPosts() {
+  try { return JSON.parse(localStorage.getItem(POSTS_KEY)) || []; }
+  catch(e) { return []; }
+}
+
+function savePosts(posts) {
+  localStorage.setItem(POSTS_KEY, JSON.stringify(posts));
+}
+
+// ── INIT ──
+function initAdmin() {
+  buildEmojiPicker();
+  setDefaultDate();
+  updateStats();
+  renderPostsList();
+}
+
+function setDefaultDate() {
+  const now = new Date();
+  const formatted = now.toLocaleDateString('en-US', {year:'numeric',month:'long',day:'numeric'});
+  document.getElementById('postDate').value = formatted;
+}
+
+function buildEmojiPicker() {
+  const picker = document.getElementById('emojiPicker');
+  picker.innerHTML = EMOJIS.map(e => `
+    <button class="emoji-btn ${e === selectedIcon ? 'selected' : ''}" onclick="selectEmoji('${e}',this)">${e}</button>
+  `).join('');
+}
+
+function selectEmoji(emoji, btn) {
+  selectedIcon = emoji;
+  document.querySelectorAll('.emoji-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+}
+
+function selectColor(color, el) {
+  selectedColor = color;
+  document.querySelectorAll('.color-option').forEach(b => b.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+// ── IMAGE UPLOAD ──
+function handleImageUpload(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    uploadedImageData = e.target.result;
+    const preview = document.getElementById('imagePreview');
+    preview.src = uploadedImageData;
+    preview.style.display = 'block';
+    document.getElementById('uploadIcon').style.display = 'none';
+    document.getElementById('uploadText').style.display = 'none';
+    document.getElementById('removeImageBtn').style.display = 'inline';
+    document.getElementById('uploadArea').classList.add('has-image');
+  };
+  reader.readAsDataURL(file);
+}
+
+function removeImage(e) {
+  e.stopPropagation();
+  uploadedImageData = null;
+  document.getElementById('imagePreview').style.display = 'none';
+  document.getElementById('imagePreview').src = '';
+  document.getElementById('uploadIcon').style.display = 'block';
+  document.getElementById('uploadText').style.display = 'block';
+  document.getElementById('removeImageBtn').style.display = 'none';
+  document.getElementById('uploadArea').classList.remove('has-image');
+  document.getElementById('imageFile').value = '';
+}
+
+// ── SAVE POST ──
+function savePost() {
+  const title = document.getElementById('postTitle').value.trim();
+  const content = document.getElementById('postContent').value.trim();
+  const category = document.getElementById('postCategory').value;
+  const excerpt = document.getElementById('postExcerpt').value.trim();
+  const date = document.getElementById('postDate').value.trim();
+  const published = document.getElementById('postPublished').checked;
+  const editingId = document.getElementById('editingPostId').value;
+
+  if (!title) { showAlert('writeError', 'Please add a title before publishing.'); return; }
+  if (!content) { showAlert('writeError', 'Please write your post content before publishing.'); return; }
+
+  const posts = getPosts();
+  const id = editingId || title.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'') + '-' + Date.now();
+
+  const postData = {
+    id, title, category,
+    excerpt: excerpt || title,
+    date: date || new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'}),
+    icon: selectedIcon,
+    color: selectedColor,
+    published,
+    content,
+    image: uploadedImageData || null
+  };
+
+  if (editingId) {
+    const idx = posts.findIndex(p => p.id === editingId);
+    if (idx > -1) posts[idx] = postData;
+  } else {
+    posts.unshift(postData);
+  }
+
+  savePosts(posts);
+  updateStats();
+  renderPostsList();
+
+  const msg = published
+    ? `✓ "${title}" has been published!`
+    : `✓ "${title}" saved as a draft.`;
+  showAlert('writeSuccess', msg);
+  document.getElementById('writeError').style.display = 'none';
+
+  if (!editingId) clearForm();
+  document.getElementById('editingPostId').value = '';
+  document.getElementById('writeTitle').innerHTML = 'Write a New <em>Post</em>';
+  document.getElementById('saveLabel').textContent = 'Publish Post →';
+}
+
+// ── EDIT POST ──
+function editPost(id) {
+  const posts = getPosts();
+  const post = posts.find(p => p.id === id);
+  if (!post) return;
+
+  document.getElementById('editingPostId').value = id;
+  document.getElementById('postTitle').value = post.title;
+  document.getElementById('postCategory').value = post.category;
+  document.getElementById('postExcerpt').value = post.excerpt || '';
+  document.getElementById('postDate').value = post.date || '';
+  document.getElementById('postContent').value = post.content || '';
+  document.getElementById('postPublished').checked = post.published !== false;
+
+  selectedIcon = post.icon || '✍️';
+  selectedColor = post.color || 'blue';
+  buildEmojiPicker();
+  document.querySelectorAll('.color-option').forEach(b => {
+    b.classList.toggle('selected', b.classList.contains(selectedColor));
+  });
+
+  if (post.image) {
+    uploadedImageData = post.image;
+    const preview = document.getElementById('imagePreview');
+    preview.src = post.image;
+    preview.style.display = 'block';
+    document.getElementById('uploadIcon').style.display = 'none';
+    document.getElementById('uploadText').style.display = 'none';
+    document.getElementById('removeImageBtn').style.display = 'inline';
+    document.getElementById('uploadArea').classList.add('has-image');
+  } else {
+    removeImage({stopPropagation:()=>{}});
+  }
+
+  document.getElementById('writeTitle').innerHTML = 'Edit <em>Post</em>';
+  document.getElementById('saveLabel').textContent = 'Update Post →';
+  showPanel('write');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ── DELETE POST ──
+function deletePost(id) {
+  const posts = getPosts();
+  const post = posts.find(p => p.id === id);
+  if (!post) return;
+  if (!confirm(`Delete "${post.title}"? This cannot be undone.`)) return;
+  savePosts(posts.filter(p => p.id !== id));
+  updateStats();
+  renderPostsList();
+  showAlert('postsSuccess', `✓ "${post.title}" has been deleted.`);
+}
+
+// ── RENDER POSTS LIST ──
+function renderPostsList() {
+  const posts = getPosts();
+  const list = document.getElementById('postsList');
+  if (posts.length === 0) {
+    list.innerHTML = '<p style="color:var(--text-light);font-style:italic;padding:2rem;text-align:center">No posts yet. Write your first one!</p>';
+    return;
+  }
+  list.innerHTML = posts.map(post => `
+    <div class="post-item ${post.published === false ? 'post-draft' : ''}">
+      <div class="post-item-icon">${post.icon || '✍️'}</div>
+      <div class="post-item-info">
+        <div class="post-item-title">
+          ${escHtml(post.title)}
+          ${post.published === false ? '<span class="draft-badge">Draft</span>' : ''}
+        </div>
+        <div class="post-item-meta">
+          <span>${escHtml(post.category)}</span>
+          ${escHtml(post.date || '')}
+          ${post.image ? ' · 🖼️ Has image' : ''}
+        </div>
+      </div>
+      <div class="post-item-actions">
+        <button class="btn-edit-sm" onclick="editPost('${post.id}')">Edit</button>
+        <button class="btn-danger-sm" onclick="deletePost('${post.id}')">Delete</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ── UPDATE STATS ──
+function updateStats() {
+  const posts = getPosts();
+  const published = posts.filter(p => p.published !== false).length;
+  const drafts = posts.filter(p => p.published === false).length;
+  document.getElementById('statTotal').textContent = posts.length;
+  document.getElementById('statPublished').textContent = published;
+  document.getElementById('statDraft').textContent = drafts;
+  document.getElementById('postCountBadge').textContent = posts.length;
+}
+
+// ── COPY JSON ──
+function copyPostsJSON() {
+  const posts = getPosts();
+  const jsonPosts = posts.filter(p => p.published !== false).map(p => ({
+    id: p.id, title: p.title, date: p.date, category: p.category,
+    excerpt: p.excerpt, icon: p.icon, color: p.color, published: true,
+    content: p.content,
+    ...(p.image ? {image: p.image} : {})
+  }));
+  navigator.clipboard.writeText(JSON.stringify(jsonPosts, null, 2)).then(() => {
+    const confirm = document.getElementById('copyConfirm');
+    confirm.style.display = 'inline';
+    setTimeout(() => confirm.style.display = 'none', 3000);
+  });
+}
+
+// ── CLEAR FORM ──
+function clearForm() {
+  document.getElementById('editingPostId').value = '';
+  document.getElementById('postTitle').value = '';
+  document.getElementById('postExcerpt').value = '';
+  document.getElementById('postContent').value = '';
+  document.getElementById('postPublished').checked = true;
+  document.getElementById('writeTitle').innerHTML = 'Write a New <em>Post</em>';
+  document.getElementById('saveLabel').textContent = 'Publish Post →';
+  selectedIcon = '✍️';
+  selectedColor = 'blue';
+  buildEmojiPicker();
+  document.querySelectorAll('.color-option').forEach(b => {
+    b.classList.toggle('selected', b.classList.contains('blue'));
+  });
+  removeImage({stopPropagation:()=>{}});
+  setDefaultDate();
+  document.getElementById('writeSuccess').style.display = 'none';
+  document.getElementById('writeError').style.display = 'none';
+}
+
+// ── PANEL SWITCHING ──
+function showPanel(name) {
+  document.querySelectorAll('.admin-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.sidebar-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('panel-' + name).classList.add('active');
+  document.getElementById('btn-' + name).classList.add('active');
+}
+
+// ── ALERTS ──
+function showAlert(id, msg) {
+  const el = document.getElementById(id);
+  el.textContent = msg;
+  el.style.display = 'block';
+  setTimeout(() => el.style.display = 'none', 5000);
+  el.scrollIntoView({behavior:'smooth', block:'nearest'});
+}
+
+// ── UTILS ──
+function escHtml(str) {
+  return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ── BOOT ──
+if (sessionStorage.getItem(SESSION_KEY) === 'true') {
+  initAdmin();
+}
+</script>
+</body>
+</html>
