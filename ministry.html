@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ministry & Sacred Moments — Dr. Nick</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300;1,8..60,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:#162840;--navy-mid:#1e3a58;--blue:#1e4a72;--blue-mid:#2a5f8f;
+    --gold:#b8822a;--gold-light:#d4a044;--gold-warm:#c8902e;
+    --sage:#7a9e82;--sage-mid:#5e8066;--sage-dark:#3d5e44;--sage-light:#b2ccb6;--sage-pale:#e8f0e9;
+    --sand:#c9b89a;--sand-mid:#b5a080;--sand-light:#e8ddc8;--sand-pale:#f5f0e6;
+    --cream:#f4f1ec;--warm-white:#f9f7f2;--parchment:#ede6d5;
+    --text-dark:#1a1e24;--text-mid:#364050;--text-light:#6a7585;--border:#d8d0be;
+    --shadow:0 4px 32px rgba(22,40,64,0.13);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{font-family:'Source Serif 4',Georgia,serif;background:var(--cream);color:var(--text-dark);overflow-x:hidden}
+
+  /* NAV */
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(22,40,64,0.97);backdrop-filter:blur(12px);border-bottom:1px solid rgba(200,151,42,0.25);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:68px}
+  .nav-brand{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--gold-light);letter-spacing:0.02em;text-decoration:none}
+  .nav-links{display:flex;gap:2rem;list-style:none}
+  .nav-links a{font-family:'Lato',sans-serif;font-size:0.82rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.78);text-decoration:none;transition:color 0.2s}
+  .nav-links a:hover,.nav-links a.active{color:var(--gold-light)}
+  .nav-cta{background:var(--gold);color:var(--navy)!important;padding:0.4rem 1.1rem;border-radius:2px;font-weight:700!important}
+  .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer}
+  .hamburger span{display:block;width:24px;height:2px;background:white}
+
+  /* HERO */
+  .hero{min-height:60vh;background:linear-gradient(160deg,var(--navy) 0%,var(--blue) 55%,var(--sage-dark) 100%);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;padding:7rem 2rem 4rem;text-align:center}
+  .hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='rgba(61,122,181,0.07)' stroke-width='1'%3E%3Crect x='0' y='0' width='80' height='80'/%3E%3C/g%3E%3C/svg%3E");background-size:80px 80px}
+  .hero-content{position:relative;z-index:2;max-width:760px}
+  .hero-eyebrow{font-family:'Lato',sans-serif;font-size:0.72rem;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem;display:flex;align-items:center;justify-content:center;gap:0.8rem}
+  .hero-eyebrow::before,.hero-eyebrow::after{content:'';display:block;width:32px;height:1px;background:var(--gold)}
+  .hero h1{font-family:'Playfair Display',serif;font-size:clamp(2.4rem,5vw,4rem);font-weight:700;line-height:1.15;color:#fff;margin-bottom:1.2rem}
+  .hero h1 em{font-style:italic;color:var(--gold-light);display:block}
+  .hero-sub{font-size:1.05rem;font-style:italic;color:rgba(255,255,255,0.7);line-height:1.7;max-width:580px;margin:0 auto 2rem}
+
+  /* STRIPE */
+  .sand-stripe{height:5px;background:linear-gradient(90deg,var(--sage-light),var(--sand),var(--gold-light),var(--sand),var(--sage-light))}
+
+  /* BUTTONS */
+  .btn-primary{background:var(--gold);color:var(--navy);font-family:'Lato',sans-serif;font-size:0.8rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;padding:0.9rem 2.2rem;border-radius:2px;text-decoration:none;border:none;cursor:pointer;transition:background 0.2s,transform 0.15s;display:inline-block}
+  .btn-primary:hover{background:var(--gold-light);transform:translateY(-1px)}
+
+  /* SECTIONS */
+  section{padding:5rem 2rem}
+  .container{max-width:1100px;margin:0 auto}
+  .sec-label{font-family:'Lato',sans-serif;font-size:0.7rem;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold);margin-bottom:0.8rem;display:flex;align-items:center;gap:0.6rem}
+  .sec-label::before{content:'';display:block;width:28px;height:1px;background:var(--gold)}
+  .sec-label.center{justify-content:center}
+  .sec-label.center::before{display:none}
+  .sec-title{font-family:'Playfair Display',serif;font-size:clamp(1.9rem,3.5vw,2.9rem);font-weight:700;line-height:1.2;color:var(--navy);margin-bottom:1.5rem}
+  .sec-title em{font-style:italic;color:var(--gold)}
+  .sec-body{font-size:1.05rem;line-height:1.85;color:var(--text-mid);font-weight:300}
+
+  /* MINISTRY CARDS */
+  .ministry{background:var(--warm-white)}
+  .ministry-intro{max-width:700px;margin:0 auto 3.5rem;text-align:center}
+  .ministry-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;margin-bottom:3.5rem}
+  .ministry-card{background:#fff;border-radius:4px;overflow:hidden;box-shadow:var(--shadow);text-align:center;transition:transform 0.2s,box-shadow 0.2s}
+  .ministry-card:hover{transform:translateY(-4px);box-shadow:0 8px 40px rgba(22,40,64,0.16)}
+  .ministry-card-top{padding:2.5rem 1.5rem 1.5rem}
+  .ministry-symbol{font-size:3rem;display:block;margin-bottom:1rem}
+  .ministry-card-top h3{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;color:var(--parchment);margin-bottom:0.3rem}
+  .ministry-card-top .ministry-sub{font-family:'Lato',sans-serif;font-size:0.72rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.65)}
+  .ministry-card-body{padding:1.5rem}
+  .ministry-card-body p{font-size:0.92rem;line-height:1.8;color:var(--text-mid);font-weight:300}
+  .ministry-card-body ul{margin-top:0.8rem;padding-left:1.2rem;font-size:0.85rem;color:var(--text-mid);line-height:1.9}
+  .ministry-banner{background:linear-gradient(135deg,var(--navy) 0%,var(--blue) 100%);border-radius:4px;padding:2.5rem 3rem;display:flex;align-items:center;justify-content:space-between;gap:2rem;flex-wrap:wrap}
+  .ministry-banner h3{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;color:#fff;margin-bottom:0.5rem}
+  .ministry-banner p{font-size:0.95rem;color:rgba(255,255,255,0.65);font-weight:300;line-height:1.6;max-width:480px}
+  .ministry-faith-note{margin-top:2.5rem;padding:1.5rem 2rem;background:var(--sage-pale);border-left:4px solid var(--sage-mid);border-radius:0 4px 4px 0}
+  .ministry-faith-note p{font-family:'Source Serif 4',serif;font-size:1rem;font-style:italic;color:var(--text-mid);line-height:1.7}
+  .ministry-faith-note cite{display:block;margin-top:0.5rem;font-family:'Lato',sans-serif;font-size:0.72rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--sage-mid);font-style:normal}
+
+  /* SCRIPTURE */
+  .scripture{background:linear-gradient(135deg,var(--navy) 0%,var(--blue) 60%,var(--sage-dark) 100%);text-align:center;padding:5rem 2rem}
+  .scripture blockquote{font-family:'Playfair Display',serif;font-size:clamp(1.3rem,2.5vw,1.8rem);font-style:italic;color:#fff;line-height:1.6;max-width:700px;margin:0 auto 1rem}
+  .scripture cite{font-family:'Lato',sans-serif;font-size:0.75rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold-light);font-style:normal}
+
+  /* CONTACT */
+  .contact{background:var(--sand-pale)}
+  .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start}
+  .contact-info h2{font-family:'Playfair Display',serif;font-size:2rem;font-weight:700;color:var(--navy);margin-bottom:1rem}
+  .contact-info h2 em{font-style:italic;color:var(--gold)}
+  .contact-info p{font-size:1rem;line-height:1.85;color:var(--text-mid);font-weight:300;margin-bottom:1.5rem}
+  .contact-form{background:#fff;border-radius:4px;padding:2rem;box-shadow:var(--shadow)}
+  .form-group{margin-bottom:1rem}
+  .form-group label{font-family:'Lato',sans-serif;font-size:0.68rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-mid);display:block;margin-bottom:0.4rem}
+  .form-group input,.form-group select,.form-group textarea{width:100%;padding:0.75rem 1rem;border:1.5px solid var(--border);border-radius:4px;font-family:'Source Serif 4',serif;font-size:0.95rem;color:var(--text-dark);outline:none;transition:border-color 0.2s;background:#fff}
+  .form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--gold)}
+  .form-group textarea{min-height:120px;resize:vertical}
+  .success-msg{background:rgba(45,138,78,0.12);border:1px solid rgba(45,138,78,0.3);color:#2d8a4e;padding:0.8rem 1.2rem;border-radius:4px;font-family:'Lato',sans-serif;font-size:0.82rem;margin-bottom:1rem;display:none}
+
+  /* FOOTER */
+  footer{background:linear-gradient(90deg,#0a131e,#0e1a14,#0a131e);padding:2rem;text-align:center;font-family:'Lato',sans-serif;font-size:0.75rem;color:rgba(255,255,255,0.3);letter-spacing:0.05em}
+  footer a{color:var(--sand-light);text-decoration:none}
+  .footer-links{display:flex;justify-content:center;gap:1.5rem;margin-bottom:1rem;flex-wrap:wrap}
+  .footer-links a{font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--sand-light);opacity:0.8}
+
+  /* ANIMATIONS */
+  .fade-up{opacity:0;transform:translateY(24px);transition:opacity 0.7s ease,transform 0.7s ease}
+  .fade-up.visible{opacity:1;transform:none}
+
+  @media(max-width:900px){.ministry-cards{grid-template-columns:1fr 1fr}.contact-grid{grid-template-columns:1fr}.ministry-banner{flex-direction:column;text-align:center}}
+  @media(max-width:640px){.nav-links{display:none}.hamburger{display:flex}.ministry-cards{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-brand">Inspire with Dr. Nick</a>
+  <ul class="nav-links">
+    <li><a href="index.html#blog">Blog</a></li>
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="stories.html">Stories</a></li>
+    <li><a href="ministry.html" class="active">Ministry</a></li>
+    <li><a href="corgis.html">Mogwai &amp; Friends</a></li>
+    <li><a href="ministry.html#contact" class="nav-cta">Book Dr. Nick</a></li>
+  </ul>
+  <div class="hamburger"><span></span><span></span><span></span></div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-content">
+    <p class="hero-eyebrow">Ordained Minister · Christian-Catholic Faith</p>
+    <h1>Ministry &amp; <em>Sacred Moments</em></h1>
+    <p class="hero-sub">Dr. Nick is honored to walk alongside you through life's most sacred milestones — bringing warmth, faith, and personal care to every ceremony.</p>
+    <a href="#contact" class="btn-primary">Book Dr. Nick →</a>
+  </div>
+</div>
+
+<div class="sand-stripe"></div>
+
+<!-- MINISTRY CARDS -->
+<section class="ministry">
+  <div class="container">
+    <div class="ministry-intro fade-up">
+      <p class="sec-label center">What Dr. Nick Offers</p>
+      <h2 class="sec-title" style="text-align:center">Sacred <em>Ceremonies</em></h2>
+      <p class="sec-body">Every life milestone deserves to be marked with intention, reverence, and personal meaning. Dr. Nick brings a thoughtful, faith-filled presence to each ceremony — taking time to know you and your story before a single word is spoken.</p>
+    </div>
+
+    <div class="ministry-cards">
+      <!-- WEDDINGS -->
+      <div class="ministry-card fade-up">
+        <div class="ministry-card-top" style="background:linear-gradient(160deg,var(--navy) 0%,var(--blue) 100%)">
+          <span class="ministry-symbol">💍</span>
+          <h3>Weddings</h3>
+          <p class="ministry-sub">Officiant Services</p>
+          <div style="margin-top:0.8rem;background:rgba(212,160,68,0.2);border:1px solid rgba(212,160,68,0.5);border-radius:4px;padding:0.5rem 1rem;display:inline-block">
+            <span style="font-family:'Lato',sans-serif;font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold-light)">Starting at $150</span>
+          </div>
+        </div>
+        <div class="ministry-card-body">
+          <p>Your wedding day is one of the most meaningful days of your life. Dr. Nick works personally with each couple to craft a ceremony that reflects your story, your faith, and your love — whether intimate and simple or rich with tradition and scripture.</p>
+          <ul>
+            <li>Personal pre-ceremony consultation</li>
+            <li>Custom ceremony script</li>
+            <li>Christian-Catholic or non-denominational</li>
+            <li>Indoor or outdoor ceremonies</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- FUNERALS -->
+      <div class="ministry-card fade-up" style="transition-delay:0.12s">
+        <div class="ministry-card-top" style="background:linear-gradient(160deg,var(--sage-dark) 0%,var(--sage-mid) 100%)">
+          <span class="ministry-symbol">✝️</span>
+          <h3>Funerals &amp; Memorials</h3>
+          <p class="ministry-sub">Grief &amp; Remembrance</p>
+          <div style="margin-top:0.8rem;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);border-radius:4px;padding:0.5rem 1rem;display:inline-block">
+            <span style="font-family:'Lato',sans-serif;font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.9)">Starting at $100</span>
+          </div>
+        </div>
+        <div class="ministry-card-body">
+          <p>Saying goodbye is never easy. Dr. Nick offers compassionate, faith-filled memorial services that honor a life well-lived and bring comfort to those left behind. He takes time to know the person and their story.</p>
+          <ul>
+            <li>Family consultation and tribute</li>
+            <li>Personalized eulogy guidance</li>
+            <li>Graveside or chapel services</li>
+            <li>Faith-centered or celebration of life</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- BAPTISMS -->
+      <div class="ministry-card fade-up" style="transition-delay:0.24s">
+        <div class="ministry-card-top" style="background:linear-gradient(160deg,var(--sand-mid) 0%,var(--gold) 100%)">
+          <span class="ministry-symbol">🕊️</span>
+          <h3>Baptisms</h3>
+          <p class="ministry-sub">New Beginnings in Faith</p>
+          <div style="margin-top:0.8rem;background:rgba(22,40,64,0.25);border:1px solid rgba(22,40,64,0.3);border-radius:4px;padding:0.5rem 1rem;display:inline-block">
+            <span style="font-family:'Lato',sans-serif;font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--navy)">Starting at $75</span>
+          </div>
+        </div>
+        <div class="ministry-card-body">
+          <p>Baptism is a beautiful declaration of faith and a new beginning. Dr. Nick performs baptisms for infants, children, and adults — creating a meaningful celebration approached with joy, prayer, and personal intention.</p>
+          <ul>
+            <li>Infants, children &amp; adults</li>
+            <li>Christian-Catholic tradition</li>
+            <li>Home, church, or outdoor setting</li>
+            <li>Certificate of baptism provided</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- PRICING NOTE -->
+    <div style="background:var(--parchment);border-radius:4px;padding:1.5rem 2rem;margin-bottom:2.5rem;text-align:center;border:1px solid var(--border)" class="fade-up">
+      <p style="font-family:'Lato',sans-serif;font-size:0.72rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-light);margin-bottom:0.4rem">Pricing Note</p>
+      <p style="font-size:0.9rem;color:var(--text-mid);line-height:1.7">Prices listed are starting rates. Final pricing depends on travel distance, ceremony length, and specific requests. Dr. Nick is committed to making sacred moments accessible — please reach out to discuss your needs.</p>
+    </div>
+
+    <!-- BANNER -->
+    <div class="ministry-banner fade-up">
+      <div>
+        <h3>Ready to Talk About Your Ceremony?</h3>
+        <p>Dr. Nick would be honored to be part of your most sacred moments. Reach out to start a conversation — every ceremony begins with a personal connection.</p>
+      </div>
+      <a href="#contact" class="btn-primary" style="white-space:nowrap;flex-shrink:0">Contact Dr. Nick →</a>
+    </div>
+
+    <!-- FAITH NOTE -->
+    <div class="ministry-faith-note fade-up">
+      <p>"Every life event is a sacred story — a chapter written in grace, witnessed in community, and remembered forever. I am honored to stand with you in those moments."</p>
+      <cite>— Dr. Nick</cite>
+    </div>
+  </div>
+</section>
+
+<div class="sand-stripe"></div>
+
+<!-- SCRIPTURE -->
+<div class="scripture">
+  <div class="container">
+    <blockquote>"For everything there is a season, and a time for every matter under heaven — a time to be born, and a time to die; a time to weep, and a time to laugh; a time to mourn, and a time to dance."</blockquote>
+    <cite>Ecclesiastes 3:1-4</cite>
+  </div>
+</div>
+
+<div class="sand-stripe"></div>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="container">
+    <div class="contact-grid">
+      <div class="contact-info fade-up">
+        <p class="sec-label">Get In Touch</p>
+        <h2>Book Dr. Nick for Your <em>Ceremony</em></h2>
+        <p>Every sacred moment deserves a personal conversation. Fill out the form and Dr. Nick will be in touch to discuss your ceremony, answer any questions, and begin planning something truly meaningful.</p>
+        <p>Whether you're planning a wedding, navigating the loss of a loved one, or celebrating a baptism — Dr. Nick is here to walk alongside you with compassion, faith, and care.</p>
+        <div style="margin-top:2rem;padding:1.5rem;background:#fff;border-radius:4px;border-left:3px solid var(--gold);box-shadow:var(--shadow)">
+          <p style="font-family:'Lato',sans-serif;font-size:0.68rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:0.5rem">Direct Contact</p>
+          <p style="font-size:0.9rem;color:var(--text-mid)">📧 <a href="mailto:nickpalischphd@gmail.com" style="color:var(--blue)">nickpalischphd@gmail.com</a></p>
+        </div>
+      </div>
+      <div class="fade-up" style="transition-delay:0.2s">
+        <div class="contact-form">
+          <div id="contactSuccess" class="success-msg">✓ Thank you! Dr. Nick will be in touch soon.</div>
+          <div class="form-group">
+            <label>Your Name *</label>
+            <input type="text" id="contactName" placeholder="First and last name">
+          </div>
+          <div class="form-group">
+            <label>Email Address *</label>
+            <input type="email" id="contactEmail" placeholder="your@email.com">
+          </div>
+          <div class="form-group">
+            <label>Phone Number</label>
+            <input type="tel" id="contactPhone" placeholder="(555) 555-5555">
+          </div>
+          <div class="form-group">
+            <label>Type of Ceremony *</label>
+            <select id="contactType">
+              <option value="">Select...</option>
+              <option>Wedding</option>
+              <option>Funeral / Memorial Service</option>
+              <option>Baptism</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Ceremony Date (if known)</label>
+            <input type="text" id="contactDate" placeholder="e.g. June 15, 2025">
+          </div>
+          <div class="form-group">
+            <label>Tell Dr. Nick about your ceremony</label>
+            <textarea id="contactMessage" placeholder="Share any details about your ceremony, location, and what's most important to you..."></textarea>
+          </div>
+          <button class="btn-primary" style="width:100%;padding:1rem" onclick="submitContact()">Send Message to Dr. Nick →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-links">
+    <a href="https://www.facebook.com/drnicksmatterofperspective" target="_blank">📘 Matter of Perspective</a>
+    <a href="https://www.facebook.com/nickswx" target="_blank">⛅ First Warn Weather</a>
+    <a href="https://www.tiktok.com/@nickwx" target="_blank">🎵 TikTok @nickwx</a>
+    <a href="https://www.instagram.com/PalischCorgilife" target="_blank">📸 @PalischCorgilife</a>
+    <a href="https://www.firstwarnwx.com" target="_blank">🌐 FirstWarnWX.com</a>
+  </div>
+  <p>© <span id="footerYear"></span> Inspire with Dr. Nick · Nicholas G. Palisch · Ordained Minister</p>
+  <p style="margin-top:0.5rem"><a href="index.html">← Back to Home</a></p>
+</footer>
+
+<script>
+function submitContact() {
+  const name = document.getElementById('contactName').value.trim();
+  const email = document.getElementById('contactEmail').value.trim();
+  const type = document.getElementById('contactType').value;
+  if (!name || !email || !type) { alert('Please fill in your name, email, and ceremony type.'); return; }
+  document.getElementById('contactSuccess').style.display = 'block';
+  document.getElementById('contactName').value = '';
+  document.getElementById('contactEmail').value = '';
+  document.getElementById('contactPhone').value = '';
+  document.getElementById('contactType').value = '';
+  document.getElementById('contactDate').value = '';
+  document.getElementById('contactMessage').value = '';
+  window.scrollTo({top:document.getElementById('contact').offsetTop - 80, behavior:'smooth'});
+  setTimeout(() => document.getElementById('contactSuccess').style.display = 'none', 8000);
+}
+
+function observeFadeUps() {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-up:not(.visible)').forEach(el => observer.observe(el));
+}
+document.getElementById('footerYear').textContent = new Date().getFullYear();
+observeFadeUps();
+window.addEventListener('scroll', observeFadeUps, { passive: true });
+</script>
+</body>
+</html>
