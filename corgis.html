@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mogwai &amp; Friends — Dr. Nick's Corgi Book Series</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300;1,8..60,400&family=Lato:wght@300;400;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:#162840;--navy-mid:#1e3a58;--blue:#1e4a72;--blue-mid:#2a5f8f;
+    --gold:#b8822a;--gold-light:#d4a044;
+    --sage:#7a9e82;--sage-mid:#5e8066;--sage-dark:#3d5e44;--sage-light:#b2ccb6;--sage-pale:#e8f0e9;
+    --sand:#c9b89a;--sand-mid:#b5a080;--sand-light:#e8ddc8;--sand-pale:#f5f0e6;
+    --corgi-orange:#e8843a;--corgi-warm:#f0a060;--corgi-cream:#fdf5e8;
+    --cream:#f4f1ec;--warm-white:#f9f7f2;--parchment:#ede6d5;
+    --text-dark:#1a1e24;--text-mid:#364050;--text-light:#6a7585;--border:#d8d0be;
+    --shadow:0 4px 32px rgba(22,40,64,0.13);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{font-family:'Source Serif 4',Georgia,serif;background:var(--corgi-cream);color:var(--text-dark);overflow-x:hidden}
+
+  /* NAV */
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(22,40,64,0.97);backdrop-filter:blur(12px);border-bottom:1px solid rgba(200,151,42,0.25);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:68px}
+  .nav-brand{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--gold-light);letter-spacing:0.02em;text-decoration:none}
+  .nav-links{display:flex;gap:2rem;list-style:none}
+  .nav-links a{font-family:'Lato',sans-serif;font-size:0.82rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.78);text-decoration:none;transition:color 0.2s}
+  .nav-links a:hover,.nav-links a.active{color:var(--gold-light)}
+  .nav-cta{background:var(--gold);color:var(--navy)!important;padding:0.4rem 1.1rem;border-radius:2px;font-weight:700!important}
+  .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer}
+  .hamburger span{display:block;width:24px;height:2px;background:white}
+
+  /* HERO */
+  .hero{min-height:70vh;background:linear-gradient(160deg,var(--navy) 0%,#2a3a18 45%,#3d5e20 100%);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;padding:7rem 2rem 4rem}
+  .hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='rgba(200,180,120,0.04)'%3E%3Ccircle cx='30' cy='30' r='20'/%3E%3C/g%3E%3C/svg%3E");background-size:60px 60px}
+  .hero-inner{position:relative;z-index:2;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;max-width:1100px;margin:0 auto;width:100%}
+  .hero-text{}
+  .hero-eyebrow{font-family:'Lato',sans-serif;font-size:0.72rem;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem;display:flex;align-items:center;gap:0.6rem}
+  .hero-eyebrow::before{content:'';display:block;width:28px;height:1px;background:var(--gold)}
+  .hero h1{font-family:'Playfair Display',serif;font-size:clamp(2.4rem,5vw,4rem);font-weight:700;line-height:1.1;color:#fff;margin-bottom:0.8rem}
+  .hero h1 em{font-style:italic;color:var(--corgi-warm);display:block}
+  .hero-sub{font-size:1rem;color:rgba(255,255,255,0.7);line-height:1.7;margin-bottom:1.5rem}
+  .hero-visual{display:flex;justify-content:center;align-items:center}
+
+  /* CORGI SVG ILLUSTRATION */
+  .corgi-illustration{width:320px;height:320px;filter:drop-shadow(0 8px 24px rgba(0,0,0,0.3))}
+
+  /* BUTTONS */
+  .btn-primary{background:var(--corgi-orange);color:#fff;font-family:'Lato',sans-serif;font-size:0.8rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;padding:0.9rem 2.2rem;border-radius:20px;text-decoration:none;border:none;cursor:pointer;transition:background 0.2s,transform 0.15s;display:inline-block}
+  .btn-primary:hover{background:var(--corgi-warm);transform:translateY(-1px)}
+  .btn-outline{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,0.5);font-family:'Lato',sans-serif;font-size:0.8rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;padding:0.9rem 2.2rem;border-radius:20px;text-decoration:none;cursor:pointer;transition:all 0.2s;display:inline-block}
+  .btn-outline:hover{background:rgba(255,255,255,0.1)}
+
+  /* STRIPE */
+  .stripe{height:5px;background:linear-gradient(90deg,var(--sage-light),var(--corgi-orange),var(--gold-light),var(--corgi-orange),var(--sage-light))}
+
+  /* SECTIONS */
+  section{padding:5rem 2rem}
+  .container{max-width:1100px;margin:0 auto}
+  .sec-label{font-family:'Lato',sans-serif;font-size:0.7rem;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:var(--corgi-orange);margin-bottom:0.8rem;display:flex;align-items:center;gap:0.6rem}
+  .sec-label::before{content:'';display:block;width:28px;height:1px;background:var(--corgi-orange)}
+  .sec-title{font-family:'Playfair Display',serif;font-size:clamp(1.9rem,3.5vw,2.9rem);font-weight:700;line-height:1.2;color:var(--navy);margin-bottom:1.5rem}
+  .sec-title em{font-style:italic;color:var(--corgi-orange)}
+
+  /* MEET THE CORGIS */
+  .corgis-section{background:var(--warm-white)}
+  .corgis-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;margin-top:2.5rem}
+  .corgi-card{background:#fff;border-radius:16px;overflow:hidden;box-shadow:var(--shadow);text-align:center;transition:transform 0.2s,box-shadow 0.2s}
+  .corgi-card:hover{transform:translateY(-5px);box-shadow:0 12px 40px rgba(22,40,64,0.15)}
+  .corgi-card-top{height:160px;display:flex;align-items:center;justify-content:center;font-size:4rem;position:relative}
+  .corgi-card-top.willow{background:linear-gradient(135deg,#f5e8d0,#e8c898)}
+  .corgi-card-top.mogwai{background:linear-gradient(135deg,#d0e8f5,#98c8e8)}
+  .corgi-card-top.winston{background:linear-gradient(135deg,#d0f5d8,#98e8a8)}
+  .corgi-card-top.baxter{background:linear-gradient(135deg,#f5d0d0,#e89898)}
+  .corgi-card-body{padding:1.2rem}
+  .corgi-card-body h3{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--navy);margin-bottom:0.3rem}
+  .corgi-card-body .role{font-family:'Lato',sans-serif;font-size:0.65rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--corgi-orange);margin-bottom:0.6rem}
+  .corgi-card-body p{font-size:0.82rem;line-height:1.65;color:var(--text-mid)}
+
+  /* IN MEMORIAM */
+  .memoriam{background:var(--sage-pale);padding:3rem 2rem}
+  .memoriam-inner{max-width:700px;margin:0 auto;text-align:center}
+  .memoriam h2{font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:700;color:var(--navy);margin-bottom:1rem}
+  .memoriam h2 em{font-style:italic;color:var(--sage-mid)}
+  .memoriam-cards{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:2rem;max-width:500px;margin-left:auto;margin-right:auto}
+  .mem-card{background:#fff;border-radius:12px;padding:1.5rem;box-shadow:var(--shadow);border-top:3px solid var(--sage-mid)}
+  .mem-card .paw{font-size:2rem;margin-bottom:0.5rem;display:block;opacity:0.6}
+  .mem-card h3{font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--navy);margin-bottom:0.3rem}
+  .mem-card p{font-size:0.82rem;color:var(--text-light);line-height:1.6;font-style:italic}
+
+  /* BOOK SERIES */
+  .books{background:var(--sand-pale)}
+  .book-showcase{display:grid;grid-template-columns:1fr 2fr;gap:4rem;align-items:center;margin-top:2.5rem}
+  .book-cover{background:linear-gradient(135deg,var(--navy) 0%,var(--blue) 100%);border-radius:8px;aspect-ratio:2/3;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:8px 8px 0 var(--corgi-orange),16px 16px 0 rgba(232,132,58,0.3);padding:2rem;text-align:center}
+  .book-cover .book-icon{font-size:3.5rem;margin-bottom:1rem}
+  .book-cover h3{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;color:#fff;line-height:1.3;margin-bottom:0.5rem}
+  .book-cover .author{font-family:'Lato',sans-serif;font-size:0.7rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold-light)}
+  .book-info h2{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3vw,2.4rem);font-weight:700;color:var(--navy);margin-bottom:1rem}
+  .book-info h2 em{font-style:italic;color:var(--corgi-orange)}
+  .book-info p{font-size:1rem;line-height:1.85;color:var(--text-mid);margin-bottom:1rem}
+  .book-tags{display:flex;flex-wrap:wrap;gap:0.5rem;margin:1.2rem 0}
+  .book-tag{font-family:'Lato',sans-serif;font-size:0.65rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;background:var(--sand-light);color:var(--navy);padding:0.3rem 0.8rem;border-radius:20px}
+
+  /* COMING SOON BOOKS */
+  .coming-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:2.5rem}
+  .coming-card{background:#fff;border-radius:12px;overflow:hidden;box-shadow:var(--shadow);transition:transform 0.2s}
+  .coming-card:hover{transform:translateY(-4px)}
+  .coming-top{height:140px;display:flex;align-items:center;justify-content:center;font-size:3rem}
+  .coming-top.book1{background:linear-gradient(135deg,#f5e8d0,#e8c480)}
+  .coming-top.book2{background:linear-gradient(135deg,#d0e8f5,#80c4e8)}
+  .coming-top.book3{background:linear-gradient(135deg,#d8f0d0,#80c898)}
+  .coming-body{padding:1.2rem}
+  .coming-badge{font-family:'Lato',sans-serif;font-size:0.6rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;background:var(--corgi-orange);color:#fff;padding:0.2rem 0.6rem;border-radius:10px;display:inline-block;margin-bottom:0.5rem}
+  .coming-body h3{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--navy);margin-bottom:0.4rem}
+  .coming-body p{font-size:0.8rem;line-height:1.6;color:var(--text-light)}
+
+  /* INSTAGRAM */
+  .instagram{background:linear-gradient(135deg,var(--navy) 0%,#2a3a18 100%);text-align:center}
+  .instagram h2{font-family:'Playfair Display',serif;font-size:2rem;font-weight:700;color:#fff;margin-bottom:0.8rem}
+  .instagram h2 em{font-style:italic;color:var(--corgi-warm)}
+  .instagram p{color:rgba(255,255,255,0.65);font-size:1rem;line-height:1.7;margin-bottom:2rem;max-width:500px;margin-left:auto;margin-right:auto}
+  .insta-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0.8rem;max-width:600px;margin:0 auto 2rem}
+  .insta-tile{border-radius:8px;overflow:hidden;aspect-ratio:1}
+  .insta-tile.t1{background:linear-gradient(135deg,#e8843a,#d4a044)}
+  .insta-tile.t2{background:linear-gradient(135deg,#3d5e44,#5e8066)}
+  .insta-tile.t3{background:linear-gradient(135deg,#162840,#1e4a72)}
+  .insta-tile.t4{background:linear-gradient(135deg,#b5a080,#e8ddc8)}
+  .insta-tile{display:flex;align-items:center;justify-content:center;font-size:2rem}
+
+  /* FOOTER */
+  footer{background:linear-gradient(90deg,#0a131e,#0e1a14,#0a131e);padding:2rem;text-align:center;font-family:'Lato',sans-serif;font-size:0.75rem;color:rgba(255,255,255,0.3);letter-spacing:0.05em}
+  footer a{color:var(--sand-light);text-decoration:none}
+  .footer-links{display:flex;justify-content:center;gap:1.5rem;margin-bottom:1rem;flex-wrap:wrap}
+  .footer-links a{font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--sand-light);opacity:0.8}
+
+  /* ANIMATIONS */
+  @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+  .fade-up{opacity:0;transform:translateY(24px);transition:opacity 0.7s ease,transform 0.7s ease}
+  .fade-up.visible{opacity:1;transform:none}
+  @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+  .bounce{animation:bounce 2s ease-in-out infinite}
+
+  @media(max-width:900px){.hero-inner{grid-template-columns:1fr;text-align:center}.corgi-illustration{width:220px;height:220px}.corgis-grid{grid-template-columns:1fr 1fr}.coming-grid{grid-template-columns:1fr 1fr}.book-showcase{grid-template-columns:1fr;gap:2rem}.insta-grid{grid-template-columns:repeat(4,1fr)}}
+  @media(max-width:640px){.nav-links{display:none}.hamburger{display:flex}.corgis-grid{grid-template-columns:1fr 1fr}.coming-grid{grid-template-columns:1fr}.memoriam-cards{grid-template-columns:1fr}.insta-grid{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-brand">Inspire with Dr. Nick</a>
+  <ul class="nav-links">
+    <li><a href="index.html#blog">Blog</a></li>
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="stories.html">Stories</a></li>
+    <li><a href="index.html#ministry">Ministry</a></li>
+    <li><a href="corgis.html" class="active">Mogwai &amp; Friends</a></li>
+    <li><a href="index.html#share" class="nav-cta">Contact Dr. Nick</a></li>
+  </ul>
+  <div class="hamburger"><span></span><span></span><span></span></div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-text fade-up">
+      <p class="hero-eyebrow">Dr. Nick's Children's Book Series</p>
+      <h1>Mogwai &amp; <em>Friends</em></h1>
+      <p class="hero-sub">Stories of adventure, friendship, and life lessons — inspired by Dr. Nick's real Corgi family. Because the best teachers sometimes have four legs and a lot of fur.</p>
+      <div style="display:flex;gap:1rem;flex-wrap:wrap;margin-top:1rem">
+        <a href="#books" class="btn-primary">🐾 Explore the Books</a>
+        <a href="#meet-the-corgis" class="btn-outline">Meet the Corgis →</a>
+      </div>
+    </div>
+    <div class="hero-visual fade-up" style="transition-delay:0.2s">
+      <!-- Illustrated Corgi SVG -->
+      <svg class="corgi-illustration bounce" viewBox="0 0 320 320" xmlns="http://www.w3.org/2000/svg">
+        <!-- background circle -->
+        <circle cx="160" cy="160" r="155" fill="rgba(255,255,255,0.08)"/>
+        <circle cx="160" cy="160" r="140" fill="rgba(232,132,58,0.15)"/>
+        <!-- ground -->
+        <ellipse cx="160" cy="260" rx="100" ry="18" fill="rgba(0,0,0,0.15)"/>
+        <!-- body -->
+        <ellipse cx="160" cy="200" rx="75" ry="52" fill="#e8843a"/>
+        <!-- belly -->
+        <ellipse cx="160" cy="215" rx="52" ry="35" fill="#fdf5e8"/>
+        <!-- legs -->
+        <rect x="105" y="230" width="22" height="42" rx="10" fill="#e8843a"/>
+        <rect x="135" y="235" width="22" height="38" rx="10" fill="#e8843a"/>
+        <rect x="163" y="235" width="22" height="38" rx="10" fill="#e8843a"/>
+        <rect x="193" y="230" width="22" height="42" rx="10" fill="#e8843a"/>
+        <!-- paws -->
+        <ellipse cx="116" cy="272" rx="13" ry="8" fill="#fdf5e8"/>
+        <ellipse cx="146" cy="273" rx="13" ry="7" fill="#fdf5e8"/>
+        <ellipse cx="174" cy="273" rx="13" ry="7" fill="#fdf5e8"/>
+        <ellipse cx="204" cy="272" rx="13" ry="8" fill="#fdf5e8"/>
+        <!-- neck -->
+        <rect x="138" y="152" width="44" height="52" rx="20" fill="#e8843a"/>
+        <!-- head -->
+        <ellipse cx="160" cy="138" rx="55" ry="50" fill="#e8843a"/>
+        <!-- face cream patch -->
+        <ellipse cx="160" cy="150" rx="38" ry="34" fill="#fdf5e8"/>
+        <!-- ears -->
+        <polygon points="110,108 88,65 130,95" fill="#c8602a"/>
+        <polygon points="210,108 232,65 190,95" fill="#c8602a"/>
+        <!-- inner ears -->
+        <polygon points="110,108 95,78 128,98" fill="#e8a080"/>
+        <polygon points="210,108 225,78 192,98" fill="#e8a080"/>
+        <!-- eyes -->
+        <circle cx="140" cy="132" r="12" fill="white"/>
+        <circle cx="180" cy="132" r="12" fill="white"/>
+        <circle cx="143" cy="132" r="7" fill="#1a1e24"/>
+        <circle cx="183" cy="132" r="7" fill="#1a1e24"/>
+        <circle cx="145" cy="130" r="2.5" fill="white"/>
+        <circle cx="185" cy="130" r="2.5" fill="white"/>
+        <!-- eyebrows -->
+        <path d="M130,120 Q140,114 150,118" stroke="#c8602a" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+        <path d="M170,118 Q180,114 190,120" stroke="#c8602a" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+        <!-- nose -->
+        <ellipse cx="160" cy="152" rx="10" ry="7" fill="#1a1e24"/>
+        <ellipse cx="157" cy="150" rx="3" ry="2" fill="rgba(255,255,255,0.4)"/>
+        <!-- smile -->
+        <path d="M145,162 Q160,174 175,162" stroke="#c8602a" stroke-width="2" fill="none" stroke-linecap="round"/>
+        <!-- tongue -->
+        <ellipse cx="160" cy="170" rx="10" ry="7" fill="#e86060"/>
+        <line x1="160" y1="165" x2="160" y2="177" stroke="#c84040" stroke-width="1.5"/>
+        <!-- tail -->
+        <path d="M235,195 Q270,170 265,145 Q260,130 250,140 Q255,155 245,165 Q235,175 230,190Z" fill="#e8843a"/>
+        <!-- book in paw -->
+        <rect x="78" y="210" width="32" height="40" rx="3" fill="#162840" transform="rotate(-15 90 230)"/>
+        <rect x="80" y="212" width="28" height="36" rx="2" fill="#1e4a72" transform="rotate(-15 90 230)"/>
+        <line x1="85" y1="222" x2="102" y2="217" stroke="rgba(255,255,255,0.4)" stroke-width="1.5" transform="rotate(-15 90 230)"/>
+        <line x1="85" y1="228" x2="102" y2="223" stroke="rgba(255,255,255,0.4)" stroke-width="1.5" transform="rotate(-15 90 230)"/>
+        <!-- collar -->
+        <rect x="130" y="175" width="60" height="12" rx="6" fill="#d4a044"/>
+        <circle cx="160" cy="181" r="5" fill="#b8822a"/>
+        <!-- sparkles -->
+        <text x="245" y="115" font-size="18" fill="#d4a044" opacity="0.9">✨</text>
+        <text x="60" y="130" font-size="14" fill="#d4a044" opacity="0.7">⭐</text>
+        <text x="250" y="230" font-size="12" fill="#d4a044" opacity="0.6">🌟</text>
+      </svg>
+    </div>
+  </div>
+</div>
+
+<div class="stripe"></div>
+
+<!-- MEET THE CORGIS -->
+<section class="corgis-section" id="meet-the-corgis">
+  <div class="container">
+    <p class="sec-label">The Real Stars</p>
+    <h2 class="sec-title">Meet Dr. Nick's <em>Corgi Family</em></h2>
+    <p style="font-size:1rem;line-height:1.8;color:var(--text-mid);max-width:700px">Every character in the Mogwai &amp; Friends series is inspired by a real, living, tail-wagging, zoomie-running, couch-hogging Corgi. These four are the heart behind every story.</p>
+    <div class="corgis-grid">
+      <div class="corgi-card fade-up">
+        <div class="corgi-card-top" style="background:#e8c898;padding:0;overflow:hidden">
+          <img src="willow.jpg" alt="Willow" style="width:100%;height:100%;object-fit:cover;object-position:top">
+        </div>
+        <div class="corgi-card-body">
+          <h3>Willow</h3>
+          <p class="role">The Sweet One</p>
+          <p>Gentle, loving, and always the first to notice when someone needs a snuggle. Willow brings warmth and compassion to every adventure.</p>
+        </div>
+      </div>
+      <div class="corgi-card fade-up" style="transition-delay:0.1s">
+        <div class="corgi-card-top" style="background:#98c8e8;padding:0;overflow:hidden">
+          <img src="mogwai.jpg" alt="Mogwai" style="width:100%;height:100%;object-fit:cover;object-position:top">
+        </div>
+        <div class="corgi-card-body">
+          <h3>Mogwai</h3>
+          <p class="role">The Hero &amp; Star</p>
+          <p>Curious, brave, and full of questions about the world. Mogwai is the lead character of the series — a little Corgi with a big heart and even bigger dreams.</p>
+        </div>
+      </div>
+      <div class="corgi-card fade-up" style="transition-delay:0.2s">
+        <div class="corgi-card-top" style="background:#98e8a8;padding:0;overflow:hidden">
+          <img src="winston.jpg" alt="Winston" style="width:100%;height:100%;object-fit:cover;object-position:top">
+        </div>
+        <div class="corgi-card-body">
+          <h3>Winston</h3>
+          <p class="role">The Wise One</p>
+          <p>Dignified, thoughtful, and always the voice of reason. Winston has seen enough to know that good things take time — and naps are non-negotiable.</p>
+        </div>
+      </div>
+      <div class="corgi-card fade-up" style="transition-delay:0.3s">
+        <div class="corgi-card-top" style="background:#e89898;padding:0;overflow:hidden">
+          <img src="baxter.jpg" alt="Baxter" style="width:100%;height:100%;object-fit:cover;object-position:top">
+        </div>
+        <div class="corgi-card-body">
+          <h3>Baxter</h3>
+          <p class="role">The Wild Card</p>
+          <p>Energetic, mischievous, and always getting into something. Baxter brings the laughs and reminds everyone that life is better with a little chaos and a lot of joy.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="stripe"></div>
+
+<!-- IN MEMORIAM -->
+<section class="memoriam">
+  <div class="memoriam-inner fade-up">
+    <p style="font-family:'Lato',sans-serif;font-size:0.7rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:var(--sage-mid);margin-bottom:0.8rem">Always Remembered</p>
+    <h2>In Loving Memory of <em>Abby &amp; Cooper</em></h2>
+    <p style="font-size:1rem;line-height:1.8;color:var(--text-mid);margin-top:0.8rem">Two Corgis who left paw prints on Dr. Nick's heart that time can never erase. Their love, joy, and spirit live on in every story written and every page turned.</p>
+    <div class="memoriam-cards">
+      <div class="mem-card">
+        <div style="width:100%;height:180px;overflow:hidden;border-radius:8px;margin-bottom:1rem">
+          <img src="abby.png" alt="Abby" style="width:100%;height:100%;object-fit:cover;object-position:top">
+        </div>
+        <h3>Abby 🐾</h3>
+        <p>"She didn't just bring joy — she was joy. Every room she entered became brighter."</p>
+      </div>
+      <div class="mem-card">
+        <div style="width:100%;height:180px;overflow:hidden;border-radius:8px;margin-bottom:1rem">
+          <img src="cooper.jpg" alt="Cooper" style="width:100%;height:100%;object-fit:cover;object-position:top">
+        </div>
+        <h3>Cooper 🐾</h3>
+        <p>"He taught us what unconditional love looks like. We are better people for having known him."</p>
+      </div>
+    </div>
+    <p style="margin-top:1.5rem;font-family:'Playfair Display',serif;font-size:1.05rem;font-style:italic;color:var(--sage-mid)">"What we lose shapes us, but it doesn't define us." — Dr. Nick</p>
+  </div>
+</section>
+
+<div class="stripe"></div>
+
+<!-- BOOK SERIES -->
+<section class="books" id="books">
+  <div class="container">
+    <p class="sec-label">The Series</p>
+    <h2 class="sec-title">Mogwai &amp; Friends — <em>Children's Books</em></h2>
+    <div class="book-showcase">
+      <div class="book-cover fade-up">
+        <span class="book-icon">📖</span>
+        <h3>Mogwai &amp; Friends</h3>
+        <p class="author" style="margin-top:0.5rem;font-style:italic;font-size:0.8rem;font-family:'Source Serif 4',serif">by Nicholas G. Palisch</p>
+      </div>
+      <div class="book-info fade-up" style="transition-delay:0.2s">
+        <h2>Stories That <em>Teach &amp; Delight</em></h2>
+        <p>The Mogwai &amp; Friends series brings Dr. Nick's beloved Corgis to life in richly illustrated children's stories packed with heart, humor, and meaningful life lessons. Written for young readers but loved by the whole family.</p>
+        <p>Each book follows Mogwai and his friends — Willow, Winston, and Baxter — through adventures that teach kindness, courage, perseverance, friendship, and faith in simple, joyful ways that children remember.</p>
+        <div class="book-tags">
+          <span class="book-tag">Ages 3–8</span>
+          <span class="book-tag">Family Read-Aloud</span>
+          <span class="book-tag">Faith-Friendly</span>
+          <span class="book-tag">Life Lessons</span>
+          <span class="book-tag">Corgis!</span>
+        </div>
+        <a href="index.html#share" class="btn-primary" style="background:var(--navy);border-radius:4px;margin-top:0.5rem">Get Notified When Available →</a>
+      </div>
+    </div>
+
+    <div style="margin-top:4rem">
+      <p class="sec-label">Coming Soon</p>
+      <h2 class="sec-title" style="font-size:1.8rem">More Adventures <em>on the Way</em></h2>
+      <div class="coming-grid">
+        <div class="coming-card fade-up">
+          <div class="coming-top book1">🌅</div>
+          <div class="coming-body">
+            <span class="coming-badge">Coming Soon</span>
+            <h3>Mogwai Finds His Courage</h3>
+            <p>When Mogwai is afraid of something new, his friends help him discover the bravery that was inside him all along.</p>
+          </div>
+        </div>
+        <div class="coming-card fade-up" style="transition-delay:0.15s">
+          <div class="coming-top book2">🌧️</div>
+          <div class="coming-body">
+            <span class="coming-badge">Coming Soon</span>
+            <h3>Baxter &amp; the Big Storm</h3>
+            <p>When the sky turns dark and scary, Baxter learns that sometimes the best place to be is right next to the ones you love.</p>
+          </div>
+        </div>
+        <div class="coming-card fade-up" style="transition-delay:0.3s">
+          <div class="coming-top book3">🌿</div>
+          <div class="coming-body">
+            <span class="coming-badge">Coming Soon</span>
+            <h3>Willow Waits &amp; Wonders</h3>
+            <p>Willow learns the beautiful lesson that waiting for something good is never wasted time.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="stripe"></div>
+
+<!-- INSTAGRAM -->
+<section class="instagram">
+  <div class="container">
+    <h2>Follow the Corgi <em>Adventures</em></h2>
+    <p>Follow Dr. Nick's Corgi family on Instagram for daily doses of joy, floofy ears, and perspective — one paw print at a time.</p>
+    <div class="insta-grid">
+      <div class="insta-tile t1">🐾</div>
+      <div class="insta-tile t2">🌿</div>
+      <div class="insta-tile t3">⭐</div>
+      <div class="insta-tile t4">🐕</div>
+    </div>
+    <a href="https://www.instagram.com/PalischCorgilife" target="_blank" class="btn-primary" style="background:var(--corgi-orange)">📸 Follow @PalischCorgilife</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-links">
+    <a href="https://www.facebook.com/drnicksmatterofperspective" target="_blank">📘 Matter of Perspective</a>
+    <a href="https://www.instagram.com/PalischCorgilife" target="_blank">📸 @PalischCorgilife</a>
+    <a href="https://www.tiktok.com/@nickwx" target="_blank">🎵 TikTok @nickwx</a>
+    <a href="https://www.firstwarnwx.com" target="_blank">🌐 FirstWarnWX.com</a>
+  </div>
+  <p>© <span id="footerYear"></span> Inspire with Dr. Nick · Mogwai &amp; Friends · Nicholas G. Palisch</p>
+  <p style="margin-top:0.5rem"><a href="index.html">← Back to Home</a></p>
+</footer>
+
+<script>
+function observeFadeUps() {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-up:not(.visible)').forEach(el => observer.observe(el));
+}
+document.getElementById('footerYear').textContent = new Date().getFullYear();
+observeFadeUps();
+window.addEventListener('scroll', observeFadeUps, { passive: true });
+</script>
+</body>
+</html>

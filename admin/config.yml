@@ -1,0 +1,104 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "images/posts"
+public_folder: "/images/posts"
+
+site_url: "/"
+display_url: "Inspire with Dr. Nick"
+logo_url: "/images/posts/logo.png"
+
+collections:
+
+  # ── BLOG POSTS ──
+  - name: "posts"
+    label: "Blog Posts"
+    label_singular: "Blog Post"
+    folder: "_posts"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    summary: "{{title}} — {{date}}"
+    fields:
+      - { label: "Title", name: "title", widget: "string", hint: "The headline for your post" }
+      - { label: "Publish Date", name: "date", widget: "datetime", format: "MMMM D, YYYY", date_format: "MMMM D, YYYY", time_format: false }
+      - label: "Category"
+        name: "category"
+        widget: "select"
+        options:
+          - "Matter of Perspective"
+          - "Everyday Stories"
+          - "Faith & Encouragement"
+          - "Personal Growth"
+          - "Community & Kindness"
+          - "Grief & Healing"
+          - "Weather & Wonder"
+          - "Ministry & Faith"
+      - { label: "Excerpt", name: "excerpt", widget: "string", hint: "One sentence shown on the blog card (keep it short)" }
+      - label: "Card Icon / Emoji"
+        name: "icon"
+        widget: "select"
+        default: "✍️"
+        options: ["✍️","🌅","✨","🙏","💛","📖","🕊️","⚡","🌿","❤️","🌟","🎤","📚","🌎","💬"]
+      - label: "Card Color Theme"
+        name: "color"
+        widget: "select"
+        default: "blue"
+        options:
+          - { label: "Blue (Navy to Blue)", value: "blue" }
+          - { label: "Gold (Sand to Gold)", value: "gold" }
+          - { label: "Sage (Forest Green)", value: "sage" }
+      - { label: "Featured Image (optional)", name: "image", widget: "image", required: false, hint: "Upload a photo for this post" }
+      - { label: "Body", name: "body", widget: "markdown", hint: "Write your full post here. Use the toolbar for formatting." }
+      - { label: "Published", name: "published", widget: "boolean", default: true, hint: "Uncheck to save as draft" }
+
+  # ── STORIES ──
+  - name: "stories"
+    label: "Reader Stories"
+    label_singular: "Reader Story"
+    folder: "_stories"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    summary: "{{name}} — {{date}}"
+    fields:
+      - { label: "Person's Name", name: "name", widget: "string" }
+      - { label: "Date Received", name: "date", widget: "datetime", format: "MMMM D, YYYY", date_format: "MMMM D, YYYY", time_format: false }
+      - { label: "Email", name: "email", widget: "string", required: false }
+      - label: "Story Category"
+        name: "category"
+        widget: "select"
+        options:
+          - "A life-changing event"
+          - "Personal loss & healing"
+          - "Faith journey"
+          - "Second chance"
+          - "Career or calling"
+          - "Family history"
+          - "A hobby or passion"
+          - "Something else entirely"
+      - { label: "Their Story", name: "body", widget: "markdown" }
+      - label: "Status"
+        name: "status"
+        widget: "select"
+        default: "new"
+        options:
+          - { label: "New — Unread", value: "new" }
+          - { label: "Read", value: "read" }
+          - { label: "Featured on Blog", value: "featured" }
+          - { label: "Archived", value: "archived" }
+      - { label: "Dr. Nick's Notes", name: "notes", widget: "text", required: false, hint: "Private notes — not shown publicly" }
+
+  # ── SITE SETTINGS ──
+  - name: "settings"
+    label: "Site Settings"
+    files:
+      - label: "General Settings"
+        name: "general"
+        file: "_data/settings.json"
+        fields:
+          - { label: "Site Title", name: "title", widget: "string" }
+          - { label: "Tagline", name: "tagline", widget: "string" }
+          - { label: "Dr. Nick's Bio (short)", name: "bio_short", widget: "text" }
+          - { label: "Contact Email", name: "contact_email", widget: "string" }
+          - { label: "Show Ministry Section", name: "show_ministry", widget: "boolean", default: true }
+          - { label: "Show Blog Section", name: "show_blog", widget: "boolean", default: true }

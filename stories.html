@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Everyone Has a Story — Inspire with Dr. Nick</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300;1,8..60,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:#162840;--navy-mid:#1e3a58;--blue:#1e4a72;--blue-mid:#2a5f8f;--blue-light:#3d7ab5;
+    --gold:#b8822a;--gold-light:#d4a044;--gold-warm:#c8902e;
+    --sage:#7a9e82;--sage-mid:#5e8066;--sage-dark:#3d5e44;--sage-light:#b2ccb6;--sage-pale:#e8f0e9;
+    --sand:#c9b89a;--sand-mid:#b5a080;--sand-light:#e8ddc8;--sand-pale:#f5f0e6;
+    --cream:#f4f1ec;--warm-white:#f9f7f2;--parchment:#ede6d5;
+    --text-dark:#1a1e24;--text-mid:#364050;--text-light:#6a7585;--border:#d8d0be;
+    --shadow:0 4px 32px rgba(22,40,64,0.13);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{font-family:'Source Serif 4',Georgia,serif;background:var(--cream);color:var(--text-dark);overflow-x:hidden}
+
+  /* NAV */
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(22,40,64,0.97);backdrop-filter:blur(12px);border-bottom:1px solid rgba(200,151,42,0.25);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:68px}
+  .nav-brand{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--gold-light);letter-spacing:0.02em;text-decoration:none}
+  .nav-links{display:flex;gap:2rem;list-style:none}
+  .nav-links a{font-family:'Lato',sans-serif;font-size:0.82rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.78);text-decoration:none;transition:color 0.2s}
+  .nav-links a:hover{color:var(--gold-light)}
+  .nav-cta{background:var(--gold);color:var(--navy)!important;padding:0.4rem 1.1rem;border-radius:2px;font-weight:700!important;transition:background 0.2s!important}
+  .nav-cta:hover{background:var(--gold-light)!important}
+  .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer}
+  .hamburger span{display:block;width:24px;height:2px;background:white;transition:0.3s}
+
+  /* HERO */
+  .hero{min-height:55vh;background:linear-gradient(160deg,var(--navy) 0%,var(--blue) 55%,var(--sage-dark) 100%);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;padding:7rem 2rem 4rem;text-align:center}
+  .hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='rgba(61,122,181,0.07)' stroke-width='1'%3E%3Crect x='0' y='0' width='80' height='80'/%3E%3C/g%3E%3C/svg%3E");background-size:80px 80px}
+  .hero-content{position:relative;z-index:2;max-width:760px}
+  .hero-eyebrow{font-family:'Lato',sans-serif;font-size:0.72rem;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem;display:flex;align-items:center;justify-content:center;gap:0.8rem}
+  .hero-eyebrow::before,.hero-eyebrow::after{content:'';display:block;width:32px;height:1px;background:var(--gold)}
+  .hero h1{font-family:'Playfair Display',serif;font-size:clamp(2.4rem,5vw,4rem);font-weight:700;line-height:1.15;color:#fff;margin-bottom:1.2rem}
+  .hero h1 em{font-style:italic;color:var(--gold-light);display:block}
+  .hero-sub{font-size:1.1rem;font-style:italic;color:rgba(255,255,255,0.7);line-height:1.7;max-width:560px;margin:0 auto 2rem}
+
+  /* BUTTONS */
+  .btn-primary{background:var(--gold);color:var(--navy);font-family:'Lato',sans-serif;font-size:0.8rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;padding:0.9rem 2.2rem;border-radius:2px;text-decoration:none;border:none;cursor:pointer;transition:background 0.2s,transform 0.15s;display:inline-block}
+  .btn-primary:hover{background:var(--gold-light);transform:translateY(-1px)}
+  .btn-outline{background:transparent;color:var(--navy);border:1.5px solid var(--navy);font-family:'Lato',sans-serif;font-size:0.8rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;padding:0.9rem 2.2rem;border-radius:2px;text-decoration:none;cursor:pointer;transition:all 0.2s;display:inline-block}
+  .btn-outline:hover{background:var(--navy);color:#fff;transform:translateY(-1px)}
+
+  /* STRIPE */
+  .sand-stripe{height:5px;background:linear-gradient(90deg,var(--sage-light),var(--sand),var(--gold-light),var(--sand),var(--sage-light))}
+
+  /* SECTIONS */
+  section{padding:5rem 2rem}
+  .container{max-width:1100px;margin:0 auto}
+  .sec-label{font-family:'Lato',sans-serif;font-size:0.7rem;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold);margin-bottom:0.8rem;display:flex;align-items:center;gap:0.6rem}
+  .sec-label::before{content:'';display:block;width:28px;height:1px;background:var(--gold)}
+  .sec-title{font-family:'Playfair Display',serif;font-size:clamp(1.9rem,3.5vw,2.9rem);font-weight:700;line-height:1.2;color:var(--navy);margin-bottom:1.5rem}
+  .sec-title em{font-style:italic;color:var(--gold)}
+  .sec-body{font-size:1.05rem;line-height:1.85;color:var(--text-mid);font-weight:300}
+
+  /* WHY STORIES MATTER */
+  .why{background:var(--warm-white)}
+  .why-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.5rem;margin-top:2.5rem}
+  .why-card{background:#fff;border-radius:4px;padding:2rem 1.5rem;box-shadow:var(--shadow);border-top:3px solid var(--gold)}
+  .why-card:nth-child(2){border-top-color:var(--sage-mid)}
+  .why-card:nth-child(3){border-top-color:var(--blue)}
+  .why-icon{font-size:2.2rem;margin-bottom:0.8rem;display:block}
+  .why-card h3{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--navy);margin-bottom:0.6rem}
+  .why-card p{font-size:0.88rem;line-height:1.75;color:var(--text-mid)}
+
+  /* FEATURED QUOTES */
+  .quotes{background:var(--sand-pale)}
+  .quotes-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-top:2.5rem}
+  .quote-card{background:#fff;border-radius:4px;padding:2rem;box-shadow:var(--shadow);position:relative}
+  .quote-card::before{content:'\201C';font-family:'Playfair Display',serif;font-size:5rem;color:var(--gold);opacity:0.2;position:absolute;top:-0.5rem;left:1rem;line-height:1}
+  .quote-card blockquote{font-family:'Playfair Display',serif;font-size:1.05rem;font-style:italic;line-height:1.6;color:var(--navy);margin-bottom:1rem}
+  .quote-card cite{font-family:'Lato',sans-serif;font-size:0.7rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);font-style:normal}
+
+  /* DR NICK MESSAGE */
+  .message{background:linear-gradient(135deg,var(--navy) 0%,var(--sage-dark) 40%,var(--blue) 100%)}
+  .message-inner{max-width:760px;margin:0 auto;text-align:center}
+  .message h2{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3vw,2.6rem);font-weight:700;color:#fff;margin-bottom:1.5rem}
+  .message h2 em{font-style:italic;color:var(--gold-light)}
+  .message p{font-size:1.05rem;line-height:1.85;color:rgba(255,255,255,0.72);font-weight:300;margin-bottom:1.2rem}
+  .message-sig{font-family:'Playfair Display',serif;font-size:1.3rem;font-style:italic;color:var(--gold-light);margin-top:2rem}
+
+  /* STORY CATEGORIES */
+  .categories{background:var(--sage-pale)}
+  .cat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.2rem;margin-top:2.5rem}
+  .cat-card{background:#fff;border-radius:4px;padding:1.5rem 1.2rem;text-align:center;box-shadow:var(--shadow);cursor:pointer;transition:transform 0.2s,box-shadow 0.2s}
+  .cat-card:hover{transform:translateY(-3px);box-shadow:0 8px 30px rgba(22,40,64,0.15)}
+  .cat-icon{font-size:2rem;display:block;margin-bottom:0.6rem}
+  .cat-card h3{font-family:'Playfair Display',serif;font-size:0.95rem;font-weight:700;color:var(--navy);margin-bottom:0.4rem}
+  .cat-card p{font-size:0.78rem;line-height:1.6;color:var(--text-light)}
+
+  /* SHARE FORM */
+  .share-section{background:linear-gradient(135deg,var(--navy) 0%,var(--blue) 60%,var(--navy-mid) 100%);text-align:center;position:relative;overflow:hidden}
+  .share-section::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(201,184,154,0.1) 0%,transparent 65%)}
+  .share-section .sec-label{justify-content:center}
+  .share-section .sec-label::before{display:none}
+  .share-section .sec-title{color:#fff}
+  .share-section .sec-body{color:rgba(255,255,255,0.65);max-width:600px;margin:0 auto 2.5rem}
+  .share-form{max-width:600px;margin:0 auto;background:rgba(255,255,255,0.06);border:1px solid rgba(212,160,68,0.28);padding:2.5rem;border-radius:4px;position:relative;z-index:1}
+  .form-group{margin-bottom:1.2rem;text-align:left}
+  .form-group label{font-family:'Lato',sans-serif;font-size:0.72rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:0.4rem}
+  .form-group input,.form-group textarea,.form-group select{width:100%;padding:0.8rem 1rem;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);border-radius:2px;color:#fff;font-family:'Source Serif 4',serif;font-size:0.95rem;outline:none;transition:border-color 0.2s}
+  .form-group input:focus,.form-group textarea:focus{border-color:var(--gold)}
+  .form-group textarea{min-height:140px;resize:vertical}
+  .form-group input::placeholder,.form-group textarea::placeholder{color:rgba(255,255,255,0.3)}
+  .form-group select option{background:var(--navy)}
+  .success-msg{background:rgba(60,180,90,0.15);border:1px solid rgba(60,180,90,0.3);color:#5ee080;padding:0.8rem 1.2rem;border-radius:2px;font-family:'Lato',sans-serif;font-size:0.82rem;margin-bottom:1rem;display:none}
+
+  /* FOOTER */
+  footer{background:linear-gradient(90deg,#0a131e,#0e1a14,#0a131e);padding:2rem;text-align:center;font-family:'Lato',sans-serif;font-size:0.75rem;color:rgba(255,255,255,0.3);letter-spacing:0.05em}
+  footer a{color:var(--sand-light);text-decoration:none}
+  .footer-links{display:flex;justify-content:center;gap:1.5rem;margin-bottom:1rem;flex-wrap:wrap}
+  .footer-links a{font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--sand-light);opacity:0.8}
+
+  /* ANIMATIONS */
+  @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+  .fade-up{opacity:0;transform:translateY(24px);transition:opacity 0.7s ease,transform 0.7s ease}
+  .fade-up.visible{opacity:1;transform:none}
+
+  @media(max-width:900px){.why-grid{grid-template-columns:1fr 1fr}.cat-grid{grid-template-columns:1fr 1fr}.quotes-grid{grid-template-columns:1fr}}
+  @media(max-width:640px){.nav-links{display:none}.hamburger{display:flex}.why-grid,.cat-grid{grid-template-columns:1fr}.share-form{padding:1.5rem}}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-brand">Inspire with Dr. Nick</a>
+  <ul class="nav-links">
+    <li><a href="index.html#blog">Blog</a></li>
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="stories.html">Stories</a></li>
+    <li><a href="index.html#ministry">Ministry</a></li>
+    <li><a href="corgis.html">Mogwai &amp; Friends</a></li>
+    <li><a href="index.html#share" class="nav-cta">Contact Dr. Nick</a></li>
+  </ul>
+  <div class="hamburger" onclick="document.querySelector('.nav-links').style.display='flex';document.querySelector('.nav-links').style.cssText='display:flex;flex-direction:column;position:absolute;top:68px;left:0;right:0;background:rgba(22,40,64,0.98);padding:1.5rem 2rem;gap:1.2rem;z-index:99'">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-content">
+    <p class="hero-eyebrow">Your Journey Matters</p>
+    <h1>Everyone Has a <em>Story</em></h1>
+    <p class="hero-sub">Not just the polished version. The real one — shaped by life, faith, struggle, joy, loss, healing, growth, and purpose.</p>
+    <a href="#share-form" class="btn-primary">Share Your Story →</a>
+  </div>
+</div>
+
+<div class="sand-stripe"></div>
+
+<!-- WHY STORIES MATTER -->
+<section class="why">
+  <div class="container">
+    <div class="fade-up" style="max-width:700px">
+      <p class="sec-label">Why This Matters</p>
+      <h2 class="sec-title">Your Story Has <em>Power</em></h2>
+      <p class="sec-body">Sometimes we think our lives are too ordinary to matter. We assume our experiences are not big enough, dramatic enough, or important enough to inspire someone else. But the truth is, the stories that impact people the most are often the stories of everyday people who kept going, kept believing, kept learning, and kept showing up.</p>
+    </div>
+    <div class="why-grid">
+      <div class="why-card fade-up">
+        <span class="why-icon">🔗</span>
+        <h3>Stories Connect Us</h3>
+        <p>When we share our experiences honestly, we give others permission to be real too. Your vulnerability becomes someone else's courage.</p>
+      </div>
+      <div class="why-card fade-up" style="transition-delay:0.12s">
+        <span class="why-icon">💡</span>
+        <h3>Stories Illuminate Truth</h3>
+        <p>The lessons hidden in everyday life only become visible when we take time to reflect and share. Your story may hold the answer someone else is searching for.</p>
+      </div>
+      <div class="why-card fade-up" style="transition-delay:0.24s">
+        <span class="why-icon">🌱</span>
+        <h3>Stories Create Legacy</h3>
+        <p>Every story told becomes a seed planted. You may never know how far it grows, who it reaches, or how deeply it changes a life.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="sand-stripe"></div>
+
+<!-- DR NICK'S MESSAGE -->
+<section class="message">
+  <div class="container">
+    <div class="message-inner fade-up">
+      <p class="sec-label" style="justify-content:center;color:var(--gold)"><span style="width:28px;height:1px;background:var(--gold);display:block"></span>From Dr. Nick<span style="width:28px;height:1px;background:var(--gold);display:block"></span></p>
+      <h2>I Want to Hear <em>Your Story</em></h2>
+      <p>Not just the polished version. Not just the short answer we give when someone asks how we are doing. I want to hear the real story — the one shaped by life, faith, struggle, joy, loss, healing, growth, and purpose.</p>
+      <p>Maybe your story is about a hobby that became your passion. Maybe it is about a life event that changed everything. Maybe it is about family history, a lesson learned the hard way, a career that shaped you, or a quiet moment that still stays with you.</p>
+      <p>Maybe you do not even think you have a story.</p>
+      <p style="font-family:'Playfair Display',serif;font-size:1.3rem;font-style:italic;color:var(--gold-light)">You do. And I would be honored to help tell it.</p>
+      <div class="message-sig">— Dr. Nick</div>
+    </div>
+  </div>
+</section>
+
+<div class="sand-stripe"></div>
+
+<!-- STORY CATEGORIES -->
+<section class="categories">
+  <div class="container">
+    <div class="fade-up" style="text-align:center;max-width:700px;margin:0 auto 0.5rem">
+      <p class="sec-label" style="justify-content:center"><span></span>What Kind of Story Do You Have?</p>
+      <h2 class="sec-title" style="text-align:center">Every Story <em>Counts</em></h2>
+      <p class="sec-body">There is no story too small, too ordinary, or too unfinished to matter. Here are just some of the kinds of stories that deserve to be heard.</p>
+    </div>
+    <div class="cat-grid">
+      <div class="cat-card fade-up">
+        <span class="cat-icon">⚡</span>
+        <h3>A Life-Changing Event</h3>
+        <p>The moment that split your life into before and after.</p>
+      </div>
+      <div class="cat-card fade-up" style="transition-delay:0.08s">
+        <span class="cat-icon">💔</span>
+        <h3>Personal Loss &amp; Healing</h3>
+        <p>Grief, loss, and the long road back to hope.</p>
+      </div>
+      <div class="cat-card fade-up" style="transition-delay:0.16s">
+        <span class="cat-icon">🙏</span>
+        <h3>A Faith Journey</h3>
+        <p>Doubt, discovery, and what you found on the other side.</p>
+      </div>
+      <div class="cat-card fade-up" style="transition-delay:0.24s">
+        <span class="cat-icon">🔄</span>
+        <h3>A Second Chance</h3>
+        <p>Starting over, rebuilding, and finding purpose again.</p>
+      </div>
+      <div class="cat-card fade-up" style="transition-delay:0.32s">
+        <span class="cat-icon">💼</span>
+        <h3>Career &amp; Calling</h3>
+        <p>The work that shaped you — or the calling you finally answered.</p>
+      </div>
+      <div class="cat-card fade-up" style="transition-delay:0.4s">
+        <span class="cat-icon">🌳</span>
+        <h3>Family &amp; Roots</h3>
+        <p>Where you came from, and how it made you who you are.</p>
+      </div>
+      <div class="cat-card fade-up" style="transition-delay:0.48s">
+        <span class="cat-icon">🎨</span>
+        <h3>A Passion or Hobby</h3>
+        <p>The thing that fills you up and reminds you why life is good.</p>
+      </div>
+      <div class="cat-card fade-up" style="transition-delay:0.56s">
+        <span class="cat-icon">✨</span>
+        <h3>Something Else Entirely</h3>
+        <p>Your story doesn't have to fit a category. It just has to be real.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="sand-stripe"></div>
+
+<!-- QUOTES -->
+<section class="quotes">
+  <div class="container">
+    <p class="sec-label">Perspective</p>
+    <h2 class="sec-title">Words That <em>Remind Us</em></h2>
+    <div class="quotes-grid">
+      <div class="quote-card fade-up">
+        <blockquote>"The most powerful stories are often the ones we almost didn't share. The quiet ones. The ones that feel too small or too personal or too unfinished. Those are the ones that make someone else feel less alone."</blockquote>
+        <cite>— Dr. Nick</cite>
+      </div>
+      <div class="quote-card fade-up" style="transition-delay:0.15s">
+        <blockquote>"Your story matters. Not in spite of its ordinariness — but because of it. Real is what connects us."</blockquote>
+        <cite>— Dr. Nick</cite>
+      </div>
+      <div class="quote-card fade-up" style="transition-delay:0.3s">
+        <blockquote>"Loss doesn't mean your story is over. It means your story is changing."</blockquote>
+        <cite>— Dr. Nick's Matter of Perspective</cite>
+      </div>
+      <div class="quote-card fade-up" style="transition-delay:0.45s">
+        <blockquote>"Keep going. The meaning is there — even when you can't find it yet."</blockquote>
+        <cite>— Dr. Nick</cite>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="sand-stripe"></div>
+
+<!-- SHARE YOUR STORY FORM -->
+<section class="share-section" id="share-form">
+  <div class="container">
+    <p class="sec-label">Share With Dr. Nick</p>
+    <h2 class="sec-title">What's Your <em>Story?</em></h2>
+    <p class="sec-body">Fill out the form below. Dr. Nick reads every story personally. There's no wrong answer, no minimum length, and no judgment — just a space for your truth.</p>
+    <div class="share-form">
+      <div id="storySuccess" class="success-msg">✓ Thank you for sharing your story. Dr. Nick will be in touch.</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+        <div class="form-group">
+          <label>Your Name</label>
+          <input type="text" id="storyName" placeholder="First and last name">
+        </div>
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" id="storyEmail" placeholder="your@email.com">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>What's your story about?</label>
+        <select id="storyCategory">
+          <option value="">Select a category...</option>
+          <option>A life-changing event</option>
+          <option>Personal loss &amp; healing</option>
+          <option>Faith journey</option>
+          <option>Second chance</option>
+          <option>Career or calling</option>
+          <option>Family history</option>
+          <option>A hobby or passion</option>
+          <option>Something else entirely</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Tell Dr. Nick your story</label>
+        <textarea id="storyText" placeholder="Share as much or as little as you'd like. There's no wrong answer here. This is your space."></textarea>
+      </div>
+      <div class="form-group">
+        <label>Are you interested in...</label>
+        <select id="storyInterest">
+          <option value="">Select...</option>
+          <option>Having my story featured on the blog</option>
+          <option>Inviting Dr. Nick to speak at my event</option>
+          <option>Just sharing — no other plans</option>
+          <option>All of the above</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>May Dr. Nick share your story publicly? (optional)</label>
+        <select id="storyPermission">
+          <option value="">Select...</option>
+          <option>Yes — use my full name</option>
+          <option>Yes — first name only</option>
+          <option>Yes — anonymously</option>
+          <option>No — this is private</option>
+        </select>
+      </div>
+      <button class="btn-primary" style="width:100%;padding:1rem;font-size:0.85rem" onclick="submitStory()">Share Your Story with Dr. Nick →</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-links">
+    <a href="https://www.facebook.com/drnicksmatterofperspective" target="_blank">📘 Matter of Perspective</a>
+    <a href="https://www.facebook.com/nickswx" target="_blank">⛅ First Warn Weather</a>
+    <a href="https://www.tiktok.com/@nickwx" target="_blank">🎵 TikTok @nickwx</a>
+    <a href="https://www.instagram.com/PalischCorgilife" target="_blank">📸 @PalischCorgilife</a>
+    <a href="https://www.firstwarnwx.com" target="_blank">🌐 FirstWarnWX.com</a>
+  </div>
+  <p>© <span id="footerYear"></span> Inspire with Dr. Nick · Dr. Nick's Matter of Perspective</p>
+  <p style="margin-top:0.5rem"><a href="index.html">← Back to Home</a></p>
+</footer>
+
+<script>
+function submitStory() {
+  const name = document.getElementById('storyName').value.trim();
+  const email = document.getElementById('storyEmail').value.trim();
+  const text = document.getElementById('storyText').value.trim();
+  if (!name || !email || !text) { alert('Please fill in your name, email, and story.'); return; }
+  document.getElementById('storySuccess').style.display = 'block';
+  document.getElementById('storyName').value = '';
+  document.getElementById('storyEmail').value = '';
+  document.getElementById('storyText').value = '';
+  document.getElementById('storyCategory').value = '';
+  document.getElementById('storyInterest').value = '';
+  document.getElementById('storyPermission').value = '';
+  window.scrollTo({top: document.getElementById('share-form').offsetTop - 80, behavior: 'smooth'});
+  setTimeout(() => document.getElementById('storySuccess').style.display = 'none', 8000);
+}
+
+function observeFadeUps() {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-up:not(.visible)').forEach(el => observer.observe(el));
+}
+
+document.getElementById('footerYear').textContent = new Date().getFullYear();
+observeFadeUps();
+window.addEventListener('scroll', observeFadeUps, { passive: true });
+</script>
+</body>
+</html>
