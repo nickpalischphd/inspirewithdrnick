@@ -653,6 +653,11 @@ function savePosts(posts) {
 
 // ── INIT ──
 function initAdmin() {
+  // Hide all panels first
+  document.querySelectorAll('.admin-panel').forEach(p => p.style.display = 'none');
+  // Show dashboard by default
+  const dashboard = document.getElementById('panel-dashboard');
+  if (dashboard) dashboard.style.display = 'block';
   buildEmojiPicker();
   setDefaultDate();
   updateStats();
@@ -896,10 +901,22 @@ function clearForm() {
 
 // ── PANEL SWITCHING ──
 function showPanel(name) {
-  document.querySelectorAll('.admin-panel').forEach(p => p.classList.remove('active'));
+  // Hide all panels using inline style
+  document.querySelectorAll('.admin-panel').forEach(p => {
+    p.style.display = 'none';
+    p.classList.remove('active');
+  });
+  // Remove active from all sidebar buttons
   document.querySelectorAll('.sidebar-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('panel-' + name).classList.add('active');
-  document.getElementById('btn-' + name).classList.add('active');
+  // Show the selected panel
+  const panel = document.getElementById('panel-' + name);
+  if (panel) {
+    panel.style.display = 'block';
+    panel.classList.add('active');
+  }
+  // Highlight selected sidebar button
+  const btn = document.getElementById('btn-' + name);
+  if (btn) btn.classList.add('active');
 }
 
 // ── ALERTS ──
