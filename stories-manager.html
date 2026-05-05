@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stories Manager — Inspire with Dr. Nick</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Lato:wght@400;700&family=Source+Serif+4:opsz,wght@8..60,300;8..60,400&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+:root {
+  --navy:#162840; --blue:#1e4a72; --gold:#b8822a; --gold-light:#d4a044;
+  --sage:#3d5e44; --sage-mid:#5e8066; --sand:#f5f0e6; --cream:#f4f1ec;
+  --text:#1a1e24; --mid:#364050; --light:#6a7585; --border:#d8d0be;
+}
+body { font-family:'Lato',sans-serif; background:var(--cream); color:var(--text); }
+#login { position:fixed; inset:0; background:linear-gradient(135deg,var(--navy),var(--blue)); display:flex; align-items:center; justify-content:center; z-index:999; }
+.login-box { background:#fff; border-radius:8px; padding:2.5rem; width:360px; text-align:center; box-shadow:0 20px 60px rgba(0,0,0,0.3); }
+.login-box h1 { font-family:'Playfair Display',serif; font-size:1.4rem; color:var(--navy); margin-bottom:0.3rem; }
+.login-box h1 em { font-style:italic; color:var(--gold); }
+.login-box p { font-size:0.78rem; color:var(--light); margin-bottom:1.5rem; letter-spacing:0.05em; text-transform:uppercase; }
+.login-box input { width:100%; padding:0.8rem; border:1.5px solid var(--border); border-radius:4px; font-size:1rem; text-align:center; letter-spacing:0.2em; outline:none; margin-bottom:0.8rem; }
+.login-box input:focus { border-color:var(--gold); }
+.login-err { color:#c0392b; font-size:0.8rem; margin-bottom:0.8rem; display:none; }
+.btn { background:var(--gold); color:var(--navy); font-family:'Lato',sans-serif; font-size:0.8rem; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; padding:0.85rem 2rem; border:none; border-radius:4px; cursor:pointer; transition:background 0.2s; }
+.btn:hover { background:var(--gold-light); }
+.btn-full { width:100%; }
+.btn-outline { background:transparent; color:var(--mid); border:1.5px solid var(--border); }
+.btn-outline:hover { border-color:var(--mid); }
+.btn-sm { padding:0.35rem 0.8rem; font-size:0.68rem; border-radius:2px; }
+.btn-danger { background:transparent; color:#c0392b; border:1px solid rgba(192,57,43,0.4); }
+.btn-danger:hover { background:rgba(192,57,43,0.08); }
+.btn-blue { background:var(--blue); color:#fff; }
+.btn-blue:hover { background:var(--navy); }
+.back-link { display:block; margin-top:1rem; font-size:0.78rem; color:var(--gold); text-decoration:none; }
+#app { display:none; min-height:100vh; }
+header { background:var(--navy); padding:0 2rem; height:56px; display:flex; align-items:center; justify-content:space-between; border-bottom:2px solid var(--gold); }
+header h2 { font-family:'Playfair Display',serif; font-size:1rem; color:var(--gold-light); font-style:italic; font-weight:400; }
+.h-right { display:flex; gap:1rem; align-items:center; }
+.h-right a { font-size:0.72rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:rgba(255,255,255,0.6); text-decoration:none; }
+.h-right a:hover { color:var(--gold-light); }
+.signout-btn { background:none; border:1px solid rgba(255,255,255,0.2); color:rgba(255,255,255,0.5); font-family:'Lato',sans-serif; font-size:0.68rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; padding:0.3rem 0.8rem; border-radius:2px; cursor:pointer; }
+.signout-btn:hover { color:#fff; border-color:rgba(255,255,255,0.5); }
+.tabs { background:var(--navy); border-bottom:1px solid rgba(255,255,255,0.1); padding:0 2rem; display:flex; }
+.tab { background:none; border:none; color:rgba(255,255,255,0.45); font-family:'Lato',sans-serif; font-size:0.75rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; padding:0.85rem 1.5rem; cursor:pointer; border-bottom:2px solid transparent; margin-bottom:-1px; transition:all 0.2s; }
+.tab:hover { color:rgba(255,255,255,0.8); }
+.tab.active { color:var(--gold-light); border-bottom-color:var(--gold); }
+.badge { background:var(--gold); color:var(--navy); font-size:0.6rem; font-weight:700; padding:0.1rem 0.5rem; border-radius:10px; margin-left:0.3rem; vertical-align:middle; }
+.pane { display:none; padding:2rem; max-width:860px; margin:0 auto; }
+.pane.active { display:block; }
+.pane-title { font-family:'Playfair Display',serif; font-size:1.5rem; font-weight:700; color:var(--navy); margin-bottom:0.3rem; }
+.pane-title em { font-style:italic; color:var(--gold); }
+.pane-sub { font-size:0.82rem; color:var(--light); margin-bottom:1.5rem; }
+.fg { margin-bottom:1.2rem; }
+.fg label { font-size:0.68rem; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:var(--mid); display:block; margin-bottom:0.4rem; }
+.fg input, .fg select, .fg textarea { width:100%; padding:0.75rem 1rem; border:1.5px solid var(--border); border-radius:4px; font-family:'Source Serif 4',serif; font-size:0.95rem; color:var(--text); background:#fff; outline:none; transition:border-color 0.2s; }
+.fg input:focus, .fg select:focus, .fg textarea:focus { border-color:var(--gold); }
+.fg textarea { min-height:320px; resize:vertical; line-height:1.8; }
+.hint { font-size:0.72rem; color:var(--light); margin-top:0.3rem; }
+.two { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+hr { border:none; border-top:1px solid var(--border); margin:1.5rem 0; }
+.toggle-row { display:flex; align-items:center; gap:1rem; background:var(--sand); padding:0.9rem 1.2rem; border-radius:4px; margin-bottom:1.2rem; }
+.tog { position:relative; display:inline-block; width:42px; height:22px; flex-shrink:0; }
+.tog input { opacity:0; width:0; height:0; }
+.tog-slider { position:absolute; cursor:pointer; inset:0; background:#ccc; border-radius:22px; transition:0.3s; }
+.tog-slider:before { position:absolute; content:''; height:16px; width:16px; left:3px; bottom:3px; background:#fff; border-radius:50%; transition:0.3s; }
+input:checked + .tog-slider { background:var(--sage); }
+input:checked + .tog-slider:before { transform:translateX(20px); }
+.ok { background:rgba(45,138,78,0.12); border:1px solid rgba(45,138,78,0.3); color:#2d8a4e; padding:0.85rem 1.2rem; border-radius:4px; font-size:0.85rem; font-weight:600; margin-bottom:1rem; display:none; }
+.err { background:rgba(192,57,43,0.1); border:1px solid rgba(192,57,43,0.3); color:#c0392b; padding:0.85rem 1.2rem; border-radius:4px; font-size:0.85rem; font-weight:600; margin-bottom:1rem; display:none; }
+.pi { background:#fff; border:1px solid var(--border); border-radius:6px; padding:1rem 1.2rem; margin-bottom:0.8rem; display:flex; align-items:center; gap:1rem; }
+.pi:hover { box-shadow:0 3px 16px rgba(22,40,64,0.1); }
+.pi-icon { font-size:1.6rem; flex-shrink:0; }
+.pi-info { flex:1; }
+.pi-title { font-family:'Playfair Display',serif; font-size:0.95rem; font-weight:700; color:var(--navy); margin-bottom:0.2rem; }
+.pi-meta { font-size:0.72rem; color:var(--light); }
+.pi-meta span { background:var(--sand); color:var(--mid); padding:0.1rem 0.5rem; border-radius:10px; font-weight:700; font-size:0.62rem; letter-spacing:0.06em; text-transform:uppercase; margin-right:0.4rem; }
+.draft { font-size:0.6rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; background:var(--sand); color:var(--light); padding:0.15rem 0.5rem; border-radius:10px; margin-left:0.4rem; }
+.pi-actions { display:flex; gap:0.5rem; flex-shrink:0; }
+.stats { display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; margin-bottom:2rem; }
+.stat { background:#fff; border:1px solid var(--border); border-radius:6px; padding:1.2rem; text-align:center; }
+.stat-n { font-family:'Playfair Display',serif; font-size:2rem; font-weight:700; color:var(--navy); display:block; }
+.stat-l { font-size:0.68rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--light); margin-top:0.3rem; }
+.pub-box { background:linear-gradient(135deg,var(--navy),var(--blue)); border-radius:6px; padding:1.5rem 2rem; margin-bottom:1.5rem; color:#fff; }
+.pub-box h3 { font-family:'Playfair Display',serif; font-size:1.2rem; margin-bottom:0.5rem; }
+.pub-box p { font-size:0.85rem; color:rgba(255,255,255,0.65); margin-bottom:1.2rem; line-height:1.6; }
+.pub-btn { background:var(--gold); color:var(--navy); font-family:'Lato',sans-serif; font-size:0.82rem; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; padding:0.8rem 2rem; border:none; border-radius:4px; cursor:pointer; transition:all 0.2s; }
+.pub-btn:hover { background:var(--gold-light); }
+.pub-btn:disabled { opacity:0.6; cursor:not-allowed; }
+.btn-row { display:flex; gap:0.8rem; flex-wrap:wrap; align-items:center; }
+.notice { background:rgba(45,138,78,0.08); border:1px solid rgba(45,138,78,0.25); border-radius:4px; padding:0.8rem 1rem; font-size:0.82rem; color:var(--mid); margin-bottom:1.2rem; line-height:1.6; }
+.settings-box { background:#fff; border:1px solid var(--border); border-radius:6px; padding:1.5rem; margin-bottom:1rem; }
+.dash-cards { display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-bottom:1.5rem; }
+.dash-card { background:#fff; border:1px solid var(--border); border-radius:6px; padding:1.5rem; cursor:pointer; transition:box-shadow 0.2s; }
+.dash-card:hover { box-shadow:0 4px 20px rgba(22,40,64,0.1); }
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login">
+  <div class="login-box">
+    <h1>Inspire with <em>Dr. Nick</em></h1>
+    <p>Stories Manager</p>
+    <div style="font-size:2.5rem;margin-bottom:1.2rem">📖</div>
+    <input type="password" id="pwd" placeholder="••••••••">
+    <div class="login-err" id="loginErr">Incorrect password.</div>
+    <button class="btn btn-full" onclick="doLogin()">Sign In →</button>
+    <a href="index.html" class="back-link">← Back to Website</a>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app">
+  <header>
+    <h2>Inspire with Dr. Nick — Stories Manager</h2>
+    <div class="h-right">
+      <a href="stories.html" target="_blank">View Stories Page ↗</a>
+      <a href="index.html" target="_blank">View Site ↗</a>
+      <button class="signout-btn" onclick="doLogout()">Sign Out</button>
+    </div>
+  </header>
+  <div class="tabs">
+    <button class="tab active" id="t-dash" onclick="goTab('dash')">📊 Dashboard</button>
+    <button class="tab" id="t-write" onclick="goTab('write')">✍️ Write Story</button>
+    <button class="tab" id="t-posts" onclick="goTab('posts')">📚 All Stories <span class="badge" id="badge">0</span></button>
+    <button class="tab" id="t-publish" onclick="goTab('publish')">🚀 Publish</button>
+    <button class="tab" id="t-settings" onclick="goTab('settings')">⚙️ GitHub</button>
+  </div>
+
+  <!-- DASHBOARD -->
+  <div class="pane active" id="p-dash">
+    <div class="pane-title">Everyone Has a <em>Story</em></div>
+    <div class="pane-sub">Write and publish stories from this dashboard.</div>
+    <div class="stats">
+      <div class="stat"><span class="stat-n" id="s-all">0</span><div class="stat-l">Total Stories</div></div>
+      <div class="stat"><span class="stat-n" id="s-pub">0</span><div class="stat-l">Published</div></div>
+      <div class="stat"><span class="stat-n" id="s-draft">0</span><div class="stat-l">Drafts</div></div>
+    </div>
+    <div class="dash-cards">
+      <div class="dash-card" onclick="goTab('write')">
+        <div style="font-size:2rem;margin-bottom:0.6rem">✍️</div>
+        <div style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--navy);margin-bottom:0.3rem">Write New Story</div>
+        <div style="font-size:0.8rem;color:var(--light)">Share a story that needs to be told</div>
+      </div>
+      <div class="dash-card" onclick="goTab('publish')">
+        <div style="font-size:2rem;margin-bottom:0.6rem">🚀</div>
+        <div style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--navy);margin-bottom:0.3rem">Publish to Site</div>
+        <div style="font-size:0.8rem;color:var(--light)">Send your stories live instantly</div>
+      </div>
+    </div>
+    <div style="background:linear-gradient(135deg,var(--navy),var(--blue));border-radius:6px;padding:1.5rem 2rem">
+      <q style="font-family:'Playfair Display',serif;font-size:1rem;font-style:italic;color:rgba(255,255,255,0.85)">Everyone has a story. What's yours?</q>
+      <cite style="display:block;font-size:0.7rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold-light);margin-top:0.5rem;font-style:normal">— Dr. Nick</cite>
+    </div>
+  </div>
+
+  <!-- WRITE -->
+  <div class="pane" id="p-write">
+    <div class="pane-title" id="writeHead">Write a New <em>Story</em></div>
+    <div class="pane-sub">Fill in the details and click Publish when ready.</div>
+    <div class="ok" id="wOk"></div>
+    <div class="err" id="wErr"></div>
+    <input type="hidden" id="editId">
+
+    <div class="toggle-row">
+      <label class="tog"><input type="checkbox" id="pubNow" checked><span class="tog-slider"></span></label>
+      <span style="font-size:0.85rem;font-weight:700;color:var(--mid)">Publish immediately</span>
+      <span style="font-size:0.78rem;color:var(--light)">(turn off to save as draft)</span>
+    </div>
+
+    <div class="fg"><label>Story Title *</label><input type="text" id="fTitle" placeholder="The title of this story..."></div>
+
+    <div class="two">
+      <div class="fg">
+        <label>Story Category *</label>
+        <select id="fCat">
+          <option>A Life-Changing Event</option>
+          <option>Personal Loss &amp; Healing</option>
+          <option>A Faith Journey</option>
+          <option>A Second Chance</option>
+          <option>Career &amp; Calling</option>
+          <option>Family &amp; Roots</option>
+          <option>A Passion or Hobby</option>
+          <option>Something Else Entirely</option>
+          <option>Dr. Nick's Reflection</option>
+        </select>
+      </div>
+      <div class="fg"><label>Publish Date</label><input type="text" id="fDate" placeholder="May 5, 2026"></div>
+    </div>
+
+    <div class="fg"><label>Story Excerpt <span style="font-weight:400;text-transform:none;letter-spacing:0">(one sentence preview)</span></label>
+      <input type="text" id="fExcerpt" placeholder="A brief sentence that draws the reader in..."></div>
+
+    <div class="fg"><label>Story Author <span style="font-weight:400;text-transform:none;letter-spacing:0">(leave blank for Dr. Nick)</span></label>
+      <input type="text" id="fAuthor" placeholder="Dr. Nick"></div>
+
+    <hr>
+
+    <div class="fg"><label>The Full Story *</label>
+      <textarea id="fBody" placeholder="Tell the story here...&#10;&#10;Leave a blank line between paragraphs.&#10;&#10;Every story matters. Every voice deserves to be heard."></textarea>
+      <p class="hint">💡 Leave a blank line between paragraphs — they'll be beautifully formatted on your site.</p>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn" onclick="saveStory()" style="padding:0.85rem 2rem"><span id="saveLbl">Publish Story →</span></button>
+      <button class="btn btn-outline" onclick="clearForm()">Clear</button>
+      <button class="btn btn-outline" onclick="goTab('posts')" style="margin-left:auto">View All Stories</button>
+    </div>
+  </div>
+
+  <!-- ALL STORIES -->
+  <div class="pane" id="p-posts">
+    <div class="pane-title">All <em>Stories</em></div>
+    <div class="pane-sub">Click Edit to update or Delete to remove.</div>
+    <div class="ok" id="pOk"></div>
+    <div style="display:flex;justify-content:flex-end;margin-bottom:1rem">
+      <button class="btn btn-sm" onclick="goTab('write');clearForm()">+ Write New Story</button>
+    </div>
+    <div id="storyList"></div>
+    <div id="noStories" style="text-align:center;padding:3rem;color:var(--light);font-style:italic">No stories yet. Write your first one!</div>
+  </div>
+
+  <!-- PUBLISH -->
+  <div class="pane" id="p-publish">
+    <div class="pane-title">Publish to <em>Your Site</em></div>
+    <div class="pane-sub">One click sends all your stories live to inspirewithdrnick.com/stories.html</div>
+    <div class="ok" id="pubOk"></div>
+    <div class="err" id="pubErr"></div>
+    <div class="pub-box">
+      <h3>🚀 Ready to Go Live?</h3>
+      <p>Click below to instantly publish all your stories. Your site updates within 60 seconds.</p>
+      <button class="pub-btn" id="pubBtn" onclick="publishToGH()">Publish to inspirewithdrnick.com →</button>
+    </div>
+    <div style="background:#fff;border:1px solid var(--border);border-radius:6px;padding:1.5rem;margin-bottom:1rem">
+      <div class="btn-row">
+        <button class="btn btn-outline btn-sm" onclick="goTab('settings')">⚙️ GitHub Settings</button>
+        <button class="btn btn-outline btn-sm" onclick="copyJSON()">📋 Copy stories.json</button>
+        <span id="cpOk" style="font-size:0.78rem;color:#2d8a4e;display:none">✓ Copied!</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SETTINGS -->
+  <div class="pane" id="p-settings">
+    <div class="pane-title">GitHub <em>Settings</em></div>
+    <div class="pane-sub">Enter once — then publishing is one click forever.</div>
+    <div class="ok" id="ghOk"></div>
+    <div class="settings-box">
+      <div class="notice">🔒 Your token is stored only in your browser.</div>
+      <div class="fg"><label>GitHub Username</label><input type="text" id="ghUser" placeholder="e.g. nickpalischphd"></div>
+      <div class="fg"><label>Repository Name</label><input type="text" id="ghRepo" placeholder="e.g. inspirewithdrnick"></div>
+      <div class="fg"><label>Personal Access Token</label>
+        <input type="password" id="ghTok" placeholder="ghp_••••••••••••••••">
+        <p class="hint">Paste your GitHub token — starts with ghp_</p>
+      </div>
+      <div class="btn-row">
+        <button class="btn" onclick="saveGH()" style="padding:0.75rem 1.8rem">Save Settings</button>
+        <button class="btn btn-blue btn-sm" onclick="testGH()">Test Connection</button>
+      </div>
+      <div class="ok" id="ghTestOk" style="margin-top:1rem"></div>
+      <div class="err" id="ghTestErr" style="margin-top:1rem"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const PWD='DrNick2025!', AK='drNickStoriesAdmin', SK='drNickStories2026', GHK='drNickStoriesGH';
+
+function doLogin(){
+  if(document.getElementById('pwd').value===PWD){
+    sessionStorage.setItem(AK,'1');
+    document.getElementById('login').style.display='none';
+    document.getElementById('app').style.display='block';
+    boot();
+  }else{document.getElementById('loginErr').style.display='block';document.getElementById('pwd').value='';}
+}
+document.getElementById('pwd').addEventListener('keypress',e=>{if(e.key==='Enter')doLogin();});
+function doLogout(){sessionStorage.removeItem(AK);location.reload();}
+
+const TABS=['dash','write','posts','publish','settings'];
+function goTab(name){
+  TABS.forEach(n=>{document.getElementById('p-'+n).style.display='none';document.getElementById('t-'+n).classList.remove('active');});
+  document.getElementById('p-'+name).style.display='block';
+  document.getElementById('t-'+name).classList.add('active');
+  if(name==='posts')renderList();
+  if(name==='dash')updateStats();
+}
+
+function getStories(){try{return JSON.parse(localStorage.getItem(SK))||[];}catch(e){return[];}}
+function setStories(s){localStorage.setItem(SK,JSON.stringify(s));}
+
+function boot(){setDate();updateStats();renderList();loadGH();}
+
+function setDate(){
+  document.getElementById('fDate').value=new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
+}
+
+function saveStory(){
+  const title=document.getElementById('fTitle').value.trim();
+  const body=document.getElementById('fBody').value.trim();
+  if(!title){flash('wErr','Please add a title.');return;}
+  if(!body){flash('wErr','Please write the story.');return;}
+  const stories=getStories();
+  const eid=document.getElementById('editId').value;
+  const id=eid||(title.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')+'-'+Date.now());
+  const story={
+    id, title,
+    category:document.getElementById('fCat').value,
+    excerpt:document.getElementById('fExcerpt').value.trim()||title,
+    date:document.getElementById('fDate').value.trim(),
+    author:document.getElementById('fAuthor').value.trim()||'Dr. Nick',
+    published:document.getElementById('pubNow').checked,
+    content:body
+  };
+  if(eid){const i=stories.findIndex(s=>s.id===eid);if(i>-1)stories[i]=story;else stories.unshift(story);}
+  else stories.unshift(story);
+  setStories(stories);updateStats();renderList();
+  flash('wOk',story.published?`✓ "${title}" published!`:`✓ "${title}" saved as draft.`);
+  document.getElementById('wErr').style.display='none';
+  if(!eid)clearForm();
+  document.getElementById('editId').value='';
+  document.getElementById('writeHead').innerHTML='Write a New <em>Story</em>';
+  document.getElementById('saveLbl').textContent='Publish Story →';
+}
+
+function editStory(id){
+  const s=getStories().find(x=>x.id===id);if(!s)return;
+  document.getElementById('editId').value=id;
+  document.getElementById('fTitle').value=s.title;
+  document.getElementById('fCat').value=s.category;
+  document.getElementById('fExcerpt').value=s.excerpt||'';
+  document.getElementById('fDate').value=s.date||'';
+  document.getElementById('fAuthor').value=s.author||'Dr. Nick';
+  document.getElementById('fBody').value=s.content||'';
+  document.getElementById('pubNow').checked=s.published!==false;
+  document.getElementById('writeHead').innerHTML='Edit <em>Story</em>';
+  document.getElementById('saveLbl').textContent='Update Story →';
+  goTab('write');window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function deleteStory(id){
+  const s=getStories().find(x=>x.id===id);
+  if(!s||!confirm(`Delete "${s.title}"? This cannot be undone.`))return;
+  setStories(getStories().filter(x=>x.id!==id));
+  updateStats();renderList();flash('pOk',`✓ "${s.title}" deleted.`);
+}
+
+function renderList(){
+  const stories=getStories();
+  document.getElementById('badge').textContent=stories.length;
+  const list=document.getElementById('storyList');
+  const none=document.getElementById('noStories');
+  if(stories.length===0){list.innerHTML='';none.style.display='block';return;}
+  none.style.display='none';
+  list.innerHTML=stories.map(s=>`
+    <div class="pi">
+      <div class="pi-icon">📖</div>
+      <div class="pi-info">
+        <div class="pi-title">${esc(s.title)}${s.published===false?'<span class="draft">Draft</span>':''}</div>
+        <div class="pi-meta"><span>${esc(s.category)}</span>${esc(s.date||'')} · ${esc(s.author||'Dr. Nick')}</div>
+      </div>
+      <div class="pi-actions">
+        <button class="btn btn-outline btn-sm" onclick="editStory('${s.id}')">Edit</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteStory('${s.id}')">Delete</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function updateStats(){
+  const s=getStories();
+  document.getElementById('s-all').textContent=s.length;
+  document.getElementById('s-pub').textContent=s.filter(x=>x.published!==false).length;
+  document.getElementById('s-draft').textContent=s.filter(x=>x.published===false).length;
+  document.getElementById('badge').textContent=s.length;
+}
+
+function clearForm(){
+  document.getElementById('editId').value='';
+  document.getElementById('fTitle').value='';
+  document.getElementById('fExcerpt').value='';
+  document.getElementById('fAuthor').value='';
+  document.getElementById('fBody').value='';
+  document.getElementById('pubNow').checked=true;
+  document.getElementById('wOk').style.display='none';
+  document.getElementById('wErr').style.display='none';
+  setDate();
+}
+
+function copyJSON(){
+  const stories=getStories().filter(s=>s.published!==false);
+  navigator.clipboard.writeText(JSON.stringify(stories,null,2)).then(()=>{
+    const ok=document.getElementById('cpOk');ok.style.display='inline';
+    setTimeout(()=>ok.style.display='none',3000);
+  });
+}
+
+const GH_REPO='inspirewithdrnick';
+function loadGH(){
+  const s=JSON.parse(localStorage.getItem(GHK)||'{}');
+  if(s.user)document.getElementById('ghUser').value=s.user;
+  if(s.repo)document.getElementById('ghRepo').value=s.repo||GH_REPO;
+  if(s.tok)document.getElementById('ghTok').value=s.tok;
+}
+function saveGH(){
+  const user=document.getElementById('ghUser').value.trim();
+  const repo=document.getElementById('ghRepo').value.trim();
+  const tok=document.getElementById('ghTok').value.trim();
+  if(!user||!repo||!tok){alert('Please fill in all three fields.');return;}
+  localStorage.setItem(GHK,JSON.stringify({user,repo,tok}));
+  flash('ghOk','✓ Settings saved!');
+}
+async function testGH(){
+  const s=JSON.parse(localStorage.getItem(GHK)||'{}');
+  if(!s.tok){flash('ghTestErr','Please save your settings first.');return;}
+  try{
+    const r=await fetch(`https://api.github.com/repos/${s.user}/${s.repo}`,{headers:{'Authorization':`Bearer ${s.tok}`,'Accept':'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28'}});
+    if(r.ok){document.getElementById('ghTestOk').textContent='✓ Connected!';document.getElementById('ghTestOk').style.display='block';document.getElementById('ghTestErr').style.display='none';}
+    else throw new Error();
+  }catch(e){document.getElementById('ghTestErr').textContent='✗ Could not connect. Check your settings.';document.getElementById('ghTestErr').style.display='block';document.getElementById('ghTestOk').style.display='none';}
+}
+async function publishToGH(){
+  const s=JSON.parse(localStorage.getItem(GHK)||'{}');
+  if(!s.tok||!s.user||!s.repo){alert('Please set up GitHub Settings first!');goTab('settings');return;}
+  const stories=getStories().filter(x=>x.published!==false);
+  const btn=document.getElementById('pubBtn');
+  btn.textContent='⏳ Publishing...';btn.disabled=true;
+  try{
+    const content=btoa(unescape(encodeURIComponent(JSON.stringify(stories,null,2))));
+    const getR=await fetch(`https://api.github.com/repos/${s.user}/${s.repo}/contents/stories.json`,{headers:{'Authorization':`Bearer ${s.tok}`,'Accept':'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28'}});
+    let sha=null;if(getR.ok){const d=await getR.json();sha=d.sha;}
+    const putR=await fetch(`https://api.github.com/repos/${s.user}/${s.repo}/contents/stories.json`,{
+      method:'PUT',
+      headers:{'Authorization':`Bearer ${s.tok}`,'Accept':'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28','Content-Type':'application/json'},
+      body:JSON.stringify({message:`Stories update: ${new Date().toLocaleDateString()}`,content,...(sha?{sha}:{})})
+    });
+    if(putR.ok){btn.textContent='✅ Published!';flash('pubOk','🎉 Stories are live! Visit inspirewithdrnick.com/stories.html in ~60 seconds.');setTimeout(()=>{btn.textContent='Publish to inspirewithdrnick.com →';btn.disabled=false;},4000);}
+    else throw new Error();
+  }catch(e){btn.textContent='❌ Failed';btn.disabled=false;flash('pubErr','Publishing failed. Check GitHub Settings.');setTimeout(()=>{btn.textContent='Publish to inspirewithdrnick.com →';},4000);}
+}
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function flash(id,msg){const el=document.getElementById(id);if(!el)return;el.textContent=msg;el.style.display='block';setTimeout(()=>el.style.display='none',5000);}
+if(sessionStorage.getItem(AK)==='1'){document.getElementById('login').style.display='none';document.getElementById('app').style.display='block';boot();}
+</script>
+</body>
+</html>

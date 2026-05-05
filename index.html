@@ -796,7 +796,7 @@
     <li><a href="stories.html">Stories</a></li>
     <li><a href="ministry.html">Ministry</a></li>
     <li><a href="corgis.html">Mogwai &amp; Friends</a></li>
-    <li><a href="index.html#share" class="nav-cta">Contact Dr. Nick</a></li>
+    <li><a href="index.html#contact" class="nav-cta">Contact Dr. Nick</a></li>
   </ul>
   <div class="hamburger" onclick="toggleMobileMenu()">
     <span></span><span></span><span></span>
@@ -1018,32 +1018,33 @@
     <h2 class="section-title">What's Your <em>Story?</em></h2>
     <p class="section-body">I want to hear your story — not just the polished version. The real one. Shaped by life, faith, struggle, joy, loss, healing, growth, and purpose.</p>
     <div class="share-form fade-up">
-      <div id="storySuccess" class="success-msg">✓ Thank you! Your story has been received. Dr. Nick will be in touch.</div>
+      <div id="storySuccess" class="success-msg" style="display:none">✓ Thank you! Your story has been received. Dr. Nick will be in touch soon.</div>
+      <div id="storyError" style="display:none;background:rgba(192,57,43,0.1);border:1px solid rgba(192,57,43,0.3);color:#c0392b;padding:0.8rem 1.2rem;border-radius:4px;font-size:0.85rem;margin-bottom:1rem">Something went wrong. Please try again or email Dr. Nick directly at nickpalischphd@gmail.com</div>
       <div class="form-group">
-        <label>Your Name</label>
+        <label>Your Name *</label>
         <input type="text" id="storyName" placeholder="First and last name">
       </div>
       <div class="form-group">
-        <label>Email Address</label>
+        <label>Email Address *</label>
         <input type="email" id="storyEmail" placeholder="your@email.com">
       </div>
       <div class="form-group">
-        <label>What's your story about?</label>
+        <label>What's your story about? *</label>
         <select id="storyCategory">
-          <option value="">Select a category...</option>
-          <option>A life-changing event</option>
-          <option>Personal loss & healing</option>
-          <option>Faith journey</option>
-          <option>Second chance</option>
-          <option>Career or calling</option>
-          <option>Family history</option>
-          <option>A hobby or passion</option>
-          <option>Something else entirely</option>
+          <option value="">Select a topic...</option>
+          <option>A Life-Changing Event</option>
+          <option>Personal Loss &amp; Healing</option>
+          <option>A Faith Journey</option>
+          <option>A Second Chance</option>
+          <option>Career &amp; Calling</option>
+          <option>Family &amp; Roots</option>
+          <option>A Passion or Hobby</option>
+          <option>Something Else Entirely</option>
         </select>
       </div>
       <div class="form-group">
-        <label>Tell Dr. Nick your story</label>
-        <textarea id="storyText" placeholder="Share as much or as little as you'd like. There's no wrong answer here."></textarea>
+        <label>Tell Dr. Nick your story *</label>
+        <textarea id="storyText" placeholder="Share as much or as little as you'd like. There's no wrong answer here." style="min-height:160px"></textarea>
       </div>
       <div class="form-group">
         <label>Are you interested in...</label>
@@ -1055,7 +1056,7 @@
           <option>All of the above</option>
         </select>
       </div>
-      <button class="btn-primary" style="width:100%;padding:1rem" onclick="submitStory()">Share Your Story with Dr. Nick →</button>
+      <button class="btn-primary" style="width:100%;padding:1rem" onclick="submitStory()" id="storyBtn">Share Your Story with Dr. Nick →</button>
     </div>
   </div>
 </section>
@@ -1102,6 +1103,65 @@
     <a href="#blog" class="btn-primary">Read the Blog</a>
     <div class="closing-sig">— Dr. Nick</div>
     <p style="font-family:'Lato',sans-serif;font-size:0.82rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-top:2rem">Remember, be kind to yourself and to others.</p>
+  </div>
+</section>
+
+<!-- CONTACT DR. NICK -->
+<section style="background:var(--sand-pale);padding:5rem 2rem" id="contact">
+  <div class="container">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start;max-width:1000px;margin:0 auto">
+      <div>
+        <p class="section-label">Get In Touch</p>
+        <h2 class="section-title">Contact <em>Dr. Nick</em></h2>
+        <p class="section-body">Whether you have a question, want to invite Dr. Nick to speak, or are interested in ministry services — reach out. Every message is read personally.</p>
+        <div style="margin-top:2rem;display:flex;flex-direction:column;gap:1rem">
+          <div style="background:#fff;border-radius:4px;padding:1.2rem 1.5rem;border-left:3px solid var(--gold);box-shadow:var(--shadow)">
+            <p style="font-family:'Lato',sans-serif;font-size:0.68rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:0.3rem">Email</p>
+            <a href="mailto:nickpalischphd@gmail.com" style="font-size:0.9rem;color:var(--blue);text-decoration:none">nickpalischphd@gmail.com</a>
+          </div>
+          <div style="background:#fff;border-radius:4px;padding:1.2rem 1.5rem;border-left:3px solid var(--sage-mid);box-shadow:var(--shadow)">
+            <p style="font-family:'Lato',sans-serif;font-size:0.68rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--sage-mid);margin-bottom:0.3rem">Ministry Services</p>
+            <p style="font-size:0.85rem;color:var(--text-mid);line-height:1.7">💍 Weddings · ✝️ Funerals · 🕊️ Baptisms<br><a href="ministry.html" style="color:var(--gold);text-decoration:none">View Ministry Page →</a></p>
+          </div>
+          <div style="background:#fff;border-radius:4px;padding:1.2rem 1.5rem;border-left:3px solid var(--blue);box-shadow:var(--shadow)">
+            <p style="font-family:'Lato',sans-serif;font-size:0.68rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--blue);margin-bottom:0.3rem">Speaking</p>
+            <p style="font-size:0.85rem;color:var(--text-mid);line-height:1.7">Dr. Nick is available for speaking engagements, events, and community gatherings.</p>
+          </div>
+        </div>
+      </div>
+      <div style="background:#fff;border-radius:6px;padding:2rem;box-shadow:var(--shadow)">
+        <h3 style="font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--navy);margin-bottom:1.2rem">Send Dr. Nick a Message</h3>
+        <div id="contactSuccess" style="display:none;background:rgba(61,94,68,0.1);border:1px solid rgba(61,94,68,0.3);color:var(--sage-dark);padding:0.8rem 1.2rem;border-radius:4px;font-size:0.85rem;font-weight:600;margin-bottom:1rem">✓ Message sent! Dr. Nick will be in touch soon.</div>
+        <div class="form-group">
+          <label>Your Name *</label>
+          <input type="text" id="contactName" placeholder="First and last name">
+        </div>
+        <div class="form-group">
+          <label>Email Address *</label>
+          <input type="email" id="contactEmail" placeholder="your@email.com">
+        </div>
+        <div class="form-group">
+          <label>What can Dr. Nick help with?</label>
+          <select id="contactSubject">
+            <option value="">Select...</option>
+            <option>General Message</option>
+            <option>Speaking Engagement Request</option>
+            <option>Wedding Officiant Inquiry</option>
+            <option>Funeral / Memorial Service</option>
+            <option>Baptism Inquiry</option>
+            <option>Blog / Story Question</option>
+            <option>Book / Mogwai's Adventure</option>
+            <option>Weather / First Warn WX</option>
+            <option>Something Else</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Your Message *</label>
+          <textarea id="contactMessage" placeholder="What's on your mind?" style="min-height:120px;resize:vertical"></textarea>
+        </div>
+        <button class="btn-primary" style="width:100%;padding:1rem" onclick="submitContact()" id="contactBtn">Send Message →</button>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -1262,18 +1322,103 @@ document.getElementById('postModal').addEventListener('click', function(e) {
 });
 
 // ── FORMS ──
-function submitStory() {
+// ── FORMSPREE ENDPOINT ──
+const FORMSPREE = 'https://formspree.io/f/xjglwdbw';
+
+async function submitStory() {
   const name = document.getElementById('storyName').value.trim();
   const email = document.getElementById('storyEmail').value.trim();
   const text = document.getElementById('storyText').value.trim();
-  if (!name || !email || !text) { alert('Please fill in your name, email, and story.'); return; }
-  document.getElementById('storySuccess').style.display = 'block';
-  document.getElementById('storyName').value = '';
-  document.getElementById('storyEmail').value = '';
-  document.getElementById('storyText').value = '';
-  document.getElementById('storyCategory').value = '';
-  document.getElementById('storyInterest').value = '';
-  setTimeout(() => document.getElementById('storySuccess').style.display = 'none', 6000);
+  const category = document.getElementById('storyCategory').value;
+  const interest = document.getElementById('storyInterest').value;
+  if (!name || !email || !text || !category) {
+    alert('Please fill in your name, email, story topic, and story.');
+    return;
+  }
+  const btn = document.getElementById('storyBtn');
+  btn.textContent = 'Sending...';
+  btn.disabled = true;
+  try {
+    const res = await fetch(FORMSPREE, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({
+        _subject: 'New Story Submission — Inspire with Dr. Nick',
+        Name: name,
+        Email: email,
+        'Story Topic': category,
+        'Interested In': interest || 'Not specified',
+        Story: text
+      })
+    });
+    if (res.ok) {
+      document.getElementById('storySuccess').style.display = 'block';
+      document.getElementById('storyError').style.display = 'none';
+      document.getElementById('storyName').value = '';
+      document.getElementById('storyEmail').value = '';
+      document.getElementById('storyText').value = '';
+      document.getElementById('storyCategory').value = '';
+      document.getElementById('storyInterest').value = '';
+      btn.textContent = '✓ Sent!';
+      setTimeout(() => {
+        document.getElementById('storySuccess').style.display = 'none';
+        btn.textContent = 'Share Your Story with Dr. Nick →';
+        btn.disabled = false;
+      }, 6000);
+    } else {
+      throw new Error('Failed');
+    }
+  } catch(e) {
+    document.getElementById('storyError').style.display = 'block';
+    btn.textContent = 'Share Your Story with Dr. Nick →';
+    btn.disabled = false;
+  }
+}
+
+async function submitContact() {
+  const name = document.getElementById('contactName').value.trim();
+  const email = document.getElementById('contactEmail').value.trim();
+  const subject = document.getElementById('contactSubject').value;
+  const message = document.getElementById('contactMessage').value.trim();
+  if (!name || !email || !message) {
+    alert('Please fill in your name, email, and message.');
+    return;
+  }
+  const btn = document.getElementById('contactBtn');
+  btn.textContent = 'Sending...';
+  btn.disabled = true;
+  try {
+    const res = await fetch(FORMSPREE, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({
+        _subject: 'Contact Form — Inspire with Dr. Nick',
+        Name: name,
+        Email: email,
+        'Subject': subject || 'General Contact',
+        Message: message
+      })
+    });
+    if (res.ok) {
+      document.getElementById('contactSuccess').style.display = 'block';
+      document.getElementById('contactName').value = '';
+      document.getElementById('contactEmail').value = '';
+      document.getElementById('contactSubject').value = '';
+      document.getElementById('contactMessage').value = '';
+      btn.textContent = '✓ Sent!';
+      setTimeout(() => {
+        document.getElementById('contactSuccess').style.display = 'none';
+        btn.textContent = 'Send Message →';
+        btn.disabled = false;
+      }, 6000);
+    } else {
+      throw new Error('Failed');
+    }
+  } catch(e) {
+    alert('Something went wrong. Please email Dr. Nick directly at nickpalischphd@gmail.com');
+    btn.textContent = 'Send Message →';
+    btn.disabled = false;
+  }
 }
 
 function subscribeNewsletter() {

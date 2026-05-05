@@ -203,6 +203,35 @@
 
 <div class="sand-stripe"></div>
 
+<!-- FEATURED STORIES -->
+<section style="background:var(--warm-white);padding:5rem 2rem" id="featured-stories">
+  <div class="container">
+    <p class="sec-label">From Dr. Nick</p>
+    <h2 class="sec-title">Featured <em>Stories</em></h2>
+    <p class="sec-body" style="margin-bottom:2.5rem">Stories written and shared by Dr. Nick — real reflections on real life.</p>
+
+    <!-- NO STORIES STATE -->
+    <div id="noStories" style="text-align:center;padding:4rem 2rem;background:#fff;border-radius:8px;box-shadow:var(--shadow)">
+      <div style="font-size:3rem;margin-bottom:1rem">📖</div>
+      <p style="font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;color:var(--navy);margin-bottom:0.5rem">Stories Coming Soon</p>
+      <p style="font-size:0.95rem;color:var(--text-light);font-style:italic">Check back soon for stories from Dr. Nick.</p>
+    </div>
+
+    <!-- STORIES GRID -->
+    <div id="storiesGrid" style="display:none;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:2rem"></div>
+
+    <!-- STORY MODAL -->
+    <div id="storyModal" style="display:none;position:fixed;inset:0;background:rgba(22,40,64,0.85);z-index:500;overflow-y:auto;padding:2rem" onclick="if(event.target===this)closeStory()">
+      <div style="background:#fff;border-radius:8px;max-width:720px;margin:2rem auto;padding:3rem;position:relative">
+        <button onclick="closeStory()" style="position:absolute;top:1rem;right:1rem;background:none;border:none;font-size:1.5rem;cursor:pointer;color:var(--text-light)">✕</button>
+        <div id="modalContent"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="sand-stripe"></div>
+
 <!-- STORY CATEGORIES -->
 <section class="categories">
   <div class="container">
@@ -361,21 +390,101 @@
 </footer>
 
 <script>
-function submitStory() {
+const FORMSPREE = 'https://formspree.io/f/xjglwdbw';
+
+// ── LOAD STORIES ──
+async function loadStories() {
+  let stories = [];
+  try {
+    const res = await fetch('/stories.json?v=' + Date.now());
+    if (res.ok) stories = await res.json();
+  } catch(e) {}
+
+  const grid = document.getElementById('storiesGrid');
+  const none = document.getElementById('noStories');
+
+  if (!stories || stories.length === 0) {
+    none.style.display = 'block';
+    grid.style.display = 'none';
+    return;
+  }
+
+  none.style.display = 'none';
+  grid.style.display = 'grid';
+
+  grid.innerHTML = stories.map(s => `
+    <div onclick="openStory('${s.id}')" style="background:#fff;border-radius:8px;box-shadow:var(--shadow);cursor:pointer;transition:transform 0.2s,box-shadow 0.2s;overflow:hidden" onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 12px 40px rgba(22,40,64,0.18)'" onmouseout="this.style.transform='none';this.style.boxShadow='var(--shadow)'">
+      <div style="background:linear-gradient(135deg,var(--navy),var(--blue));padding:2rem;text-align:center">
+        <span style="font-size:2.5rem">📖</span>
+      </div>
+      <div style="padding:1.5rem">
+        <div style="font-family:'Lato',sans-serif;font-size:0.65rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:0.5rem">${esc(s.category)} · ${esc(s.date||'')}</div>
+        <h3 style="font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--navy);margin-bottom:0.6rem;line-height:1.3">${esc(s.title)}</h3>
+        <p style="font-size:0.88rem;color:var(--text-light);line-height:1.7;margin-bottom:1rem">${esc(s.excerpt||'')}</p>
+        <div style="font-family:'Lato',sans-serif;font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold)">Read Story →</div>
+      </div>
+    </div>
+  `).join('');
+
+  window._stories = stories;
+}
+
+function openStory(id) {
+  const story = (window._stories||[]).find(s => s.id === id);
+  if (!story) return;
+  const paragraphs = (story.content||'').split(/\n\n+/).map(p =>
+    `<p style="font-size:1rem;line-height:1.9;color:var(--text-mid);font-weight:300;margin-bottom:1.2rem">${p.trim()}</p>`
+  ).join('');
+  document.getElementById('modalContent').innerHTML = `
+    <div style="font-family:'Lato',sans-serif;font-size:0.68rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);margin-bottom:0.8rem">${esc(story.category)} · ${esc(story.date||'')}</div>
+    <h2 style="font-family:'Playfair Display',serif;font-size:clamp(1.5rem,3vw,2.2rem);font-weight:700;color:var(--navy);line-height:1.2;margin-bottom:0.5rem">${esc(story.title)}</h2>
+    <p style="font-size:0.85rem;color:var(--text-light);margin-bottom:2rem;font-family:'Lato',sans-serif">By ${esc(story.author||'Dr. Nick')}</p>
+    <div style="border-top:1px solid var(--border);padding-top:1.5rem">${paragraphs}</div>
+  `;
+  document.getElementById('storyModal').style.display = 'block';
+  document.body.style.overflow = 'hidden';
+}
+
+function closeStory() {
+  document.getElementById('storyModal').style.display = 'none';
+  document.body.style.overflow = '';
+}
+
+// ── SUBMIT STORY FORM ──
+async function submitStory() {
   const name = document.getElementById('storyName').value.trim();
   const email = document.getElementById('storyEmail').value.trim();
   const text = document.getElementById('storyText').value.trim();
+  const category = document.getElementById('storyCategory').value;
+  const interest = document.getElementById('storyInterest').value;
+  const permission = document.getElementById('storyPermission').value;
   if (!name || !email || !text) { alert('Please fill in your name, email, and story.'); return; }
-  document.getElementById('storySuccess').style.display = 'block';
-  document.getElementById('storyName').value = '';
-  document.getElementById('storyEmail').value = '';
-  document.getElementById('storyText').value = '';
-  document.getElementById('storyCategory').value = '';
-  document.getElementById('storyInterest').value = '';
-  document.getElementById('storyPermission').value = '';
-  window.scrollTo({top: document.getElementById('share-form').offsetTop - 80, behavior: 'smooth'});
-  setTimeout(() => document.getElementById('storySuccess').style.display = 'none', 8000);
+  try {
+    const res = await fetch(FORMSPREE, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({
+        _subject: 'Story Submission — Inspire with Dr. Nick',
+        Name: name, Email: email,
+        'Story Category': category || 'Not specified',
+        'Interested In': interest || 'Not specified',
+        'Permission to Share': permission || 'Not specified',
+        Story: text
+      })
+    });
+    if (res.ok) {
+      document.getElementById('storySuccess').style.display = 'block';
+      ['storyName','storyEmail','storyText'].forEach(id => document.getElementById(id).value = '');
+      ['storyCategory','storyInterest','storyPermission'].forEach(id => document.getElementById(id).value = '');
+      window.scrollTo({top: document.getElementById('share-form').offsetTop - 80, behavior: 'smooth'});
+      setTimeout(() => document.getElementById('storySuccess').style.display = 'none', 8000);
+    } else throw new Error();
+  } catch(e) {
+    alert('Something went wrong. Please email Dr. Nick at nickpalischphd@gmail.com');
+  }
 }
+
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 
 function observeFadeUps() {
   const observer = new IntersectionObserver((entries) => {
@@ -385,6 +494,7 @@ function observeFadeUps() {
 }
 
 document.getElementById('footerYear').textContent = new Date().getFullYear();
+loadStories();
 observeFadeUps();
 window.addEventListener('scroll', observeFadeUps, { passive: true });
 </script>
