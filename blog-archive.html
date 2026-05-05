@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>All Reflections — Inspire with Dr. Nick</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Source+Serif+4:opsz,wght@8..60,300;8..60,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#162840;--blue:#1e4a72;--gold:#b8822a;--gold-light:#d4a044;
+  --sage-dark:#3d5e44;--sage-mid:#5e8066;
+  --sand-light:#e8ddc8;--parchment:#ede6d5;
+  --cream:#f4f1ec;--warm-white:#f9f7f2;
+  --text-dark:#1a1e24;--text-mid:#364050;--text-light:#6a7585;
+  --border:#d8d0be;--shadow:0 4px 24px rgba(22,40,64,0.12);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Lato',sans-serif;background:var(--cream);color:var(--text-dark)}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(22,40,64,0.97);backdrop-filter:blur(12px);border-bottom:1px solid rgba(200,151,42,0.25);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:68px}
+.nav-brand{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--gold-light);font-style:italic;text-decoration:none}
+.nav-links{display:flex;gap:2rem;list-style:none}
+.nav-links a{font-family:'Lato',sans-serif;font-size:0.82rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.78);text-decoration:none;transition:color 0.2s}
+.nav-links a:hover,.nav-links a.active{color:var(--gold-light)}
+
+.hero{background:linear-gradient(160deg,var(--navy),var(--blue),var(--navy));padding:7rem 2rem 4rem;text-align:center;position:relative;overflow:hidden}
+.hero-inner{position:relative;z-index:1;max-width:700px;margin:0 auto}
+.eyebrow{font-family:'Lato',sans-serif;font-size:0.7rem;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem;display:flex;align-items:center;justify-content:center;gap:0.8rem}
+.eyebrow::before,.eyebrow::after{content:'';display:block;width:32px;height:1px;background:var(--gold)}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(2rem,5vw,3.2rem);font-weight:700;color:#fff;margin-bottom:1rem;line-height:1.2}
+.hero h1 em{font-style:italic;color:var(--gold-light)}
+.hero p{font-size:0.95rem;color:rgba(255,255,255,0.65);line-height:1.8;max-width:540px;margin:0 auto}
+
+.stripe{height:5px;background:linear-gradient(90deg,var(--sage-mid),var(--sand-light),var(--gold-light),var(--sand-light),var(--sage-mid))}
+
+.filter-bar{background:var(--warm-white);border-bottom:1px solid var(--border);padding:1rem 2rem;position:sticky;top:68px;z-index:50}
+.filter-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:0.6rem;flex-wrap:wrap}
+.filter-label{font-family:'Lato',sans-serif;font-size:0.65rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--text-light);flex-shrink:0}
+.fbtn{font-family:'Lato',sans-serif;font-size:0.68rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;padding:0.38rem 0.9rem;border-radius:20px;border:1.5px solid var(--border);background:transparent;color:var(--text-light);cursor:pointer;transition:all 0.2s}
+.fbtn:hover{border-color:var(--gold);color:var(--gold)}
+.fbtn.on{background:var(--navy);color:var(--gold-light);border-color:var(--navy)}
+.search-wrap{margin-left:auto;position:relative}
+.search-wrap input{padding:0.42rem 1rem 0.42rem 2rem;border:1.5px solid var(--border);border-radius:20px;font-family:'Lato',sans-serif;font-size:0.82rem;color:var(--text-dark);background:#fff;outline:none;width:200px;transition:border-color 0.2s}
+.search-wrap input:focus{border-color:var(--gold)}
+.search-wrap::before{content:'🔍';position:absolute;left:0.65rem;top:50%;transform:translateY(-50%);font-size:0.72rem}
+
+.container{max-width:1100px;margin:0 auto}
+.archive{padding:3rem 2rem}
+.post-count{font-family:'Lato',sans-serif;font-size:0.78rem;color:var(--text-light);margin-bottom:1.5rem}
+.post-count strong{color:var(--navy);font-weight:700}
+
+.blog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem}
+.blog-card{background:#fff;border-radius:8px;box-shadow:var(--shadow);cursor:pointer;transition:transform 0.2s,box-shadow 0.2s;overflow:hidden;display:flex;flex-direction:column}
+.blog-card:hover{transform:translateY(-4px);box-shadow:0 8px 40px rgba(22,40,64,0.15)}
+.blog-card-img{height:200px;display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0}
+.blog-card-img svg{width:100%;height:100%;display:block}
+.blog-card-body{padding:1.5rem;flex:1;display:flex;flex-direction:column}
+.blog-meta{font-family:'Lato',sans-serif;font-size:0.65rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:0.5rem}
+.blog-card h3{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;line-height:1.35;color:var(--navy);margin-bottom:0.5rem}
+.blog-card p{font-size:0.85rem;line-height:1.7;color:var(--text-light);font-weight:300;flex:1}
+.blog-card-footer{padding:0.9rem 1.5rem;border-top:1px solid var(--border);font-family:'Lato',sans-serif;font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold)}
+
+#postModal{display:none;position:fixed;inset:0;background:rgba(22,40,64,0.85);z-index:500;overflow-y:auto;padding:2rem}
+#postModal.open{display:block}
+.modal-inner{background:var(--warm-white);border-radius:8px;max-width:760px;margin:2rem auto;padding:3rem;position:relative}
+.modal-close{position:absolute;top:1.2rem;right:1.5rem;background:none;border:none;font-size:1.5rem;cursor:pointer;color:var(--text-light)}
+#modalMeta{font-family:'Lato',sans-serif;font-size:0.68rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);margin-bottom:0.8rem}
+#modalTitle{font-family:'Playfair Display',serif;font-size:clamp(1.5rem,3vw,2.2rem);font-weight:700;color:var(--navy);line-height:1.2;margin-bottom:2rem}
+#modalBody p{font-family:'Source Serif 4',serif;font-size:1.05rem;line-height:1.9;color:var(--text-mid);font-weight:300;margin-bottom:1.4rem}
+
+.fade-up{opacity:0;transform:translateY(20px);transition:opacity 0.6s,transform 0.6s}
+.fade-up.visible{opacity:1;transform:none}
+
+footer{background:linear-gradient(90deg,#0a131e,#0e1a14,#0a131e);padding:2rem;text-align:center;font-family:'Lato',sans-serif;font-size:0.75rem;color:rgba(255,255,255,0.3)}
+footer a{color:var(--gold-light);text-decoration:none}
+
+@media(max-width:900px){.blog-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:640px){.blog-grid{grid-template-columns:1fr}.nav-links{display:none}.search-wrap{margin-left:0;width:100%}.search-wrap input{width:100%}}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-brand">Inspire with Dr. Nick</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="index.html#blog">Latest Posts</a></li>
+    <li><a href="blog-archive.html" class="active">All Reflections</a></li>
+    <li><a href="stories.html">Stories</a></li>
+    <li><a href="ministry.html">Ministry</a></li>
+    <li><a href="corgis.html">Mogwai &amp; Friends</a></li>
+  </ul>
+</nav>
+
+<div class="hero">
+  <div class="hero-inner">
+    <p class="eyebrow">Every Reflection Matters</p>
+    <h1>All <em>Reflections</em></h1>
+    <p>Every post Dr. Nick has written — browse by category, search by keyword, or simply scroll and find your next perspective shift.</p>
+  </div>
+</div>
+
+<div class="stripe"></div>
+
+<div class="filter-bar">
+  <div class="filter-inner">
+    <span class="filter-label">Filter:</span>
+    <button class="fbtn on" onclick="filterBy('all',this)">All</button>
+    <button class="fbtn" onclick="filterBy('Matter of Perspective',this)">Matter of Perspective</button>
+    <button class="fbtn" onclick="filterBy('Faith & Encouragement',this)">Faith</button>
+    <button class="fbtn" onclick="filterBy('Everyday Stories',this)">Stories</button>
+    <button class="fbtn" onclick="filterBy('Personal Growth',this)">Personal Growth</button>
+    <button class="fbtn" onclick="filterBy('Grief & Healing',this)">Grief &amp; Healing</button>
+    <button class="fbtn" onclick="filterBy('Weather & Wonder',this)">Weather</button>
+    <div class="search-wrap">
+      <input type="text" id="searchInput" placeholder="Search reflections..." oninput="searchBy(this.value)">
+    </div>
+  </div>
+</div>
+
+<section class="archive">
+  <div class="container">
+    <p class="post-count" id="postCount"></p>
+    <div class="blog-grid" id="archiveGrid">
+      <div style="grid-column:1/-1;text-align:center;padding:4rem;color:var(--text-light)">
+        <div style="font-size:3rem;margin-bottom:1rem">✍️</div>
+        <p>Loading reflections...</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© <span id="yr"></span> Inspire with Dr. Nick · Nicholas G. Palisch · <a href="index.html">← Back to Home</a></p>
+</footer>
+
+<div id="postModal" onclick="if(event.target===this)closeModal()">
+  <div class="modal-inner">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div id="modalImg"></div>
+    <div id="modalMeta"></div>
+    <div id="modalTitle"></div>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
+<script>
+let ALL=[],activeFilter='all',activeSearch='';
+
+async function loadPosts(){
+  try{
+    const r=await fetch('/posts.json?v='+Date.now());
+    if(r.ok)ALL=await r.json();
+  }catch(e){}
+  render();
+}
+
+function render(){
+  const grid=document.getElementById('archiveGrid');
+  const countEl=document.getElementById('postCount');
+  let posts=ALL.filter(p=>p.published!==false);
+  if(activeFilter!=='all')posts=posts.filter(p=>p.category===activeFilter);
+  if(activeSearch.trim()){
+    const q=activeSearch.toLowerCase();
+    posts=posts.filter(p=>(p.title||'').toLowerCase().includes(q)||(p.excerpt||'').toLowerCase().includes(q)||(p.content||'').toLowerCase().includes(q));
+  }
+  countEl.innerHTML=posts.length===0?'':`Showing <strong>${posts.length}</strong> reflection${posts.length!==1?'s':''}`;
+  if(posts.length===0){grid.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:4rem;color:var(--text-light);font-style:italic">No reflections found. Try a different filter or search term.</div>';return;}
+  grid.innerHTML=posts.map((p,i)=>`
+    <div class="blog-card fade-up" onclick="openPost('${p.id}')" style="transition-delay:${Math.min(i,8)*0.06}s">
+      <div class="blog-card-img">${p.image?`<img src="${p.image}" alt="${esc(p.title)}" style="width:100%;height:100%;object-fit:contain;background:#f4f1ec">`:getIllustration(p.category,p.color)}</div>
+      <div class="blog-card-body">
+        <p class="blog-meta">${esc(p.category)} · ${esc(p.date||'')}</p>
+        <h3>${esc(p.title)}</h3>
+        <p>${esc(p.excerpt||'')}</p>
+      </div>
+      <div class="blog-card-footer">Read Reflection →</div>
+    </div>
+  `).join('');
+  observeFadeUps();
+}
+
+function filterBy(cat,btn){
+  activeFilter=cat;activeSearch='';
+  document.getElementById('searchInput').value='';
+  document.querySelectorAll('.fbtn').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');render();
+}
+
+function searchBy(q){
+  activeSearch=q;
+  if(q.trim()){activeFilter='all';document.querySelectorAll('.fbtn').forEach(b=>b.classList.remove('on'));document.querySelector('.fbtn').classList.add('on');}
+  render();
+}
+
+function openPost(id){
+  const post=ALL.find(p=>p.id===id);if(!post)return;
+  document.getElementById('modalMeta').textContent=`${post.category} · ${post.date||''}`;
+  document.getElementById('modalTitle').textContent=post.title;
+  document.getElementById('modalBody').innerHTML=(post.content||'').split(/\n\n+/).map(p=>`<p>${p.trim()}</p>`).join('');
+  document.getElementById('modalImg').innerHTML=post.image?`<img src="${post.image}" alt="${esc(post.title)}" style="width:100%;border-radius:4px;margin-bottom:1.5rem;max-height:320px;object-fit:cover">`:'';
+  document.getElementById('postModal').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+
+function closeModal(){document.getElementById('postModal').classList.remove('open');document.body.style.overflow='';}
+
+function observeFadeUps(){
+  const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});},{threshold:0.08});
+  document.querySelectorAll('.fade-up:not(.visible)').forEach(el=>obs.observe(el));
+}
+
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+function getIllustration(category,color){
+  const c=color||'blue';
+  const s={blue:['#162840','#1e4a72','#b8822a'],gold:['#5e3e0a','#b8822a','#f5f0e6'],sage:['#1a2e1c','#3d5e44','#7a9e82']};
+  const [b1,b2,ac]=s[c]||s.blue;
+  const icons={'Matter of Perspective':'🌅','Faith & Encouragement':'🕊️','Everyday Stories':'📖','Personal Growth':'🌱','Community & Kindness':'❤️','Grief & Healing':'🌿','Weather & Wonder':'⚡','Ministry & Faith':'✝️'};
+  const icon=icons[category]||'✍️';
+  return `<svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="g${c}" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:${b1}"/><stop offset="100%" style="stop-color:${b2}"/></linearGradient></defs><rect width="400" height="200" fill="url(#g${c})"/><text x="200" y="110" font-size="64" text-anchor="middle" dominant-baseline="middle">${icon}</text><rect x="0" y="170" width="400" height="4" fill="${ac}" opacity="0.6"/></svg>`;
+}
+
+document.getElementById('yr').textContent=new Date().getFullYear();
+loadPosts();
+window.addEventListener('scroll',observeFadeUps,{passive:true});
+</script>
+</body>
+</html>
