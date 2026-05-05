@@ -426,10 +426,34 @@
     outline: none; transition: border-color 0.2s;
   }
   .form-group input:focus,
-  .form-group textarea:focus { border-color: var(--gold); }
+  .form-group textarea:focus,
+  .form-group select:focus { border-color: var(--gold); }
   .form-group textarea { min-height: 120px; resize: vertical; }
   .form-group input::placeholder,
-  .form-group textarea::placeholder { color: rgba(255,255,255,0.3); }
+  .form-group textarea::placeholder { color: rgba(255,255,255,0.4); }
+  .form-group select option { background: var(--navy); color: #fff; }
+
+  /* Contact form on light background */
+  .contact-form-group input,
+  .contact-form-group textarea,
+  .contact-form-group select {
+    width: 100%; padding: 0.75rem 1rem;
+    background: #fff; border: 1.5px solid var(--border);
+    border-radius: 4px; color: var(--text-dark);
+    font-family: 'Source Serif 4', serif; font-size: 0.95rem;
+    outline: none; transition: border-color 0.2s;
+  }
+  .contact-form-group input:focus,
+  .contact-form-group textarea:focus,
+  .contact-form-group select:focus { border-color: var(--gold); }
+  .contact-form-group textarea { min-height: 120px; resize: vertical; }
+  .contact-form-group label {
+    font-family: 'Lato', sans-serif; font-size: 0.68rem; font-weight: 700;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--text-mid); display: block; margin-bottom: 0.4rem;
+  }
+  .contact-form-group { margin-bottom: 1.2rem; text-align: left; }
+  .contact-form-group select option { background: #fff; color: var(--text-dark); }
 
   /* ── PERSPECTIVE ── */
   .perspective { background: var(--sage-pale); }
@@ -1130,36 +1154,37 @@
         </div>
       </div>
       <div style="background:#fff;border-radius:6px;padding:2rem;box-shadow:var(--shadow)">
-        <h3 style="font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--navy);margin-bottom:1.2rem">Send Dr. Nick a Message</h3>
+        <h3 style="font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--navy);margin-bottom:0.3rem">Send Dr. Nick a Message</h3>
+        <p style="font-size:0.82rem;color:var(--text-light);margin-bottom:1.5rem">Every message is read personally. Please allow 2-3 days for a response.</p>
         <div id="contactSuccess" style="display:none;background:rgba(61,94,68,0.1);border:1px solid rgba(61,94,68,0.3);color:var(--sage-dark);padding:0.8rem 1.2rem;border-radius:4px;font-size:0.85rem;font-weight:600;margin-bottom:1rem">✓ Message sent! Dr. Nick will be in touch soon.</div>
-        <div class="form-group">
+        <div class="contact-form-group">
           <label>Your Name *</label>
           <input type="text" id="contactName" placeholder="First and last name">
         </div>
-        <div class="form-group">
+        <div class="contact-form-group">
           <label>Email Address *</label>
           <input type="email" id="contactEmail" placeholder="your@email.com">
         </div>
-        <div class="form-group">
+        <div class="contact-form-group">
           <label>What can Dr. Nick help with?</label>
           <select id="contactSubject">
-            <option value="">Select...</option>
+            <option value="">Select a topic...</option>
             <option>General Message</option>
             <option>Speaking Engagement Request</option>
-            <option>Wedding Officiant Inquiry</option>
-            <option>Funeral / Memorial Service</option>
-            <option>Baptism Inquiry</option>
+            <option>💍 Wedding Officiant Inquiry</option>
+            <option>✝️ Funeral / Memorial Service</option>
+            <option>🕊️ Baptism Inquiry</option>
             <option>Blog / Story Question</option>
-            <option>Book / Mogwai's Adventure</option>
-            <option>Weather / First Warn WX</option>
+            <option>📚 Book — Mogwai's Adventure</option>
+            <option>⛅ Weather / First Warn WX</option>
             <option>Something Else</option>
           </select>
         </div>
-        <div class="form-group">
+        <div class="contact-form-group">
           <label>Your Message *</label>
-          <textarea id="contactMessage" placeholder="What's on your mind?" style="min-height:120px;resize:vertical"></textarea>
+          <textarea id="contactMessage" placeholder="What's on your mind? How can Dr. Nick help?"></textarea>
         </div>
-        <button class="btn-primary" style="width:100%;padding:1rem" onclick="submitContact()" id="contactBtn">Send Message →</button>
+        <button class="btn-primary" style="width:100%;padding:1rem" onclick="submitContact()" id="contactBtn">Send Message to Dr. Nick →</button>
       </div>
     </div>
   </div>
