@@ -108,18 +108,6 @@
     background: radial-gradient(circle, rgba(184,130,42,0.08) 0%, transparent 70%);
     pointer-events: none; z-index: 1;
   }
-  .hero-graphic-banner {
-    width: min(780px, 92%);
-    margin: 2.5rem auto 0;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 12px 48px rgba(0,0,0,0.4);
-    display: block;
-    position: relative; z-index: 2;
-  }
-  .hero-graphic-banner img {
-    width: 100%; display: block; border-radius: 8px;
-  }
   .hero-content {
     position: relative; z-index: 2;
     max-width: 820px; text-align: center;
@@ -433,6 +421,56 @@
   .form-group textarea::placeholder { color: rgba(255,255,255,0.4); }
   .form-group select option { background: var(--navy); color: #fff; }
 
+  /* ── PHOTO UPLOAD ── */
+  .photo-upload-area {
+    border: 2px dashed rgba(212,160,68,0.4);
+    border-radius: 4px;
+    padding: 1.5rem;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+    position: relative;
+  }
+  .photo-upload-area:hover {
+    border-color: var(--gold);
+    background: rgba(212,160,68,0.05);
+  }
+  .photo-upload-area input[type="file"] {
+    position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%;
+  }
+  .photo-upload-icon { font-size: 2rem; margin-bottom: 0.5rem; display: block; }
+  .photo-upload-text {
+    font-family: 'Lato', sans-serif;
+    font-size: 0.78rem; font-weight: 700;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--gold);
+  }
+  .photo-upload-hint {
+    font-size: 0.72rem; color: rgba(255,255,255,0.4);
+    margin-top: 0.3rem; font-family: 'Lato', sans-serif;
+  }
+  .photo-preview {
+    margin-top: 1rem; display: none;
+  }
+  .photo-preview img {
+    width: 100%; max-height: 200px; object-fit: cover;
+    border-radius: 4px; border: 1px solid rgba(212,160,68,0.3);
+  }
+  .photo-preview-info {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-top: 0.5rem;
+    font-family: 'Lato', sans-serif; font-size: 0.7rem;
+    color: rgba(255,255,255,0.5);
+  }
+  .photo-remove-btn {
+    background: none; border: none; cursor: pointer;
+    color: rgba(255,100,100,0.7); font-size: 0.7rem;
+    font-family: 'Lato', sans-serif; font-weight: 700;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    padding: 0; transition: color 0.2s;
+  }
+  .photo-remove-btn:hover { color: #e05050; }
+
   /* Contact form on light background */
   .contact-form-group input,
   .contact-form-group textarea,
@@ -568,6 +606,28 @@
     color: var(--text-mid); font-weight: 300;
   }
   .modal-body p { margin-bottom: 1.2rem; }
+
+  /* ── CUSDIS COMMENTS SECTION ── */
+  .cusdis-wrap {
+    margin-top: 2.5rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border);
+  }
+  .cusdis-label {
+    font-family: 'Lato', sans-serif;
+    font-size: 0.72rem; font-weight: 700;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.2rem;
+    display: flex; align-items: center; gap: 0.6rem;
+  }
+  .cusdis-label::before {
+    content: ''; display: block; width: 20px; height: 1px; background: var(--gold);
+  }
+  /* Style the Cusdis iframe to match the site */
+  #cusdis_thread iframe {
+    border-radius: 4px;
+  }
 
   /* ── ADMIN PANEL ── */
   .admin-toggle {
@@ -1080,6 +1140,25 @@
         <label>Tell Dr. Nick your story *</label>
         <textarea id="storyText" placeholder="Share as much or as little as you'd like. There's no wrong answer here." style="min-height:160px"></textarea>
       </div>
+
+      <!-- ── PHOTO UPLOAD (NEW) ── -->
+      <div class="form-group">
+        <label>Add a Photo <span style="font-weight:400;opacity:0.6;letter-spacing:0;text-transform:none;font-size:0.68rem">(optional — a photo to go with your story)</span></label>
+        <div class="photo-upload-area" id="photoUploadArea">
+          <input type="file" id="storyPhoto" accept="image/*" onchange="handlePhotoSelect(event)">
+          <span class="photo-upload-icon">📷</span>
+          <div class="photo-upload-text">Click to add a photo</div>
+          <div class="photo-upload-hint">JPG, PNG, or GIF · Max 5MB</div>
+        </div>
+        <div class="photo-preview" id="photoPreview">
+          <img id="photoPreviewImg" src="" alt="Story photo preview">
+          <div class="photo-preview-info">
+            <span id="photoFileName" style="font-size:0.7rem;color:rgba(255,255,255,0.5)"></span>
+            <button class="photo-remove-btn" onclick="removePhoto()">✕ Remove</button>
+          </div>
+        </div>
+      </div>
+
       <div class="form-group">
         <label>Are you interested in...</label>
         <select id="storyInterest">
@@ -1221,18 +1300,30 @@
     <h2 id="modalTitle"></h2>
     <div id="modalImg"></div>
     <div class="modal-body" id="modalBody"></div>
+
+    <!-- ── CUSDIS COMMENTS (NEW) ── -->
+    <div class="cusdis-wrap">
+      <div class="cusdis-label">💬 Comments &amp; Reflections</div>
+      <div id="cusdis_thread"
+        data-host="https://cusdis.com"
+        data-app-id="7c83a66b-7d51-4b87-88e6-50f20a14d5be"
+        data-page-id=""
+        data-page-url=""
+        data-page-title="">
+      </div>
+    </div>
+
   </div>
 </div>
+
+<!-- Cusdis script -->
+<script async defer src="https://cusdis.com/js/cusdis.es.js"></script>
 
 <!-- ADMIN BUTTON → links to Netlify CMS -->
 <a href="/admin" class="admin-toggle" title="Manage Content" style="text-decoration:none;display:flex;align-items:center;justify-content:center">✏️</a>
 
 <script>
 // ── POST FILES ──
-// Posts are loaded from /_posts/*.md files (managed via /admin CMS).
-// The postIndex is auto-generated by Netlify at build time via posts.json.
-// Fallback posts shown if fetch fails (local dev / first load).
-
 const FALLBACK_POSTS = [];
 
 let POSTS = [];
@@ -1250,7 +1341,7 @@ function parseFrontMatter(text) {
   return { meta, body: match[2].trim() };
 }
 
-// Convert simple markdown to HTML (paragraphs, bold, italic, headings)
+// Convert simple markdown to HTML
 function mdToHtml(md) {
   return md
     .split(/\n\n+/)
@@ -1274,15 +1365,15 @@ function getCardIllustration(category, color) {
     'Faith & Encouragement': `<svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="faith1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#e8f0e9"/><stop offset="100%" stop-color="#b2ccb6"/></linearGradient></defs><rect width="400" height="200" fill="url(#faith1)"/><polygon points="200,0 120,200 160,200" fill="white" opacity="0.15"/><polygon points="200,0 160,200 200,200" fill="white" opacity="0.2"/><polygon points="200,0 200,200 240,200" fill="white" opacity="0.15"/><ellipse cx="200" cy="90" rx="55" ry="55" fill="white" opacity="0.3"/><ellipse cx="200" cy="90" rx="35" ry="35" fill="white" opacity="0.25"/><rect x="188" y="40" width="24" height="90" rx="4" fill="#3d5e44" opacity="0.85"/><rect x="164" y="68" width="72" height="22" rx="4" fill="#3d5e44" opacity="0.85"/><ellipse cx="200" cy="200" rx="300" ry="60" fill="#5e8066" opacity="0.3"/><circle cx="80" cy="175" r="4" fill="#b8822a" opacity="0.7"/><circle cx="310" cy="172" r="4" fill="#b8822a" opacity="0.7"/><ellipse cx="280" cy="60" rx="18" ry="9" fill="white" opacity="0.9" transform="rotate(-20 280 60)"/><polygon points="262,58 252,50 265,62" fill="white" opacity="0.9"/><polygon points="298,55 310,48 296,62" fill="white" opacity="0.8"/></svg>`,
     'Everyday Stories': `<svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="story1" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#faf6ee"/><stop offset="100%" stop-color="#e8ddc8"/></linearGradient></defs><rect width="400" height="200" fill="url(#story1)"/><rect x="80" y="60" width="110" height="100" rx="4" fill="#1e4a72" opacity="0.9"/><rect x="210" y="60" width="110" height="100" rx="4" fill="#162840" opacity="0.9"/><rect x="193" y="55" width="14" height="110" rx="3" fill="#b8822a"/><line x1="100" y1="85" x2="175" y2="85" stroke="white" stroke-width="1.5" opacity="0.4"/><line x1="100" y1="97" x2="175" y2="97" stroke="white" stroke-width="1.5" opacity="0.4"/><line x1="100" y1="109" x2="175" y2="109" stroke="white" stroke-width="1.5" opacity="0.4"/><line x1="100" y1="121" x2="155" y2="121" stroke="white" stroke-width="1.5" opacity="0.4"/><line x1="225" y1="85" x2="300" y2="85" stroke="white" stroke-width="1.5" opacity="0.4"/><line x1="225" y1="97" x2="300" y2="97" stroke="white" stroke-width="1.5" opacity="0.4"/><line x1="225" y1="109" x2="300" y2="109" stroke="white" stroke-width="1.5" opacity="0.4"/><line x1="225" y1="121" x2="285" y2="121" stroke="white" stroke-width="1.5" opacity="0.4"/><line x1="310" y1="40" x2="230" y2="120" stroke="#b8822a" stroke-width="2.5"/><polygon points="310,40 322,30 318,50" fill="#d4a044"/></svg>`,
     'Personal Growth': `<svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="grow1" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#e8f0e9"/><stop offset="100%" stop-color="#c9b89a"/></linearGradient></defs><rect width="400" height="200" fill="url(#grow1)"/><ellipse cx="200" cy="195" rx="250" ry="30" fill="#5e8066" opacity="0.35"/><rect x="188" y="100" width="24" height="95" rx="8" fill="#6b4a10"/><path d="M188,180 Q160,190 140,195" stroke="#6b4a10" stroke-width="4" fill="none"/><path d="M212,185 Q240,192 260,195" stroke="#6b4a10" stroke-width="4" fill="none"/><ellipse cx="200" cy="110" rx="75" ry="55" fill="#3d5e44" opacity="0.9"/><ellipse cx="200" cy="88" rx="58" ry="42" fill="#5e8066" opacity="0.9"/><ellipse cx="200" cy="68" rx="42" ry="32" fill="#7a9e82" opacity="0.9"/><ellipse cx="200" cy="52" rx="28" ry="22" fill="#b2ccb6" opacity="0.9"/><circle cx="345" cy="35" r="22" fill="#d4a044" opacity="0.85"/><circle cx="345" cy="35" r="15" fill="#e8b84b"/><path d="M60,55 Q65,48 70,55" stroke="#162840" stroke-width="2" fill="none"/><path d="M75,45 Q80,38 85,45" stroke="#162840" stroke-width="2" fill="none"/></svg>`,
-    'Grief & Healing': `<svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="heal1" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#1e3a58"/><stop offset="100%" stop-color="#2a5f8f"/></linearGradient></defs><rect width="400" height="200" fill="url(#heal1)"/><line x1="60" y1="0" x2="50" y2="40" stroke="white" stroke-width="1" opacity="0.15"/><line x1="120" y1="0" x2="110" y2="50" stroke="white" stroke-width="1" opacity="0.12"/><line x1="200" y1="0" x2="190" y2="45" stroke="white" stroke-width="1" opacity="0.15"/><line x1="280" y1="0" x2="270" y2="40" stroke="white" stroke-width="1" opacity="0.12"/><line x1="340" y1="0" x2="330" y2="50" stroke="white" stroke-width="1" opacity="0.15"/><path d="M120,160 Q130,120 150,100 Q160,90 170,95 Q180,100 165,115 Q180,95 190,100 Q200,108 182,120 Q195,105 204,112 Q212,122 195,132 Q200,125 205,132 Q210,142 195,148 Q175,158 155,162 Q138,165 120,160Z" fill="#c9b89a" opacity="0.85"/><path d="M280,160 Q270,120 250,100 Q240,90 230,95 Q220,100 235,115 Q220,95 210,100 Q200,108 218,120 Q205,105 196,112 Q188,122 205,132 Q200,125 195,132 Q190,142 205,148 Q225,158 245,162 Q262,165 280,160Z" fill="#c9b89a" opacity="0.85"/><ellipse cx="200" cy="135" rx="20" ry="18" fill="#b8822a" opacity="0.5"/><path d="M200,148 Q185,135 185,125 Q185,115 195,115 Q200,115 200,120 Q200,115 205,115 Q215,115 215,125 Q215,135 200,148Z" fill="#d4a044" opacity="0.9"/><circle cx="100" cy="30" r="1.5" fill="white" opacity="0.7"/><circle cx="200" cy="20" r="2" fill="white" opacity="0.8"/><circle cx="310" cy="35" r="1.5" fill="white" opacity="0.7"/></svg>`,
-    'Community & Kindness': `<svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="comm1" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#f5f0e6"/><stop offset="100%" stop-color="#e8ddc8"/></linearGradient></defs><rect width="400" height="200" fill="url(#comm1)"/><circle cx="120" cy="80" r="18" fill="#1e4a72" opacity="0.85"/><rect x="108" y="98" width="24" height="55" rx="10" fill="#1e4a72" opacity="0.85"/><circle cx="200" cy="72" r="22" fill="#3d5e44" opacity="0.85"/><rect x="186" y="92" width="28" height="62" rx="12" fill="#3d5e44" opacity="0.85"/><circle cx="280" cy="80" r="18" fill="#b8822a" opacity="0.85"/><rect x="268" y="98" width="24" height="55" rx="10" fill="#b8822a" opacity="0.85"/><line x1="132" y1="118" x2="186" y2="118" stroke="#162840" stroke-width="5" stroke-linecap="round" opacity="0.6"/><line x1="214" y1="118" x2="268" y2="118" stroke="#162840" stroke-width="5" stroke-linecap="round" opacity="0.6"/><path d="M120,52 Q113,44 113,38 Q113,30 120,30 Q124,30 126,34 Q128,30 133,30 Q140,30 140,38 Q140,44 133,52 Z" fill="#d4a044" opacity="0.85"/><path d="M200,42 Q192,33 192,26 Q192,17 200,17 Q205,17 207,22 Q209,17 215,17 Q223,17 223,26 Q223,33 215,42 Z" fill="#b8822a" opacity="0.9"/><path d="M280,52 Q273,44 273,38 Q273,30 280,30 Q284,30 286,34 Q288,30 293,30 Q300,30 300,38 Q300,44 293,52 Z" fill="#5e8066" opacity="0.85"/></svg>`,
-    'Weather & Wonder': `<svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="wx1" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#162840"/><stop offset="50%" stop-color="#1e4a72"/><stop offset="100%" stop-color="#2a5f8f"/></linearGradient></defs><rect width="400" height="200" fill="url(#wx1)"/><polygon points="220,20 190,90 215,90 180,175 240,80 210,80 245,20" fill="#d4a044" opacity="0.95"/><ellipse cx="100" cy="60" rx="55" ry="28" fill="white" opacity="0.15"/><ellipse cx="80" cy="58" rx="35" ry="22" fill="white" opacity="0.12"/><ellipse cx="300" cy="80" rx="65" ry="30" fill="white" opacity="0.12"/><line x1="70" y1="90" x2="65" y2="108" stroke="white" stroke-width="1.5" opacity="0.4"/><line x1="90" y1="88" x2="85" y2="106" stroke="white" stroke-width="1.5" opacity="0.35"/><line x1="110" y1="92" x2="105" y2="110" stroke="white" stroke-width="1.5" opacity="0.4"/><circle cx="350" cy="30" r="2" fill="white" opacity="0.7"/><circle cx="40" cy="40" r="1.5" fill="white" opacity="0.6"/></svg>`,
-    'Ministry & Faith': `<svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="min1" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#162840"/><stop offset="100%" stop-color="#1e4a72"/></linearGradient></defs><rect width="400" height="200" fill="url(#min1)"/><rect x="155" y="20" width="90" height="130" rx="45" fill="none" stroke="#d4a044" stroke-width="3" opacity="0.6"/><rect x="170" y="35" width="60" height="100" rx="30" fill="#b8822a" opacity="0.15"/><rect x="192" y="45" width="16" height="70" rx="3" fill="#d4a044" opacity="0.8"/><rect x="172" y="68" width="56" height="16" rx="3" fill="#d4a044" opacity="0.8"/><polygon points="155,80 80,200 120,200" fill="#d4a044" opacity="0.06"/><polygon points="245,80 280,200 320,200" fill="#d4a044" opacity="0.06"/><rect x="80" y="140" width="10" height="40" rx="2" fill="#c9b89a" opacity="0.8"/><ellipse cx="85" cy="136" rx="3" ry="5" fill="#d4a044" opacity="0.9"/><rect x="310" y="140" width="10" height="40" rx="2" fill="#c9b89a" opacity="0.8"/><ellipse cx="315" cy="136" rx="3" ry="5" fill="#d4a044" opacity="0.9"/><rect x="40" y="175" width="320" height="8" rx="3" fill="#162840" opacity="0.6"/></svg>`
+    'Grief & Healing': `<svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="heal1" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#1e3a58"/><stop offset="100%" stop-color="#2a5f8f"/></linearGradient></defs><rect width="400" height="200" fill="url(#heal1)"/><path d="M120,160 Q130,120 150,100 Q160,90 170,95 Q180,100 165,115 Q180,95 190,100 Q200,108 182,120 Q195,105 204,112 Q212,122 195,132 Q200,125 205,132 Q210,142 195,148 Q175,158 155,162 Q138,165 120,160Z" fill="#c9b89a" opacity="0.85"/><path d="M280,160 Q270,120 250,100 Q240,90 230,95 Q220,100 235,115 Q220,95 210,100 Q200,108 218,120 Q205,105 196,112 Q188,122 205,132 Q200,125 195,132 Q190,142 205,148 Q225,158 245,162 Q262,165 280,160Z" fill="#c9b89a" opacity="0.85"/><path d="M200,148 Q185,135 185,125 Q185,115 195,115 Q200,115 200,120 Q200,115 205,115 Q215,115 215,125 Q215,135 200,148Z" fill="#d4a044" opacity="0.9"/></svg>`,
+    'Community & Kindness': `<svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="comm1" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#f5f0e6"/><stop offset="100%" stop-color="#e8ddc8"/></linearGradient></defs><rect width="400" height="200" fill="url(#comm1)"/><circle cx="120" cy="80" r="18" fill="#1e4a72" opacity="0.85"/><rect x="108" y="98" width="24" height="55" rx="10" fill="#1e4a72" opacity="0.85"/><circle cx="200" cy="72" r="22" fill="#3d5e44" opacity="0.85"/><rect x="186" y="92" width="28" height="62" rx="12" fill="#3d5e44" opacity="0.85"/><circle cx="280" cy="80" r="18" fill="#b8822a" opacity="0.85"/><rect x="268" y="98" width="24" height="55" rx="10" fill="#b8822a" opacity="0.85"/><line x1="132" y1="118" x2="186" y2="118" stroke="#162840" stroke-width="5" stroke-linecap="round" opacity="0.6"/><line x1="214" y1="118" x2="268" y2="118" stroke="#162840" stroke-width="5" stroke-linecap="round" opacity="0.6"/><path d="M200,42 Q192,33 192,26 Q192,17 200,17 Q205,17 207,22 Q209,17 215,17 Q223,17 223,26 Q223,33 215,42 Z" fill="#b8822a" opacity="0.9"/></svg>`,
+    'Weather & Wonder': `<svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="wx1" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#162840"/><stop offset="50%" stop-color="#1e4a72"/><stop offset="100%" stop-color="#2a5f8f"/></linearGradient></defs><rect width="400" height="200" fill="url(#wx1)"/><polygon points="220,20 190,90 215,90 180,175 240,80 210,80 245,20" fill="#d4a044" opacity="0.95"/></svg>`,
+    'Ministry & Faith': `<svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="min1" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#162840"/><stop offset="100%" stop-color="#1e4a72"/></linearGradient></defs><rect width="400" height="200" fill="url(#min1)"/><rect x="192" y="45" width="16" height="70" rx="3" fill="#d4a044" opacity="0.8"/><rect x="172" y="68" width="56" height="16" rx="3" fill="#d4a044" opacity="0.8"/></svg>`
   };
   return scenes[category] || scenes['Matter of Perspective'];
 }
 
-// Load posts: fetch posts.json with cache busting
+// Load posts
 async function loadPosts() {
   try {
     const res = await fetch('/posts.json?v=' + Date.now());
@@ -1315,7 +1406,6 @@ function renderBlog() {
 
   noPostsMsg.style.display = 'none';
 
-  // Show newest 3 only on homepage
   const featured = published.slice(0, 3);
   const older = published.slice(3);
 
@@ -1335,7 +1425,6 @@ function renderBlog() {
     </a>
   `).join('');
 
-  // Show View All button if more than 3 posts
   if (older.length > 0) {
     viewAllWrap.style.display = 'block';
     archiveCount.textContent = `${older.length} more reflection${older.length > 1 ? 's' : ''} in the archive`;
@@ -1346,11 +1435,14 @@ function renderBlog() {
   observeFadeUps();
 }
 
+// ── OPEN POST WITH CUSDIS ──
 function openPost(id) {
   const post = POSTS.find(p => p.id === id);
   if (!post) return;
+
   document.getElementById('modalMeta').textContent = `${post.category} · ${post.date}`;
   document.getElementById('modalTitle').textContent = post.title;
+
   if (post.content) {
     document.getElementById('modalBody').innerHTML = mdToHtml(post.content);
   }
@@ -1359,6 +1451,19 @@ function openPost(id) {
   } else {
     document.getElementById('modalImg').innerHTML = '';
   }
+
+  // ── UPDATE CUSDIS for this post ──
+  const thread = document.getElementById('cusdis_thread');
+  const pageUrl = window.location.origin + window.location.pathname + '#post-' + post.id;
+  thread.setAttribute('data-page-id', post.id);
+  thread.setAttribute('data-page-url', pageUrl);
+  thread.setAttribute('data-page-title', post.title);
+
+  // Re-initialize Cusdis with updated attributes
+  if (window.CUSDIS) {
+    window.CUSDIS.renderTo(thread);
+  }
+
   document.getElementById('postModal').classList.add('open');
   document.body.style.overflow = 'hidden';
 }
@@ -1372,8 +1477,44 @@ document.getElementById('postModal').addEventListener('click', function(e) {
   if (e.target === this) closeModal();
 });
 
+// ── PHOTO UPLOAD HANDLERS ──
+let storyPhotoData = null;
+let storyPhotoName = null;
+
+function handlePhotoSelect(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  // Validate size (5MB max)
+  if (file.size > 5 * 1024 * 1024) {
+    alert('Photo is too large. Please choose an image under 5MB.');
+    event.target.value = '';
+    return;
+  }
+
+  storyPhotoName = file.name;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    storyPhotoData = e.target.result;
+    document.getElementById('photoPreviewImg').src = storyPhotoData;
+    document.getElementById('photoFileName').textContent = file.name;
+    document.getElementById('photoPreview').style.display = 'block';
+    document.getElementById('photoUploadArea').style.borderColor = 'var(--gold)';
+    document.getElementById('photoUploadArea').style.background = 'rgba(212,160,68,0.08)';
+  };
+  reader.readAsDataURL(file);
+}
+
+function removePhoto() {
+  storyPhotoData = null;
+  storyPhotoName = null;
+  document.getElementById('storyPhoto').value = '';
+  document.getElementById('photoPreview').style.display = 'none';
+  document.getElementById('photoUploadArea').style.borderColor = '';
+  document.getElementById('photoUploadArea').style.background = '';
+}
+
 // ── FORMS ──
-// ── FORMSPREE ENDPOINT ──
 const FORMSPREE = 'https://formspree.io/f/xjglwdbw';
 
 async function submitStory() {
@@ -1382,26 +1523,38 @@ async function submitStory() {
   const text = document.getElementById('storyText').value.trim();
   const category = document.getElementById('storyCategory').value;
   const interest = document.getElementById('storyInterest').value;
+
   if (!name || !email || !text || !category) {
     alert('Please fill in your name, email, story topic, and story.');
     return;
   }
+
   const btn = document.getElementById('storyBtn');
   btn.textContent = 'Sending...';
   btn.disabled = true;
+
   try {
+    const payload = {
+      _subject: 'New Story Submission — Inspire with Dr. Nick',
+      Name: name,
+      Email: email,
+      'Story Topic': category,
+      'Interested In': interest || 'Not specified',
+      Story: text,
+      'Has Photo': storyPhotoData ? 'Yes — ' + storyPhotoName : 'No'
+    };
+
+    // Note: Formspree doesn't support binary file uploads via JSON.
+    // The photo is noted in the submission. For full photo support,
+    // upgrade to Formspree Gold or use a service like Cloudinary.
+    // The photo is preserved locally in storyPhotoData for display if needed.
+
     const res = await fetch(FORMSPREE, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-      body: JSON.stringify({
-        _subject: 'New Story Submission — Inspire with Dr. Nick',
-        Name: name,
-        Email: email,
-        'Story Topic': category,
-        'Interested In': interest || 'Not specified',
-        Story: text
-      })
+      body: JSON.stringify(payload)
     });
+
     if (res.ok) {
       document.getElementById('storySuccess').style.display = 'block';
       document.getElementById('storyError').style.display = 'none';
@@ -1410,6 +1563,7 @@ async function submitStory() {
       document.getElementById('storyText').value = '';
       document.getElementById('storyCategory').value = '';
       document.getElementById('storyInterest').value = '';
+      removePhoto();
       btn.textContent = '✓ Sent!';
       setTimeout(() => {
         document.getElementById('storySuccess').style.display = 'none';
