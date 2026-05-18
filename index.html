@@ -108,6 +108,18 @@
     background: radial-gradient(circle, rgba(184,130,42,0.08) 0%, transparent 70%);
     pointer-events: none; z-index: 1;
   }
+  .hero-graphic-banner {
+    width: min(780px, 92%);
+    margin: 2.5rem auto 0;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 12px 48px rgba(0,0,0,0.4);
+    display: block;
+    position: relative; z-index: 2;
+  }
+  .hero-graphic-banner img {
+    width: 100%; display: block; border-radius: 8px;
+  }
   .hero-content {
     position: relative; z-index: 2;
     max-width: 820px; text-align: center;
@@ -343,7 +355,7 @@
   }
   .blog-card:hover { transform: translateY(-4px); box-shadow: 0 8px 40px rgba(26,39,68,0.15); }
   .blog-card-img {
-    height: 260px;
+    height: 200px;
     display: flex; align-items: center; justify-content: center;
     position: relative; overflow: hidden;
   }
@@ -414,84 +426,10 @@
     outline: none; transition: border-color 0.2s;
   }
   .form-group input:focus,
-  .form-group textarea:focus,
-  .form-group select:focus { border-color: var(--gold); }
+  .form-group textarea:focus { border-color: var(--gold); }
   .form-group textarea { min-height: 120px; resize: vertical; }
   .form-group input::placeholder,
-  .form-group textarea::placeholder { color: rgba(255,255,255,0.4); }
-  .form-group select option { background: var(--navy); color: #fff; }
-
-  /* ── PHOTO UPLOAD ── */
-  .photo-upload-area {
-    border: 2px dashed rgba(212,160,68,0.4);
-    border-radius: 4px;
-    padding: 1.5rem;
-    text-align: center;
-    cursor: pointer;
-    transition: border-color 0.2s, background 0.2s;
-    position: relative;
-  }
-  .photo-upload-area:hover {
-    border-color: var(--gold);
-    background: rgba(212,160,68,0.05);
-  }
-  .photo-upload-area input[type="file"] {
-    position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%;
-  }
-  .photo-upload-icon { font-size: 2rem; margin-bottom: 0.5rem; display: block; }
-  .photo-upload-text {
-    font-family: 'Lato', sans-serif;
-    font-size: 0.78rem; font-weight: 700;
-    letter-spacing: 0.1em; text-transform: uppercase;
-    color: var(--gold);
-  }
-  .photo-upload-hint {
-    font-size: 0.72rem; color: rgba(255,255,255,0.4);
-    margin-top: 0.3rem; font-family: 'Lato', sans-serif;
-  }
-  .photo-preview {
-    margin-top: 1rem; display: none;
-  }
-  .photo-preview img {
-    width: 100%; max-height: 200px; object-fit: cover;
-    border-radius: 4px; border: 1px solid rgba(212,160,68,0.3);
-  }
-  .photo-preview-info {
-    display: flex; align-items: center; justify-content: space-between;
-    margin-top: 0.5rem;
-    font-family: 'Lato', sans-serif; font-size: 0.7rem;
-    color: rgba(255,255,255,0.5);
-  }
-  .photo-remove-btn {
-    background: none; border: none; cursor: pointer;
-    color: rgba(255,100,100,0.7); font-size: 0.7rem;
-    font-family: 'Lato', sans-serif; font-weight: 700;
-    letter-spacing: 0.08em; text-transform: uppercase;
-    padding: 0; transition: color 0.2s;
-  }
-  .photo-remove-btn:hover { color: #e05050; }
-
-  /* Contact form on light background */
-  .contact-form-group input,
-  .contact-form-group textarea,
-  .contact-form-group select {
-    width: 100%; padding: 0.75rem 1rem;
-    background: #fff; border: 1.5px solid var(--border);
-    border-radius: 4px; color: var(--text-dark);
-    font-family: 'Source Serif 4', serif; font-size: 0.95rem;
-    outline: none; transition: border-color 0.2s;
-  }
-  .contact-form-group input:focus,
-  .contact-form-group textarea:focus,
-  .contact-form-group select:focus { border-color: var(--gold); }
-  .contact-form-group textarea { min-height: 120px; resize: vertical; }
-  .contact-form-group label {
-    font-family: 'Lato', sans-serif; font-size: 0.68rem; font-weight: 700;
-    letter-spacing: 0.12em; text-transform: uppercase;
-    color: var(--text-mid); display: block; margin-bottom: 0.4rem;
-  }
-  .contact-form-group { margin-bottom: 1.2rem; text-align: left; }
-  .contact-form-group select option { background: #fff; color: var(--text-dark); }
+  .form-group textarea::placeholder { color: rgba(255,255,255,0.3); }
 
   /* ── PERSPECTIVE ── */
   .perspective { background: var(--sage-pale); }
@@ -606,28 +544,6 @@
     color: var(--text-mid); font-weight: 300;
   }
   .modal-body p { margin-bottom: 1.2rem; }
-
-  /* ── CUSDIS COMMENTS SECTION ── */
-  .cusdis-wrap {
-    margin-top: 2.5rem;
-    padding-top: 2rem;
-    border-top: 1px solid var(--border);
-  }
-  .cusdis-label {
-    font-family: 'Lato', sans-serif;
-    font-size: 0.72rem; font-weight: 700;
-    letter-spacing: 0.18em; text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 1.2rem;
-    display: flex; align-items: center; gap: 0.6rem;
-  }
-  .cusdis-label::before {
-    content: ''; display: block; width: 20px; height: 1px; background: var(--gold);
-  }
-  /* Style the Cusdis iframe to match the site */
-  #cusdis_thread iframe {
-    border-radius: 4px;
-  }
 
   /* ── ADMIN PANEL ── */
   .admin-toggle {
@@ -753,91 +669,6 @@
     margin-bottom: 1rem; display: none;
   }
 
-  /* ── MINISTRY ── */
-  .ministry { background: var(--warm-white); }
-  .ministry-intro {
-    max-width: 700px; margin: 0 auto 3.5rem; text-align: center;
-  }
-  .ministry-intro .section-label { justify-content: center; }
-  .ministry-intro .section-label::before { display: none; }
-  .ministry-cards {
-    display: grid; grid-template-columns: repeat(3, 1fr);
-    gap: 2rem; margin-bottom: 3.5rem;
-  }
-  .ministry-card {
-    background: #fff;
-    border-radius: 4px;
-    overflow: hidden;
-    box-shadow: var(--shadow);
-    text-align: center;
-    transition: transform 0.2s, box-shadow 0.2s;
-  }
-  .ministry-card:hover { transform: translateY(-4px); box-shadow: 0 8px 40px rgba(22,40,64,0.16); }
-  .ministry-card:nth-child(1) .ministry-card-top {
-    background: linear-gradient(160deg, var(--navy) 0%, var(--blue) 100%);
-  }
-  .ministry-card:nth-child(2) .ministry-card-top {
-    background: linear-gradient(160deg, var(--sage-dark) 0%, var(--sage-mid) 100%);
-  }
-  .ministry-card:nth-child(3) .ministry-card-top {
-    background: linear-gradient(160deg, var(--sand-mid) 0%, var(--gold) 100%);
-  }
-  .ministry-card-top {
-    padding: 2.5rem 1.5rem 1.5rem;
-  }
-  .ministry-symbol {
-    font-size: 3rem; display: block; margin-bottom: 1rem;
-  }
-  .ministry-card-top h3 {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.4rem; font-weight: 700;
-    color: var(--parchment); margin-bottom: 0.3rem;
-  }
-  .ministry-card-top .ministry-sub {
-    font-family: 'Lato', sans-serif;
-    font-size: 0.72rem; font-weight: 700;
-    letter-spacing: 0.14em; text-transform: uppercase;
-    color: rgba(255,255,255,0.65);
-  }
-  .ministry-card-body { padding: 1.5rem; }
-  .ministry-card-body p {
-    font-size: 0.92rem; line-height: 1.8;
-    color: var(--text-mid); font-weight: 300;
-  }
-  .ministry-banner {
-    background: linear-gradient(135deg, var(--navy) 0%, var(--blue) 100%);
-    border-radius: 4px;
-    padding: 2.5rem 3rem;
-    display: flex; align-items: center; justify-content: space-between;
-    gap: 2rem; flex-wrap: wrap;
-  }
-  .ministry-banner-text h3 {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.5rem; font-weight: 700;
-    color: #fff; margin-bottom: 0.5rem;
-  }
-  .ministry-banner-text p {
-    font-size: 0.95rem; color: rgba(255,255,255,0.65);
-    font-weight: 300; line-height: 1.6; max-width: 480px;
-  }
-  .ministry-faith-note {
-    margin-top: 2.5rem; padding: 1.5rem 2rem;
-    background: var(--sage-pale);
-    border-left: 4px solid var(--sage-mid);
-    border-radius: 0 4px 4px 0;
-  }
-  .ministry-faith-note p {
-    font-family: 'Source Serif 4', serif;
-    font-size: 1rem; font-style: italic;
-    color: var(--text-mid); line-height: 1.7;
-  }
-  .ministry-faith-note cite {
-    display: block; margin-top: 0.5rem;
-    font-family: 'Lato', sans-serif; font-size: 0.72rem;
-    font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
-    color: var(--sage-mid); font-style: normal;
-  }
-
   /* ── ANIMATIONS ── */
   @keyframes fadeUp {
     from { opacity: 0; transform: translateY(20px); }
@@ -854,18 +685,16 @@
     .welcome-grid, .about-grid { grid-template-columns: 1fr; gap: 3rem; }
     .features-grid { grid-template-columns: 1fr 1fr; }
     .blog-grid { grid-template-columns: 1fr 1fr; }
-    .ministry-cards { grid-template-columns: 1fr 1fr; }
     .about-portrait { max-width: 320px; }
     .portrait-caption { right: 0; }
   }
   @media (max-width: 640px) {
     .nav-links { display: none; }
     .hamburger { display: flex; }
-    .features-grid, .blog-grid, .ministry-cards { grid-template-columns: 1fr; }
+    .features-grid, .blog-grid { grid-template-columns: 1fr; }
     .share-form { padding: 1.5rem; }
     .modal { padding: 2rem 1.5rem; }
     .admin-inner { padding: 1.5rem; }
-    .ministry-banner { flex-direction: column; text-align: center; }
   }
 </style>
 </head>
@@ -878,9 +707,8 @@
     <li><a href="index.html#blog">Blog</a></li>
     <li><a href="index.html#about">About</a></li>
     <li><a href="stories.html">Stories</a></li>
-    <li><a href="ministry.html">Ministry</a></li>
     <li><a href="corgis.html">Mogwai &amp; Friends</a></li>
-    <li><a href="index.html#contact" class="nav-cta">Contact Dr. Nick</a></li>
+    <li><a href="index.html#share" class="nav-cta">Contact Dr. Nick</a></li>
   </ul>
   <div class="hamburger" onclick="toggleMobileMenu()">
     <span></span><span></span><span></span>
@@ -894,7 +722,7 @@
     <p class="hero-eyebrow">Welcome</p>
     <h1>Inspire with <em>Dr. Nick</em></h1>
     <p class="hero-sub">Real stories. Honest perspective. Faith-filled encouragement for everyday life.</p>
-    <p style="font-family:'Lato',sans-serif;font-size:0.72rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.45);margin-bottom:2.5rem">PhD · Higher Education Leadership &nbsp;|&nbsp; Executive Juris Doctorate &nbsp;|&nbsp; Ordained Minister</p>
+    <p style="font-family:'Lato',sans-serif;font-size:0.72rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.45);margin-bottom:2.5rem">PhD · Higher Education Leadership &nbsp;|&nbsp; Executive Juris Doctorate</p>
     <p class="hero-body">A place created to encourage, challenge, and remind people that their story matters. Through every season, there is meaning to be found, grace to be received, and perspective to be gained.</p>
     <div class="hero-buttons">
       <a href="#blog" class="btn-primary">Read the Blog</a>
@@ -974,7 +802,6 @@
           <span class="tag">PhD · Higher Education Leadership</span>
           <span class="tag">Executive Juris Doctorate</span>
           <span class="tag">Author</span>
-          <span class="tag">Ordained Minister</span>
           <span class="tag">Meteorologist</span>
           <span class="tag">Public Safety</span>
           <span class="tag">Speaker</span>
@@ -983,9 +810,9 @@
         </div>
         <p class="section-body">Dr. Nick holds a <strong>PhD in Higher Education Leadership</strong> and an <strong>Executive Juris Doctorate</strong> — credentials that reflect not just years of rigorous academic work, but a deep commitment to understanding people, systems, and how leadership shapes lives at every level.</p>
         <br>
-        <p class="section-body">He is a writer, author, speaker, meteorologist, public safety professional, ordained minister, and storyteller who believes deeply in the power of perspective. Through his writing, speaking, and community work, Dr. Nick helps people find meaning in everyday moments — exploring faith, personal growth, resilience, kindness, and the lessons life teaches when we slow down and listen.</p>
+        <p class="section-body">He is a writer, author, speaker, meteorologist, public safety professional, and storyteller who believes deeply in the power of perspective. Through his writing, speaking, and community work, Dr. Nick helps people find meaning in everyday moments — exploring faith, personal growth, resilience, kindness, and the lessons life teaches when we slow down and listen.</p>
         <br>
-        <p class="section-body">Whether writing through <em>Dr. Nick's Matter of Perspective</em>, sharing weather insight through First Warn Weather, officiating life's most sacred ceremonies, or bringing joy through his children's book series <em>Mogwai and Friends</em>, Dr. Nick brings a thoughtful and honest voice rooted in compassion, humor, faith, and real-life experience.</p>
+        <p class="section-body">Whether writing through <em>Dr. Nick's Matter of Perspective</em>, sharing weather insight through First Warn Weather, or bringing joy through his children's book series <em>Mogwai and Friends</em>, Dr. Nick brings a thoughtful and honest voice rooted in compassion, humor, faith, and real-life experience.</p>
         <br>
         <p class="section-body">At home, Dr. Nick shares his life with four beloved Corgis — <strong>Willow, Mogwai, Winston, and Baxter</strong> — who bring endless joy, laughter, and inspiration to his days. He also honors the memory of two very special Corgis who have passed: <strong>Abby and Cooper</strong>, who will always hold a place in his heart. 🐾</p>
         <br>
@@ -1053,53 +880,15 @@
         <p class="section-label">Latest Reflections</p>
         <h2 class="section-title">From the <em>Blog</em></h2>
       </div>
-      <a href="blog-archive.html" class="btn-primary" style="white-space:nowrap;align-self:flex-end" id="viewAllBtn" style="display:none">View All Reflections →</a>
     </div>
-
-    <!-- NO POSTS -->
+    <div class="blog-grid" id="blogGrid">
+      <!-- Posts rendered by JS -->
+    </div>
     <div id="noPosts" style="text-align:center; padding:4rem 2rem; background:#fff; border-radius:8px; box-shadow:var(--shadow)">
       <div style="font-size:3rem;margin-bottom:1rem">✍️</div>
       <p style="font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;color:var(--navy);margin-bottom:0.5rem">New Reflections Coming Soon</p>
       <p style="font-size:0.95rem;color:var(--text-light);font-style:italic">Check back soon for new posts from Dr. Nick.</p>
     </div>
-
-    <!-- BLOG GRID - newest 3 -->
-    <div class="blog-grid" id="blogGrid"></div>
-
-    <!-- View All button below grid - shows when more than 3 posts -->
-    <div id="viewAllWrap" style="display:none;text-align:center;margin-top:2.5rem">
-      <a href="blog-archive.html" class="btn-primary">View All Reflections →</a>
-      <p style="font-size:0.82rem;color:var(--text-light);margin-top:0.8rem" id="archiveCount"></p>
-    </div>
-
-  </div>
-</section>
-
-<div class="sand-stripe"></div>
-
-<div class="sand-stripe"></div>
-
-<!-- MINISTRY TEASER -->
-<section style="background:linear-gradient(135deg,var(--navy) 0%,var(--blue) 60%,var(--sage-dark) 100%);padding:4rem 2rem;text-align:center">
-  <div class="container">
-    <p style="font-family:'Lato',sans-serif;font-size:0.72rem;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem">Ordained Minister · Christian-Catholic Faith</p>
-    <h2 style="font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3vw,2.6rem);font-weight:700;color:#fff;margin-bottom:1rem">Ministry &amp; <em style="font-style:italic;color:var(--gold-light)">Sacred Moments</em></h2>
-    <p style="font-size:1rem;color:rgba(255,255,255,0.65);line-height:1.8;max-width:600px;margin:0 auto 2rem;font-weight:300">Dr. Nick is available to officiate weddings, funerals, memorial services, and baptisms — bringing compassion, faith, and personal care to life's most sacred milestones.</p>
-    <div style="display:flex;gap:2.5rem;justify-content:center;flex-wrap:wrap;margin-bottom:2.5rem">
-      <div style="text-align:center">
-        <div style="font-size:2.5rem;margin-bottom:0.5rem">💍</div>
-        <div style="font-family:'Lato',sans-serif;font-size:0.7rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold-light)">Weddings · $150+</div>
-      </div>
-      <div style="text-align:center">
-        <div style="font-size:2.5rem;margin-bottom:0.5rem">✝️</div>
-        <div style="font-family:'Lato',sans-serif;font-size:0.7rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold-light)">Funerals · $100+</div>
-      </div>
-      <div style="text-align:center">
-        <div style="font-size:2.5rem;margin-bottom:0.5rem">🕊️</div>
-        <div style="font-family:'Lato',sans-serif;font-size:0.7rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold-light)">Baptisms · $75+</div>
-      </div>
-    </div>
-    <a href="ministry.html" class="btn-primary">Learn More &amp; Book Dr. Nick →</a>
   </div>
 </section>
 
@@ -1112,53 +901,33 @@
     <h2 class="section-title">What's Your <em>Story?</em></h2>
     <p class="section-body">I want to hear your story — not just the polished version. The real one. Shaped by life, faith, struggle, joy, loss, healing, growth, and purpose.</p>
     <div class="share-form fade-up">
-      <div id="storySuccess" class="success-msg" style="display:none">✓ Thank you! Your story has been received. Dr. Nick will be in touch soon.</div>
-      <div id="storyError" style="display:none;background:rgba(192,57,43,0.1);border:1px solid rgba(192,57,43,0.3);color:#c0392b;padding:0.8rem 1.2rem;border-radius:4px;font-size:0.85rem;margin-bottom:1rem">Something went wrong. Please try again or email Dr. Nick directly at nickpalischphd@gmail.com</div>
+      <div id="storySuccess" class="success-msg">✓ Thank you! Your story has been received. Dr. Nick will be in touch.</div>
       <div class="form-group">
-        <label>Your Name *</label>
+        <label>Your Name</label>
         <input type="text" id="storyName" placeholder="First and last name">
       </div>
       <div class="form-group">
-        <label>Email Address *</label>
+        <label>Email Address</label>
         <input type="email" id="storyEmail" placeholder="your@email.com">
       </div>
       <div class="form-group">
-        <label>What's your story about? *</label>
+        <label>What's your story about?</label>
         <select id="storyCategory">
-          <option value="">Select a topic...</option>
-          <option>A Life-Changing Event</option>
-          <option>Personal Loss &amp; Healing</option>
-          <option>A Faith Journey</option>
-          <option>A Second Chance</option>
-          <option>Career &amp; Calling</option>
-          <option>Family &amp; Roots</option>
-          <option>A Passion or Hobby</option>
-          <option>Something Else Entirely</option>
+          <option value="">Select a category...</option>
+          <option>A life-changing event</option>
+          <option>Personal loss & healing</option>
+          <option>Faith journey</option>
+          <option>Second chance</option>
+          <option>Career or calling</option>
+          <option>Family history</option>
+          <option>A hobby or passion</option>
+          <option>Something else entirely</option>
         </select>
       </div>
       <div class="form-group">
-        <label>Tell Dr. Nick your story *</label>
-        <textarea id="storyText" placeholder="Share as much or as little as you'd like. There's no wrong answer here." style="min-height:160px"></textarea>
+        <label>Tell Dr. Nick your story</label>
+        <textarea id="storyText" placeholder="Share as much or as little as you'd like. There's no wrong answer here."></textarea>
       </div>
-
-      <!-- ── PHOTO UPLOAD (NEW) ── -->
-      <div class="form-group">
-        <label>Add a Photo <span style="font-weight:400;opacity:0.6;letter-spacing:0;text-transform:none;font-size:0.68rem">(optional — a photo to go with your story)</span></label>
-        <div class="photo-upload-area" id="photoUploadArea">
-          <input type="file" id="storyPhoto" accept="image/*" onchange="handlePhotoSelect(event)">
-          <span class="photo-upload-icon">📷</span>
-          <div class="photo-upload-text">Click to add a photo</div>
-          <div class="photo-upload-hint">JPG, PNG, or GIF · Max 5MB</div>
-        </div>
-        <div class="photo-preview" id="photoPreview">
-          <img id="photoPreviewImg" src="" alt="Story photo preview">
-          <div class="photo-preview-info">
-            <span id="photoFileName" style="font-size:0.7rem;color:rgba(255,255,255,0.5)"></span>
-            <button class="photo-remove-btn" onclick="removePhoto()">✕ Remove</button>
-          </div>
-        </div>
-      </div>
-
       <div class="form-group">
         <label>Are you interested in...</label>
         <select id="storyInterest">
@@ -1169,7 +938,7 @@
           <option>All of the above</option>
         </select>
       </div>
-      <button class="btn-primary" style="width:100%;padding:1rem" onclick="submitStory()" id="storyBtn">Share Your Story with Dr. Nick →</button>
+      <button class="btn-primary" style="width:100%;padding:1rem" onclick="submitStory()">Share Your Story with Dr. Nick →</button>
     </div>
   </div>
 </section>
@@ -1219,66 +988,6 @@
   </div>
 </section>
 
-<!-- CONTACT DR. NICK -->
-<section style="background:var(--sand-pale);padding:5rem 2rem" id="contact">
-  <div class="container">
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start;max-width:1000px;margin:0 auto">
-      <div>
-        <p class="section-label">Get In Touch</p>
-        <h2 class="section-title">Contact <em>Dr. Nick</em></h2>
-        <p class="section-body">Whether you have a question, want to invite Dr. Nick to speak, or are interested in ministry services — reach out. Every message is read personally.</p>
-        <div style="margin-top:2rem;display:flex;flex-direction:column;gap:1rem">
-          <div style="background:#fff;border-radius:4px;padding:1.2rem 1.5rem;border-left:3px solid var(--gold);box-shadow:var(--shadow)">
-            <p style="font-family:'Lato',sans-serif;font-size:0.68rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);margin-bottom:0.3rem">Email</p>
-            <a href="mailto:nickpalischphd@gmail.com" style="font-size:0.9rem;color:var(--blue);text-decoration:none">nickpalischphd@gmail.com</a>
-          </div>
-          <div style="background:#fff;border-radius:4px;padding:1.2rem 1.5rem;border-left:3px solid var(--sage-mid);box-shadow:var(--shadow)">
-            <p style="font-family:'Lato',sans-serif;font-size:0.68rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--sage-mid);margin-bottom:0.3rem">Ministry Services</p>
-            <p style="font-size:0.85rem;color:var(--text-mid);line-height:1.7">💍 Weddings · ✝️ Funerals · 🕊️ Baptisms<br><a href="ministry.html" style="color:var(--gold);text-decoration:none">View Ministry Page →</a></p>
-          </div>
-          <div style="background:#fff;border-radius:4px;padding:1.2rem 1.5rem;border-left:3px solid var(--blue);box-shadow:var(--shadow)">
-            <p style="font-family:'Lato',sans-serif;font-size:0.68rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--blue);margin-bottom:0.3rem">Speaking</p>
-            <p style="font-size:0.85rem;color:var(--text-mid);line-height:1.7">Dr. Nick is available for speaking engagements, events, and community gatherings.</p>
-          </div>
-        </div>
-      </div>
-      <div style="background:#fff;border-radius:6px;padding:2rem;box-shadow:var(--shadow)">
-        <h3 style="font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--navy);margin-bottom:0.3rem">Send Dr. Nick a Message</h3>
-        <p style="font-size:0.82rem;color:var(--text-light);margin-bottom:1.5rem">Every message is read personally. Please allow 2-3 days for a response.</p>
-        <div id="contactSuccess" style="display:none;background:rgba(61,94,68,0.1);border:1px solid rgba(61,94,68,0.3);color:var(--sage-dark);padding:0.8rem 1.2rem;border-radius:4px;font-size:0.85rem;font-weight:600;margin-bottom:1rem">✓ Message sent! Dr. Nick will be in touch soon.</div>
-        <div class="contact-form-group">
-          <label>Your Name *</label>
-          <input type="text" id="contactName" placeholder="First and last name">
-        </div>
-        <div class="contact-form-group">
-          <label>Email Address *</label>
-          <input type="email" id="contactEmail" placeholder="your@email.com">
-        </div>
-        <div class="contact-form-group">
-          <label>What can Dr. Nick help with?</label>
-          <select id="contactSubject">
-            <option value="">Select a topic...</option>
-            <option>General Message</option>
-            <option>Speaking Engagement Request</option>
-            <option>💍 Wedding Officiant Inquiry</option>
-            <option>✝️ Funeral / Memorial Service</option>
-            <option>🕊️ Baptism Inquiry</option>
-            <option>Blog / Story Question</option>
-            <option>📚 Book — Mogwai's Adventure</option>
-            <option>⛅ Weather / First Warn WX</option>
-            <option>Something Else</option>
-          </select>
-        </div>
-        <div class="contact-form-group">
-          <label>Your Message *</label>
-          <textarea id="contactMessage" placeholder="What's on your mind? How can Dr. Nick help?"></textarea>
-        </div>
-        <button class="btn-primary" style="width:100%;padding:1rem" onclick="submitContact()" id="contactBtn">Send Message to Dr. Nick →</button>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- FOOTER -->
 <footer>
   <div style="display:flex;justify-content:center;gap:1.5rem;margin-bottom:1.2rem;flex-wrap:wrap">
@@ -1289,7 +998,7 @@
     <a href="https://www.firstwarnwx.com" target="_blank" style="font-family:'Lato',sans-serif;font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--sand-light);text-decoration:none;opacity:0.8">🌐 FirstWarnWX.com</a>
   </div>
   <p>© <span id="footerYear"></span> Inspire with Dr. Nick · Dr. Nick's Matter of Perspective · First Warn Weather</p>
-  <p style="margin-top:0.5rem;font-style:italic;opacity:0.5">Nicholas G. Palisch · PhD · EJD · Author · Minister · Meteorologist</p>
+  <p style="margin-top:0.5rem;font-style:italic;opacity:0.5">Nicholas G. Palisch · PhD · EJD · Author · Meteorologist</p>
 </footer>
 
 <!-- BLOG POST MODAL -->
@@ -1300,30 +1009,18 @@
     <h2 id="modalTitle"></h2>
     <div id="modalImg"></div>
     <div class="modal-body" id="modalBody"></div>
-
-    <!-- ── CUSDIS COMMENTS (NEW) ── -->
-    <div class="cusdis-wrap">
-      <div class="cusdis-label">💬 Comments &amp; Reflections</div>
-      <div id="cusdis_thread"
-        data-host="https://cusdis.com"
-        data-app-id="7c83a66b-7d51-4b87-88e6-50f20a14d5be"
-        data-page-id=""
-        data-page-url=""
-        data-page-title="">
-      </div>
-    </div>
-
   </div>
 </div>
-
-<!-- Cusdis script -->
-<script async defer src="https://cusdis.com/js/cusdis.es.js"></script>
 
 <!-- ADMIN BUTTON → links to Netlify CMS -->
 <a href="/admin" class="admin-toggle" title="Manage Content" style="text-decoration:none;display:flex;align-items:center;justify-content:center">✏️</a>
 
 <script>
 // ── POST FILES ──
+// Posts are loaded from /_posts/*.md files (managed via /admin CMS).
+// The postIndex is auto-generated by Netlify at build time via posts.json.
+// Fallback posts shown if fetch fails (local dev / first load).
+
 const FALLBACK_POSTS = [];
 
 let POSTS = [];
@@ -1341,7 +1038,7 @@ function parseFrontMatter(text) {
   return { meta, body: match[2].trim() };
 }
 
-// Convert simple markdown to HTML
+// Convert simple markdown to HTML (paragraphs, bold, italic, headings)
 function mdToHtml(md) {
   return md
     .split(/\n\n+/)
@@ -1365,15 +1062,15 @@ function getCardIllustration(category, color) {
     'Faith & Encouragement': `<svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="faith1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#e8f0e9"/><stop offset="100%" stop-color="#b2ccb6"/></linearGradient></defs><rect width="400" height="200" fill="url(#faith1)"/><polygon points="200,0 120,200 160,200" fill="white" opacity="0.15"/><polygon points="200,0 160,200 200,200" fill="white" opacity="0.2"/><polygon points="200,0 200,200 240,200" fill="white" opacity="0.15"/><ellipse cx="200" cy="90" rx="55" ry="55" fill="white" opacity="0.3"/><ellipse cx="200" cy="90" rx="35" ry="35" fill="white" opacity="0.25"/><rect x="188" y="40" width="24" height="90" rx="4" fill="#3d5e44" opacity="0.85"/><rect x="164" y="68" width="72" height="22" rx="4" fill="#3d5e44" opacity="0.85"/><ellipse cx="200" cy="200" rx="300" ry="60" fill="#5e8066" opacity="0.3"/><circle cx="80" cy="175" r="4" fill="#b8822a" opacity="0.7"/><circle cx="310" cy="172" r="4" fill="#b8822a" opacity="0.7"/><ellipse cx="280" cy="60" rx="18" ry="9" fill="white" opacity="0.9" transform="rotate(-20 280 60)"/><polygon points="262,58 252,50 265,62" fill="white" opacity="0.9"/><polygon points="298,55 310,48 296,62" fill="white" opacity="0.8"/></svg>`,
     'Everyday Stories': `<svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="story1" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#faf6ee"/><stop offset="100%" stop-color="#e8ddc8"/></linearGradient></defs><rect width="400" height="200" fill="url(#story1)"/><rect x="80" y="60" width="110" height="100" rx="4" fill="#1e4a72" opacity="0.9"/><rect x="210" y="60" width="110" height="100" rx="4" fill="#162840" opacity="0.9"/><rect x="193" y="55" width="14" height="110" rx="3" fill="#b8822a"/><line x1="100" y1="85" x2="175" y2="85" stroke="white" stroke-width="1.5" opacity="0.4"/><line x1="100" y1="97" x2="175" y2="97" stroke="white" stroke-width="1.5" opacity="0.4"/><line x1="100" y1="109" x2="175" y2="109" stroke="white" stroke-width="1.5" opacity="0.4"/><line x1="100" y1="121" x2="155" y2="121" stroke="white" stroke-width="1.5" opacity="0.4"/><line x1="225" y1="85" x2="300" y2="85" stroke="white" stroke-width="1.5" opacity="0.4"/><line x1="225" y1="97" x2="300" y2="97" stroke="white" stroke-width="1.5" opacity="0.4"/><line x1="225" y1="109" x2="300" y2="109" stroke="white" stroke-width="1.5" opacity="0.4"/><line x1="225" y1="121" x2="285" y2="121" stroke="white" stroke-width="1.5" opacity="0.4"/><line x1="310" y1="40" x2="230" y2="120" stroke="#b8822a" stroke-width="2.5"/><polygon points="310,40 322,30 318,50" fill="#d4a044"/></svg>`,
     'Personal Growth': `<svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="grow1" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#e8f0e9"/><stop offset="100%" stop-color="#c9b89a"/></linearGradient></defs><rect width="400" height="200" fill="url(#grow1)"/><ellipse cx="200" cy="195" rx="250" ry="30" fill="#5e8066" opacity="0.35"/><rect x="188" y="100" width="24" height="95" rx="8" fill="#6b4a10"/><path d="M188,180 Q160,190 140,195" stroke="#6b4a10" stroke-width="4" fill="none"/><path d="M212,185 Q240,192 260,195" stroke="#6b4a10" stroke-width="4" fill="none"/><ellipse cx="200" cy="110" rx="75" ry="55" fill="#3d5e44" opacity="0.9"/><ellipse cx="200" cy="88" rx="58" ry="42" fill="#5e8066" opacity="0.9"/><ellipse cx="200" cy="68" rx="42" ry="32" fill="#7a9e82" opacity="0.9"/><ellipse cx="200" cy="52" rx="28" ry="22" fill="#b2ccb6" opacity="0.9"/><circle cx="345" cy="35" r="22" fill="#d4a044" opacity="0.85"/><circle cx="345" cy="35" r="15" fill="#e8b84b"/><path d="M60,55 Q65,48 70,55" stroke="#162840" stroke-width="2" fill="none"/><path d="M75,45 Q80,38 85,45" stroke="#162840" stroke-width="2" fill="none"/></svg>`,
-    'Grief & Healing': `<svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="heal1" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#1e3a58"/><stop offset="100%" stop-color="#2a5f8f"/></linearGradient></defs><rect width="400" height="200" fill="url(#heal1)"/><path d="M120,160 Q130,120 150,100 Q160,90 170,95 Q180,100 165,115 Q180,95 190,100 Q200,108 182,120 Q195,105 204,112 Q212,122 195,132 Q200,125 205,132 Q210,142 195,148 Q175,158 155,162 Q138,165 120,160Z" fill="#c9b89a" opacity="0.85"/><path d="M280,160 Q270,120 250,100 Q240,90 230,95 Q220,100 235,115 Q220,95 210,100 Q200,108 218,120 Q205,105 196,112 Q188,122 205,132 Q200,125 195,132 Q190,142 205,148 Q225,158 245,162 Q262,165 280,160Z" fill="#c9b89a" opacity="0.85"/><path d="M200,148 Q185,135 185,125 Q185,115 195,115 Q200,115 200,120 Q200,115 205,115 Q215,115 215,125 Q215,135 200,148Z" fill="#d4a044" opacity="0.9"/></svg>`,
-    'Community & Kindness': `<svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="comm1" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#f5f0e6"/><stop offset="100%" stop-color="#e8ddc8"/></linearGradient></defs><rect width="400" height="200" fill="url(#comm1)"/><circle cx="120" cy="80" r="18" fill="#1e4a72" opacity="0.85"/><rect x="108" y="98" width="24" height="55" rx="10" fill="#1e4a72" opacity="0.85"/><circle cx="200" cy="72" r="22" fill="#3d5e44" opacity="0.85"/><rect x="186" y="92" width="28" height="62" rx="12" fill="#3d5e44" opacity="0.85"/><circle cx="280" cy="80" r="18" fill="#b8822a" opacity="0.85"/><rect x="268" y="98" width="24" height="55" rx="10" fill="#b8822a" opacity="0.85"/><line x1="132" y1="118" x2="186" y2="118" stroke="#162840" stroke-width="5" stroke-linecap="round" opacity="0.6"/><line x1="214" y1="118" x2="268" y2="118" stroke="#162840" stroke-width="5" stroke-linecap="round" opacity="0.6"/><path d="M200,42 Q192,33 192,26 Q192,17 200,17 Q205,17 207,22 Q209,17 215,17 Q223,17 223,26 Q223,33 215,42 Z" fill="#b8822a" opacity="0.9"/></svg>`,
-    'Weather & Wonder': `<svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="wx1" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#162840"/><stop offset="50%" stop-color="#1e4a72"/><stop offset="100%" stop-color="#2a5f8f"/></linearGradient></defs><rect width="400" height="200" fill="url(#wx1)"/><polygon points="220,20 190,90 215,90 180,175 240,80 210,80 245,20" fill="#d4a044" opacity="0.95"/></svg>`,
-    'Ministry & Faith': `<svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="min1" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#162840"/><stop offset="100%" stop-color="#1e4a72"/></linearGradient></defs><rect width="400" height="200" fill="url(#min1)"/><rect x="192" y="45" width="16" height="70" rx="3" fill="#d4a044" opacity="0.8"/><rect x="172" y="68" width="56" height="16" rx="3" fill="#d4a044" opacity="0.8"/></svg>`
+    'Grief & Healing': `<svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="heal1" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#1e3a58"/><stop offset="100%" stop-color="#2a5f8f"/></linearGradient></defs><rect width="400" height="200" fill="url(#heal1)"/><line x1="60" y1="0" x2="50" y2="40" stroke="white" stroke-width="1" opacity="0.15"/><line x1="120" y1="0" x2="110" y2="50" stroke="white" stroke-width="1" opacity="0.12"/><line x1="200" y1="0" x2="190" y2="45" stroke="white" stroke-width="1" opacity="0.15"/><line x1="280" y1="0" x2="270" y2="40" stroke="white" stroke-width="1" opacity="0.12"/><line x1="340" y1="0" x2="330" y2="50" stroke="white" stroke-width="1" opacity="0.15"/><path d="M120,160 Q130,120 150,100 Q160,90 170,95 Q180,100 165,115 Q180,95 190,100 Q200,108 182,120 Q195,105 204,112 Q212,122 195,132 Q200,125 205,132 Q210,142 195,148 Q175,158 155,162 Q138,165 120,160Z" fill="#c9b89a" opacity="0.85"/><path d="M280,160 Q270,120 250,100 Q240,90 230,95 Q220,100 235,115 Q220,95 210,100 Q200,108 218,120 Q205,105 196,112 Q188,122 205,132 Q200,125 195,132 Q190,142 205,148 Q225,158 245,162 Q262,165 280,160Z" fill="#c9b89a" opacity="0.85"/><ellipse cx="200" cy="135" rx="20" ry="18" fill="#b8822a" opacity="0.5"/><path d="M200,148 Q185,135 185,125 Q185,115 195,115 Q200,115 200,120 Q200,115 205,115 Q215,115 215,125 Q215,135 200,148Z" fill="#d4a044" opacity="0.9"/><circle cx="100" cy="30" r="1.5" fill="white" opacity="0.7"/><circle cx="200" cy="20" r="2" fill="white" opacity="0.8"/><circle cx="310" cy="35" r="1.5" fill="white" opacity="0.7"/></svg>`,
+    'Community & Kindness': `<svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="comm1" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#f5f0e6"/><stop offset="100%" stop-color="#e8ddc8"/></linearGradient></defs><rect width="400" height="200" fill="url(#comm1)"/><circle cx="120" cy="80" r="18" fill="#1e4a72" opacity="0.85"/><rect x="108" y="98" width="24" height="55" rx="10" fill="#1e4a72" opacity="0.85"/><circle cx="200" cy="72" r="22" fill="#3d5e44" opacity="0.85"/><rect x="186" y="92" width="28" height="62" rx="12" fill="#3d5e44" opacity="0.85"/><circle cx="280" cy="80" r="18" fill="#b8822a" opacity="0.85"/><rect x="268" y="98" width="24" height="55" rx="10" fill="#b8822a" opacity="0.85"/><line x1="132" y1="118" x2="186" y2="118" stroke="#162840" stroke-width="5" stroke-linecap="round" opacity="0.6"/><line x1="214" y1="118" x2="268" y2="118" stroke="#162840" stroke-width="5" stroke-linecap="round" opacity="0.6"/><path d="M120,52 Q113,44 113,38 Q113,30 120,30 Q124,30 126,34 Q128,30 133,30 Q140,30 140,38 Q140,44 133,52 Z" fill="#d4a044" opacity="0.85"/><path d="M200,42 Q192,33 192,26 Q192,17 200,17 Q205,17 207,22 Q209,17 215,17 Q223,17 223,26 Q223,33 215,42 Z" fill="#b8822a" opacity="0.9"/><path d="M280,52 Q273,44 273,38 Q273,30 280,30 Q284,30 286,34 Q288,30 293,30 Q300,30 300,38 Q300,44 293,52 Z" fill="#5e8066" opacity="0.85"/></svg>`,
+    'Weather & Wonder': `<svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="wx1" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#162840"/><stop offset="50%" stop-color="#1e4a72"/><stop offset="100%" stop-color="#2a5f8f"/></linearGradient></defs><rect width="400" height="200" fill="url(#wx1)"/><polygon points="220,20 190,90 215,90 180,175 240,80 210,80 245,20" fill="#d4a044" opacity="0.95"/><ellipse cx="100" cy="60" rx="55" ry="28" fill="white" opacity="0.15"/><ellipse cx="80" cy="58" rx="35" ry="22" fill="white" opacity="0.12"/><ellipse cx="300" cy="80" rx="65" ry="30" fill="white" opacity="0.12"/><line x1="70" y1="90" x2="65" y2="108" stroke="white" stroke-width="1.5" opacity="0.4"/><line x1="90" y1="88" x2="85" y2="106" stroke="white" stroke-width="1.5" opacity="0.35"/><line x1="110" y1="92" x2="105" y2="110" stroke="white" stroke-width="1.5" opacity="0.4"/><circle cx="350" cy="30" r="2" fill="white" opacity="0.7"/><circle cx="40" cy="40" r="1.5" fill="white" opacity="0.6"/></svg>`,
+    'Ministry & Faith': `<svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="min1" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#162840"/><stop offset="100%" stop-color="#1e4a72"/></linearGradient></defs><rect width="400" height="200" fill="url(#min1)"/><rect x="155" y="20" width="90" height="130" rx="45" fill="none" stroke="#d4a044" stroke-width="3" opacity="0.6"/><rect x="170" y="35" width="60" height="100" rx="30" fill="#b8822a" opacity="0.15"/><rect x="192" y="45" width="16" height="70" rx="3" fill="#d4a044" opacity="0.8"/><rect x="172" y="68" width="56" height="16" rx="3" fill="#d4a044" opacity="0.8"/><polygon points="155,80 80,200 120,200" fill="#d4a044" opacity="0.06"/><polygon points="245,80 280,200 320,200" fill="#d4a044" opacity="0.06"/><rect x="80" y="140" width="10" height="40" rx="2" fill="#c9b89a" opacity="0.8"/><ellipse cx="85" cy="136" rx="3" ry="5" fill="#d4a044" opacity="0.9"/><rect x="310" y="140" width="10" height="40" rx="2" fill="#c9b89a" opacity="0.8"/><ellipse cx="315" cy="136" rx="3" ry="5" fill="#d4a044" opacity="0.9"/><rect x="40" y="175" width="320" height="8" rx="3" fill="#162840" opacity="0.6"/></svg>`
   };
   return scenes[category] || scenes['Matter of Perspective'];
 }
 
-// Load posts
+// Load posts: fetch posts.json with cache busting
 async function loadPosts() {
   try {
     const res = await fetch('/posts.json?v=' + Date.now());
@@ -1393,27 +1090,20 @@ async function loadPosts() {
 function renderBlog() {
   const grid = document.getElementById('blogGrid');
   const noPostsMsg = document.getElementById('noPosts');
-  const viewAllWrap = document.getElementById('viewAllWrap');
-  const archiveCount = document.getElementById('archiveCount');
   const published = POSTS.filter(p => p.published !== false);
 
   if (published.length === 0) {
     grid.innerHTML = '';
     noPostsMsg.style.display = 'block';
-    viewAllWrap.style.display = 'none';
     return;
   }
-
   noPostsMsg.style.display = 'none';
 
-  const featured = published.slice(0, 3);
-  const older = published.slice(3);
-
-  grid.innerHTML = featured.map((post, i) => `
+  grid.innerHTML = published.map((post, i) => `
     <a class="blog-card fade-up" onclick="openPost('${post.id}')" href="javascript:void(0)" style="transition-delay:${i*0.08}s">
       <div class="blog-card-img">
         ${post.image
-          ? `<img src="${post.image}" alt="${escHtml(post.title)}" style="width:100%;height:100%;object-fit:contain;background:#f4f1ec">`
+          ? `<img src="${post.image}" alt="${escHtml(post.title)}" style="width:100%;height:100%;object-fit:cover">`
           : getCardIllustration(post.category, post.color)}
       </div>
       <div class="blog-card-body">
@@ -1425,24 +1115,14 @@ function renderBlog() {
     </a>
   `).join('');
 
-  if (older.length > 0) {
-    viewAllWrap.style.display = 'block';
-    archiveCount.textContent = `${older.length} more reflection${older.length > 1 ? 's' : ''} in the archive`;
-  } else {
-    viewAllWrap.style.display = 'none';
-  }
-
   observeFadeUps();
 }
 
-// ── OPEN POST WITH CUSDIS ──
 function openPost(id) {
   const post = POSTS.find(p => p.id === id);
   if (!post) return;
-
   document.getElementById('modalMeta').textContent = `${post.category} · ${post.date}`;
   document.getElementById('modalTitle').textContent = post.title;
-
   if (post.content) {
     document.getElementById('modalBody').innerHTML = mdToHtml(post.content);
   }
@@ -1451,19 +1131,6 @@ function openPost(id) {
   } else {
     document.getElementById('modalImg').innerHTML = '';
   }
-
-  // ── UPDATE CUSDIS for this post ──
-  const thread = document.getElementById('cusdis_thread');
-  const pageUrl = window.location.origin + window.location.pathname + '#post-' + post.id;
-  thread.setAttribute('data-page-id', post.id);
-  thread.setAttribute('data-page-url', pageUrl);
-  thread.setAttribute('data-page-title', post.title);
-
-  // Re-initialize Cusdis with updated attributes
-  if (window.CUSDIS) {
-    window.CUSDIS.renderTo(thread);
-  }
-
   document.getElementById('postModal').classList.add('open');
   document.body.style.overflow = 'hidden';
 }
@@ -1477,153 +1144,19 @@ document.getElementById('postModal').addEventListener('click', function(e) {
   if (e.target === this) closeModal();
 });
 
-// ── PHOTO UPLOAD HANDLERS ──
-let storyPhotoData = null;
-let storyPhotoName = null;
-
-function handlePhotoSelect(event) {
-  const file = event.target.files[0];
-  if (!file) return;
-
-  // Validate size (5MB max)
-  if (file.size > 5 * 1024 * 1024) {
-    alert('Photo is too large. Please choose an image under 5MB.');
-    event.target.value = '';
-    return;
-  }
-
-  storyPhotoName = file.name;
-  const reader = new FileReader();
-  reader.onload = function(e) {
-    storyPhotoData = e.target.result;
-    document.getElementById('photoPreviewImg').src = storyPhotoData;
-    document.getElementById('photoFileName').textContent = file.name;
-    document.getElementById('photoPreview').style.display = 'block';
-    document.getElementById('photoUploadArea').style.borderColor = 'var(--gold)';
-    document.getElementById('photoUploadArea').style.background = 'rgba(212,160,68,0.08)';
-  };
-  reader.readAsDataURL(file);
-}
-
-function removePhoto() {
-  storyPhotoData = null;
-  storyPhotoName = null;
-  document.getElementById('storyPhoto').value = '';
-  document.getElementById('photoPreview').style.display = 'none';
-  document.getElementById('photoUploadArea').style.borderColor = '';
-  document.getElementById('photoUploadArea').style.background = '';
-}
-
 // ── FORMS ──
-const FORMSPREE = 'https://formspree.io/f/xjglwdbw';
-
-async function submitStory() {
+function submitStory() {
   const name = document.getElementById('storyName').value.trim();
   const email = document.getElementById('storyEmail').value.trim();
   const text = document.getElementById('storyText').value.trim();
-  const category = document.getElementById('storyCategory').value;
-  const interest = document.getElementById('storyInterest').value;
-
-  if (!name || !email || !text || !category) {
-    alert('Please fill in your name, email, story topic, and story.');
-    return;
-  }
-
-  const btn = document.getElementById('storyBtn');
-  btn.textContent = 'Sending...';
-  btn.disabled = true;
-
-  try {
-    const payload = {
-      _subject: 'New Story Submission — Inspire with Dr. Nick',
-      Name: name,
-      Email: email,
-      'Story Topic': category,
-      'Interested In': interest || 'Not specified',
-      Story: text,
-      'Has Photo': storyPhotoData ? 'Yes — ' + storyPhotoName : 'No'
-    };
-
-    // Note: Formspree doesn't support binary file uploads via JSON.
-    // The photo is noted in the submission. For full photo support,
-    // upgrade to Formspree Gold or use a service like Cloudinary.
-    // The photo is preserved locally in storyPhotoData for display if needed.
-
-    const res = await fetch(FORMSPREE, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-      body: JSON.stringify(payload)
-    });
-
-    if (res.ok) {
-      document.getElementById('storySuccess').style.display = 'block';
-      document.getElementById('storyError').style.display = 'none';
-      document.getElementById('storyName').value = '';
-      document.getElementById('storyEmail').value = '';
-      document.getElementById('storyText').value = '';
-      document.getElementById('storyCategory').value = '';
-      document.getElementById('storyInterest').value = '';
-      removePhoto();
-      btn.textContent = '✓ Sent!';
-      setTimeout(() => {
-        document.getElementById('storySuccess').style.display = 'none';
-        btn.textContent = 'Share Your Story with Dr. Nick →';
-        btn.disabled = false;
-      }, 6000);
-    } else {
-      throw new Error('Failed');
-    }
-  } catch(e) {
-    document.getElementById('storyError').style.display = 'block';
-    btn.textContent = 'Share Your Story with Dr. Nick →';
-    btn.disabled = false;
-  }
-}
-
-async function submitContact() {
-  const name = document.getElementById('contactName').value.trim();
-  const email = document.getElementById('contactEmail').value.trim();
-  const subject = document.getElementById('contactSubject').value;
-  const message = document.getElementById('contactMessage').value.trim();
-  if (!name || !email || !message) {
-    alert('Please fill in your name, email, and message.');
-    return;
-  }
-  const btn = document.getElementById('contactBtn');
-  btn.textContent = 'Sending...';
-  btn.disabled = true;
-  try {
-    const res = await fetch(FORMSPREE, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-      body: JSON.stringify({
-        _subject: 'Contact Form — Inspire with Dr. Nick',
-        Name: name,
-        Email: email,
-        'Subject': subject || 'General Contact',
-        Message: message
-      })
-    });
-    if (res.ok) {
-      document.getElementById('contactSuccess').style.display = 'block';
-      document.getElementById('contactName').value = '';
-      document.getElementById('contactEmail').value = '';
-      document.getElementById('contactSubject').value = '';
-      document.getElementById('contactMessage').value = '';
-      btn.textContent = '✓ Sent!';
-      setTimeout(() => {
-        document.getElementById('contactSuccess').style.display = 'none';
-        btn.textContent = 'Send Message →';
-        btn.disabled = false;
-      }, 6000);
-    } else {
-      throw new Error('Failed');
-    }
-  } catch(e) {
-    alert('Something went wrong. Please email Dr. Nick directly at nickpalischphd@gmail.com');
-    btn.textContent = 'Send Message →';
-    btn.disabled = false;
-  }
+  if (!name || !email || !text) { alert('Please fill in your name, email, and story.'); return; }
+  document.getElementById('storySuccess').style.display = 'block';
+  document.getElementById('storyName').value = '';
+  document.getElementById('storyEmail').value = '';
+  document.getElementById('storyText').value = '';
+  document.getElementById('storyCategory').value = '';
+  document.getElementById('storyInterest').value = '';
+  setTimeout(() => document.getElementById('storySuccess').style.display = 'none', 6000);
 }
 
 function subscribeNewsletter() {
