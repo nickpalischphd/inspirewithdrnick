@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Books &amp; Projects — Inspire with Dr. Nick</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300;1,8..60,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:#162840;--navy-mid:#1e3a58;--blue:#1e4a72;--blue-mid:#2a5f8f;--blue-light:#3d7ab5;
+    --gold:#b8822a;--gold-light:#d4a044;--gold-warm:#c8902e;
+    --sage:#7a9e82;--sage-mid:#5e8066;--sage-dark:#3d5e44;--sage-light:#b2ccb6;--sage-pale:#e8f0e9;
+    --sand:#c9b89a;--sand-mid:#b5a080;--sand-light:#e8ddc8;--sand-pale:#f5f0e6;
+    --cream:#f4f1ec;--warm-white:#f9f7f2;--parchment:#ede6d5;
+    --text-dark:#1a1e24;--text-mid:#364050;--text-light:#6a7585;--border:#d8d0be;
+    --shadow:0 4px 32px rgba(22,40,64,0.13);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{font-family:'Source Serif 4',Georgia,serif;background:var(--cream);color:var(--text-dark);overflow-x:hidden}
+
+  /* NAV */
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(22,40,64,0.97);backdrop-filter:blur(12px);border-bottom:1px solid rgba(200,151,42,0.25);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:68px}
+  .nav-brand{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--gold-light);letter-spacing:0.02em;text-decoration:none}
+  .nav-links{display:flex;gap:2rem;list-style:none}
+  .nav-links a{font-family:'Lato',sans-serif;font-size:0.82rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.78);text-decoration:none;transition:color 0.2s}
+  .nav-links a:hover,.nav-links a.active{color:var(--gold-light)}
+  .nav-cta{background:var(--gold);color:var(--navy)!important;padding:0.4rem 1.1rem;border-radius:2px;font-weight:700!important;transition:background 0.2s!important}
+  .nav-cta:hover{background:var(--gold-light)!important}
+  .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer}
+  .hamburger span{display:block;width:24px;height:2px;background:white;transition:0.3s}
+
+  /* HERO */
+  .hero{
+    min-height:62vh;
+    background:linear-gradient(160deg, var(--navy) 0%, var(--blue) 55%, var(--navy-mid) 100%);
+    display:flex;align-items:center;justify-content:center;
+    position:relative;overflow:hidden;
+    padding:8rem 2rem 5rem;
+    text-align:center;
+  }
+  .hero::before{
+    content:'';position:absolute;inset:0;
+    background:url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='rgba(61,122,181,0.07)' stroke-width='1'%3E%3Crect x='0' y='0' width='80' height='80'/%3E%3C/g%3E%3C/svg%3E");
+    background-size:80px 80px;
+  }
+  .hero-ornament{
+    position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+    width:500px;height:500px;border-radius:50%;
+    background:radial-gradient(circle, rgba(184,130,42,0.09) 0%, transparent 70%);
+    pointer-events:none;
+  }
+  .hero-content{position:relative;z-index:2;max-width:760px}
+  .coming-soon-badge{
+    display:inline-flex;align-items:center;gap:0.6rem;
+    font-family:'Lato',sans-serif;font-size:0.7rem;font-weight:700;
+    letter-spacing:0.22em;text-transform:uppercase;
+    color:var(--navy);background:var(--gold);
+    padding:0.4rem 1.1rem;border-radius:2px;
+    margin-bottom:2rem;
+  }
+  .hero-eyebrow{
+    font-family:'Lato',sans-serif;font-size:0.75rem;font-weight:700;
+    letter-spacing:0.25em;text-transform:uppercase;color:var(--gold);
+    margin-bottom:1.2rem;
+    display:flex;align-items:center;justify-content:center;gap:0.8rem;
+  }
+  .hero-eyebrow::before,.hero-eyebrow::after{content:'';display:block;width:36px;height:1px;background:var(--gold)}
+  .hero h1{
+    font-family:'Playfair Display',serif;
+    font-size:clamp(2.2rem,5vw,4rem);font-weight:700;line-height:1.15;
+    color:#fff;margin-bottom:1.5rem;
+  }
+  .hero h1 em{font-style:italic;color:var(--gold-light);display:block}
+  .hero-sub{
+    font-family:'Source Serif 4',serif;font-size:1.1rem;font-weight:300;font-style:italic;
+    color:rgba(255,255,255,0.72);line-height:1.75;max-width:580px;margin:0 auto;
+  }
+
+  /* STRIPE */
+  .sand-stripe{height:6px;background:linear-gradient(90deg,var(--sage-light),var(--sand),var(--gold-light),var(--sand),var(--sage-light))}
+
+  /* INTRO */
+  .intro{background:var(--sand-pale);padding:4.5rem 2rem}
+  .intro-inner{max-width:720px;margin:0 auto;text-align:center}
+  .section-label{
+    font-family:'Lato',sans-serif;font-size:0.7rem;font-weight:700;
+    letter-spacing:0.22em;text-transform:uppercase;color:var(--gold);
+    margin-bottom:0.8rem;
+    display:flex;align-items:center;justify-content:center;gap:0.6rem;
+  }
+  .section-label::before{content:'';display:block;width:28px;height:1px;background:var(--gold)}
+  .section-label.centered::before{display:none}
+  .section-title{
+    font-family:'Playfair Display',serif;
+    font-size:clamp(1.9rem,3.5vw,2.8rem);font-weight:700;line-height:1.2;
+    color:var(--navy);margin-bottom:1.2rem;
+  }
+  .section-title em{font-style:italic;color:var(--gold)}
+  .section-body{font-size:1.05rem;line-height:1.85;color:var(--text-mid);font-weight:300}
+
+  /* PROJECTS */
+  .projects{background:var(--warm-white);padding:5rem 2rem}
+  .container{max-width:1060px;margin:0 auto}
+  .projects-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;margin-top:3.5rem}
+
+  .project-card{
+    background:#fff;border-radius:6px;overflow:hidden;
+    box-shadow:var(--shadow);
+    display:flex;flex-direction:column;
+    transition:transform 0.25s,box-shadow 0.25s;
+  }
+  .project-card:hover{transform:translateY(-5px);box-shadow:0 12px 48px rgba(22,40,64,0.18)}
+
+  .project-card-top{padding:2.5rem 1.8rem 1.8rem;position:relative}
+  .project-card:nth-child(1) .project-card-top{background:linear-gradient(145deg,var(--navy) 0%,var(--blue) 100%)}
+  .project-card:nth-child(2) .project-card-top{background:linear-gradient(145deg,var(--sage-dark) 0%,#2e5c38 100%)}
+  .project-card:nth-child(3) .project-card-top{background:linear-gradient(145deg,#4a3510 0%,var(--gold) 100%)}
+
+  .project-icon{font-size:2.8rem;display:block;margin-bottom:1.1rem}
+  .project-type{
+    font-family:'Lato',sans-serif;font-size:0.64rem;font-weight:700;
+    letter-spacing:0.18em;text-transform:uppercase;
+    color:rgba(255,255,255,0.55);margin-bottom:0.5rem;
+  }
+  .project-card-top h3{
+    font-family:'Playfair Display',serif;font-size:1.35rem;font-weight:700;
+    color:#fff;line-height:1.25;
+  }
+  .soon-chip{
+    position:absolute;top:1.2rem;right:1.2rem;
+    font-family:'Lato',sans-serif;font-size:0.6rem;font-weight:700;
+    letter-spacing:0.14em;text-transform:uppercase;
+    background:rgba(255,255,255,0.15);color:rgba(255,255,255,0.8);
+    padding:0.25rem 0.65rem;border-radius:2px;
+    border:1px solid rgba(255,255,255,0.2);
+  }
+
+  .project-card-body{padding:1.6rem 1.8rem;flex:1;display:flex;flex-direction:column;gap:1rem}
+  .project-summary{
+    font-family:'Playfair Display',serif;font-size:0.95rem;font-style:italic;
+    color:var(--text-mid);line-height:1.65;border-left:3px solid var(--gold);
+    padding-left:0.9rem;
+  }
+  .project-desc{font-size:0.9rem;line-height:1.8;color:var(--text-light);font-weight:300}
+
+  .project-card-footer{
+    padding:1rem 1.8rem;border-top:1px solid var(--border);
+    font-family:'Lato',sans-serif;font-size:0.68rem;font-weight:700;
+    letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);
+    display:flex;align-items:center;gap:0.5rem;
+  }
+  .project-card-footer::before{content:'';display:block;width:14px;height:1px;background:var(--gold)}
+
+  /* CLOSING */
+  .closing{
+    background:linear-gradient(160deg,var(--navy) 0%,var(--blue) 60%,var(--sage-dark) 100%);
+    text-align:center;padding:5rem 2rem;position:relative;overflow:hidden;
+  }
+  .closing::before{
+    content:'';position:absolute;inset:0;
+    background:radial-gradient(ellipse at center,rgba(201,184,154,0.08) 0%,transparent 65%);
+  }
+  .closing-inner{position:relative;z-index:1;max-width:680px;margin:0 auto}
+  .closing h2{
+    font-family:'Playfair Display',serif;font-size:clamp(1.9rem,3.5vw,2.7rem);
+    font-weight:700;color:#fff;line-height:1.25;margin-bottom:1.2rem;
+  }
+  .closing h2 em{font-style:italic;color:var(--gold-light)}
+  .closing p{font-size:1rem;color:rgba(255,255,255,0.65);line-height:1.85;font-weight:300}
+  .closing-quote{
+    font-family:'Playfair Display',serif;font-size:1.2rem;font-style:italic;
+    color:var(--gold-light);margin-top:2.5rem;line-height:1.6;
+  }
+  .btn-primary{
+    background:var(--gold);color:var(--navy);
+    font-family:'Lato',sans-serif;font-size:0.8rem;font-weight:700;
+    letter-spacing:0.15em;text-transform:uppercase;
+    padding:0.9rem 2.2rem;border-radius:2px;
+    text-decoration:none;display:inline-block;
+    transition:background 0.2s,transform 0.15s;margin-top:2.5rem;
+  }
+  .btn-primary:hover{background:var(--gold-light);transform:translateY(-1px)}
+
+  /* FOOTER */
+  footer{
+    background:linear-gradient(90deg,#0a131e,#0e1a14,#0a131e);
+    padding:2rem;text-align:center;
+    font-family:'Lato',sans-serif;font-size:0.75rem;
+    color:rgba(255,255,255,0.3);letter-spacing:0.05em;
+  }
+  footer a{color:var(--sand-light);text-decoration:none}
+
+  /* ANIMATIONS */
+  @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+  .fade-up{opacity:0;transform:translateY(24px);transition:opacity 0.7s ease,transform 0.7s ease}
+  .fade-up.visible{opacity:1;transform:none}
+
+  /* RESPONSIVE */
+  @media(max-width:900px){.projects-grid{grid-template-columns:1fr 1fr}}
+  @media(max-width:640px){
+    .nav-links{display:none}
+    .hamburger{display:flex}
+    .projects-grid{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-brand">Inspire with Dr. Nick</a>
+  <ul class="nav-links">
+    <li><a href="index.html#blog">Blog</a></li>
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="stories.html">Stories</a></li>
+    <li><a href="books.html" class="active">Books &amp; Projects</a></li>
+    <li><a href="corgis.html">Mogwai &amp; Friends</a></li>
+    <li><a href="index.html#share" class="nav-cta">Contact Dr. Nick</a></li>
+  </ul>
+  <div class="hamburger" onclick="toggleMobileMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-ornament"></div>
+  <div class="hero-content">
+    <div class="coming-soon-badge">✦ Coming Soon</div>
+    <p class="hero-eyebrow">Books &amp; Projects</p>
+    <h1>Big Ideas. <em>Meaningful Stories.</em></h1>
+    <p class="hero-sub">Purpose-driven projects from Dr. Nick — here's a glimpse of what's on the horizon.</p>
+  </div>
+</section>
+
+<div class="sand-stripe"></div>
+
+<!-- INTRO -->
+<section class="intro">
+  <div class="intro-inner fade-up">
+    <p class="section-label centered">From the Writing Desk</p>
+    <h2 class="section-title">What's <em>Coming Next</em></h2>
+    <p class="section-body">Every book begins as a conversation — with an idea, a person, a moment that refuses to stay quiet. The projects below represent that kind of stubborn, hopeful thinking. They are not just books. They are invitations to see life, faith, and each other a little differently.</p>
+  </div>
+</section>
+
+<div class="sand-stripe"></div>
+
+<!-- PROJECTS -->
+<section class="projects">
+  <div class="container">
+    <p class="section-label">On the Horizon</p>
+    <h2 class="section-title">Upcoming Books &amp; <em>Initiatives</em></h2>
+
+    <div class="projects-grid">
+
+      <!-- Card 1 -->
+      <div class="project-card fade-up">
+        <div class="project-card-top">
+          <span class="soon-chip">Coming Soon</span>
+          <span class="project-icon">📖</span>
+          <p class="project-type">Book</p>
+          <h3>Everyone Has a Story</h3>
+        </div>
+        <div class="project-card-body">
+          <p class="project-summary">A heartfelt and inspiring book focused on the lives, struggles, victories, heartbreaks, and journeys of everyday people.</p>
+          <p class="project-desc">Too often, people believe their life is ordinary or that their voice does not matter. This project is built on one simple truth: everybody has a story worth telling. From overcoming hardship to finding purpose, this book will shine a light on the human experience and the impact people have on others every single day.</p>
+        </div>
+        <div class="project-card-footer">More Details Coming Soon</div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="project-card fade-up" style="transition-delay:0.1s">
+        <div class="project-card-top">
+          <span class="soon-chip">Coming Soon</span>
+          <span class="project-icon">✝️</span>
+          <p class="project-type">Book</p>
+          <h3>I'm a Christian, But&hellip;</h3>
+        </div>
+        <div class="project-card-body">
+          <p class="project-summary">A reflective and thought-provoking book exploring faith, grace, judgment, hypocrisy, compassion, and what it truly means to live a Christ-centered life.</p>
+          <p class="project-desc">This project challenges the idea of weaponizing faith while encouraging deeper conversations about love, forgiveness, humility, and spiritual growth. Honest, personal, and rooted in reflection, this book aims to encourage understanding instead of division.</p>
+        </div>
+        <div class="project-card-footer">More Details Coming Soon</div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="project-card fade-up" style="transition-delay:0.2s">
+        <div class="project-card-top">
+          <span class="soon-chip">Coming Soon</span>
+          <span class="project-icon">🌟</span>
+          <p class="project-type">Community Initiative</p>
+          <h3>Inspire in Action Project</h3>
+        </div>
+        <div class="project-card-body">
+          <p class="project-summary">A community-centered initiative focused on encouragement, storytelling, service, and making a difference one person at a time.</p>
+          <p class="project-desc">The Inspire in Action Project is designed to remind people that small acts of kindness, support, and compassion still matter. Through storytelling, outreach, interviews, motivational content, and community engagement, the project seeks to inspire hope and positive change in a world that desperately needs both.</p>
+        </div>
+        <div class="project-card-footer">More Details Coming Soon</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="sand-stripe"></div>
+
+<!-- CLOSING -->
+<section class="closing">
+  <div class="closing-inner fade-up">
+    <h2>Stay Tuned for <em>What's Next</em></h2>
+    <p>More details, announcements, and release information coming soon. Because sometimes the next chapter of life starts with a simple story — and that story might be yours.</p>
+    <p class="closing-quote">"Stay tuned… because sometimes the next chapter of life starts with a simple story."<br><span style="font-family:'Lato',sans-serif;font-size:0.72rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);font-style:normal;margin-top:0.7rem;display:block">— Dr. Nick</span></p>
+    <a href="index.html#share" class="btn-primary">Share Your Story with Dr. Nick →</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div style="display:flex;justify-content:center;gap:1.5rem;margin-bottom:1.2rem;flex-wrap:wrap">
+    <a href="https://www.facebook.com/drnicksmatterofperspective" target="_blank" style="font-family:'Lato',sans-serif;font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;opacity:0.8">📘 Matter of Perspective</a>
+    <a href="https://www.facebook.com/nickswx" target="_blank" style="font-family:'Lato',sans-serif;font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;opacity:0.8">⛅ First Warn Weather</a>
+    <a href="https://www.tiktok.com/@nickwx" target="_blank" style="font-family:'Lato',sans-serif;font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;opacity:0.8">🎵 TikTok @nickwx</a>
+    <a href="https://www.instagram.com/PalischCorgilife" target="_blank" style="font-family:'Lato',sans-serif;font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;opacity:0.8">📸 @PalischCorgilife</a>
+    <a href="https://www.firstwarnwx.com" target="_blank" style="font-family:'Lato',sans-serif;font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;opacity:0.8">🌐 FirstWarnWX.com</a>
+  </div>
+  <p>© <span id="footerYear"></span> Inspire with Dr. Nick · Dr. Nick's Matter of Perspective · First Warn Weather</p>
+  <p style="margin-top:0.5rem;font-style:italic;opacity:0.5">Nicholas G. Palisch · PhD · EJD · Author · Meteorologist</p>
+</footer>
+
+<script>
+function toggleMobileMenu() {
+  const links = document.querySelector('.nav-links');
+  if (links.style.display === 'flex') {
+    links.style.display = 'none';
+  } else {
+    links.style.cssText = 'display:flex;flex-direction:column;position:absolute;top:68px;left:0;right:0;background:rgba(22,40,64,0.98);padding:1.5rem 2rem;gap:1.2rem;z-index:99';
+  }
+}
+
+function observeFadeUps() {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.fade-up:not(.visible)').forEach(el => observer.observe(el));
+}
+
+document.getElementById('footerYear').textContent = new Date().getFullYear();
+observeFadeUps();
+window.addEventListener('scroll', observeFadeUps, { passive: true });
+</script>
+</body>
+</html>
