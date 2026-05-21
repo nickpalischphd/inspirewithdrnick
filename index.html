@@ -1146,11 +1146,22 @@ document.getElementById('postModal').addEventListener('click', function(e) {
 });
 
 // ── FORMS ──
-function submitStory() {
+async function submitStory() {
   const name = document.getElementById('storyName').value.trim();
   const email = document.getElementById('storyEmail').value.trim();
   const text = document.getElementById('storyText').value.trim();
   if (!name || !email || !text) { alert('Please fill in your name, email, and story.'); return; }
+  const res = await fetch('https://formspree.io/f/xjglwdbw', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+    body: JSON.stringify({
+      name, email, story: text,
+      category: document.getElementById('storyCategory').value,
+      interest: document.getElementById('storyInterest').value,
+      _subject: 'New Story Submission — Inspire with Dr. Nick'
+    })
+  });
+  if (!res.ok) { alert('Something went wrong. Please try again.'); return; }
   document.getElementById('storySuccess').style.display = 'block';
   document.getElementById('storyName').value = '';
   document.getElementById('storyEmail').value = '';
@@ -1160,9 +1171,15 @@ function submitStory() {
   setTimeout(() => document.getElementById('storySuccess').style.display = 'none', 6000);
 }
 
-function subscribeNewsletter() {
+async function subscribeNewsletter() {
   const email = document.getElementById('newsletterEmail').value.trim();
   if (!email) { alert('Please enter your email address.'); return; }
+  const res = await fetch('https://formspree.io/f/xjglwdbw', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+    body: JSON.stringify({ email, _subject: 'New Subscriber — Inspire with Dr. Nick' })
+  });
+  if (!res.ok) { alert('Something went wrong. Please try again.'); return; }
   document.getElementById('newsletterEmail').value = '';
   document.getElementById('newsletterSuccess').style.display = 'block';
 }
