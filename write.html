@@ -171,6 +171,8 @@ hr { border:none; border-top:1px solid var(--border); margin:1.5rem 0; }
     <button class="tab active" id="t-dash" onclick="goTab('dash')">📊 Dashboard</button>
     <button class="tab" id="t-write" onclick="goTab('write')">✍️ Write Post</button>
     <button class="tab" id="t-posts" onclick="goTab('posts')">📚 All Posts <span class="badge" id="badge">0</span></button>
+    <button class="tab" id="t-writestory" onclick="goTab('writestory')">📖 Write Story</button>
+    <button class="tab" id="t-stories" onclick="goTab('stories')">🗂️ All Stories <span class="badge" id="sbadge">0</span></button>
     <button class="tab" id="t-publish" onclick="goTab('publish')">🚀 Publish</button>
     <button class="tab" id="t-settings" onclick="goTab('settings')">⚙️ GitHub</button>
   </div>
@@ -292,6 +294,71 @@ hr { border:none; border-top:1px solid var(--border); margin:1.5rem 0; }
     <div id="noPosts" style="text-align:center;padding:3rem;color:var(--light);font-style:italic">No posts yet. Write your first one!</div>
   </div>
 
+  <!-- WRITE STORY PANE -->
+  <div class="pane" id="p-writestory">
+    <div class="pane-title" id="writeStoryHead">Write a New <em>Story</em></div>
+    <div class="pane-sub">Share an everyday story — yours or someone else's — and publish it to the Stories page.</div>
+    <div class="ok" id="wsOk"></div>
+    <div class="err" id="wsErr"></div>
+    <input type="hidden" id="seditId">
+
+    <div class="toggle-row">
+      <label class="tog"><input type="checkbox" id="sPubNow" checked><span class="tog-slider"></span></label>
+      <span style="font-size:0.85rem;font-weight:700;color:var(--mid)">Publish immediately</span>
+      <span style="font-size:0.78rem;color:var(--light)">(turn off to save as draft)</span>
+    </div>
+
+    <div class="fg"><label>Story Title *</label><input type="text" id="sfTitle" placeholder="The title of this story..."></div>
+
+    <div class="two">
+      <div class="fg"><label>Category *</label>
+        <select id="sfCat">
+          <option>A Life-Changing Event</option>
+          <option>Personal Loss &amp; Healing</option>
+          <option>A Faith Journey</option>
+          <option>A Second Chance</option>
+          <option>Career &amp; Calling</option>
+          <option>Family &amp; Roots</option>
+          <option>A Passion or Hobby</option>
+          <option>Something Else Entirely</option>
+          <option>Dr. Nick's Reflection</option>
+        </select>
+      </div>
+      <div class="fg"><label>Publish Date</label><input type="text" id="sfDate" placeholder="May 5, 2026"></div>
+    </div>
+
+    <div class="fg"><label>Excerpt <span style="font-weight:400;text-transform:none;letter-spacing:0">(one sentence preview shown on the Stories page)</span></label>
+      <input type="text" id="sfExcerpt" placeholder="A brief sentence that draws the reader in..."></div>
+
+    <div class="fg"><label>Story Author <span style="font-weight:400;text-transform:none;letter-spacing:0">(leave blank for Dr. Nick)</span></label>
+      <input type="text" id="sfAuthor" placeholder="Dr. Nick"></div>
+
+    <hr>
+
+    <div class="fg"><label>The Full Story *</label>
+      <textarea id="sfBody" placeholder="Tell the story here...&#10;&#10;Leave a blank line between paragraphs.&#10;&#10;Every story matters. Every voice deserves to be heard."></textarea>
+      <p class="hint">💡 Leave a blank line between paragraphs — they'll be beautifully formatted on the site.</p>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn" onclick="saveStory()" style="padding:0.85rem 2rem"><span id="saveSLbl">Publish Story →</span></button>
+      <button class="btn btn-outline" onclick="clearStoryForm()">Clear</button>
+      <button class="btn btn-outline" onclick="goTab('stories')" style="margin-left:auto">View All Stories</button>
+    </div>
+  </div>
+
+  <!-- ALL STORIES PANE -->
+  <div class="pane" id="p-stories">
+    <div class="pane-title">All <em>Stories</em></div>
+    <div class="pane-sub">Click Edit to update or Delete to remove.</div>
+    <div class="ok" id="sOk"></div>
+    <div style="display:flex;justify-content:flex-end;margin-bottom:1rem">
+      <button class="btn btn-sm" onclick="goTab('writestory');clearStoryForm()">+ Write New Story</button>
+    </div>
+    <div id="storiesList"></div>
+    <div id="noStoriesMsg" style="text-align:center;padding:3rem;color:var(--light);font-style:italic">No stories yet. Write your first one!</div>
+  </div>
+
   <!-- PUBLISH PANE -->
   <div class="pane" id="p-publish">
     <div class="pane-title">Publish to <em>Your Site</em></div>
@@ -299,9 +366,14 @@ hr { border:none; border-top:1px solid var(--border); margin:1.5rem 0; }
     <div class="ok" id="pubOk"></div>
     <div class="err" id="pubErr"></div>
     <div class="pub-box">
-      <h3>🚀 Ready to Go Live?</h3>
-      <p>Click the button below to instantly publish all your posts. Your site updates within 60 seconds.</p>
-      <button class="pub-btn" id="pubBtn" onclick="publishToGH()">Publish to inspirewithdrnick.com →</button>
+      <h3>✍️ Publish Blog Posts</h3>
+      <p>Click below to instantly publish all your blog posts. Your site updates within 60 seconds.</p>
+      <button class="pub-btn" id="pubBtn" onclick="publishToGH()">Publish Posts to inspirewithdrnick.com →</button>
+    </div>
+    <div class="pub-box" style="margin-top:1rem;background:linear-gradient(135deg,var(--sage),#5e8066)">
+      <h3>📖 Publish Stories</h3>
+      <p>Click below to send all your stories live to inspirewithdrnick.com/stories.html</p>
+      <button class="pub-btn" id="pubStoriesBtn" onclick="publishStoriesToGH()">Publish Stories to inspirewithdrnick.com →</button>
     </div>
     <div style="background:#fff;border:1px solid var(--border);border-radius:6px;padding:1.5rem;margin-bottom:1rem">
       <p style="font-size:0.85rem;color:var(--mid);line-height:1.7;margin-bottom:1rem"><strong>Haven't set up GitHub yet?</strong> Click the GitHub tab above and enter your details.</p>
@@ -358,7 +430,7 @@ document.getElementById('pwd').addEventListener('keypress', e => { if(e.key==='E
 function doLogout() { sessionStorage.removeItem(AK); location.reload(); }
 
 // TAB SWITCHING - simple and reliable
-const TABS = ['dash','write','posts','publish','settings'];
+const TABS = ['dash','write','posts','writestory','stories','publish','settings'];
 function goTab(name) {
   TABS.forEach(n => {
     document.getElementById('p-' + n).style.display = 'none';
@@ -367,6 +439,7 @@ function goTab(name) {
   document.getElementById('p-' + name).style.display = 'block';
   document.getElementById('t-' + name).classList.add('active');
   if (name === 'posts') renderList();
+  if (name === 'stories') renderStoryList();
   if (name === 'dash') updateStats();
 }
 
@@ -382,8 +455,11 @@ const EMOJIS = ['✍️','🌅','✨','🙏','💛','📖','🕊️','⚡','🌿
 function boot() {
   buildEmojis();
   setDate();
+  setStoryDate();
   updateStats();
   renderList();
+  renderStoryList();
+  updateStoryBadge();
   loadGH();
 }
 
@@ -535,6 +611,131 @@ function clearForm() {
   document.querySelectorAll('.clr').forEach(b=>b.classList.toggle('on',b.classList.contains('blue')));
   removeImg({stopPropagation:()=>{}});
   setDate();
+}
+
+// STORIES
+const SSK = 'drNickStories2026';
+function getStories() { try { return JSON.parse(localStorage.getItem(SSK)) || []; } catch(e) { return []; } }
+function setStories(s) { localStorage.setItem(SSK, JSON.stringify(s)); }
+
+function setStoryDate() {
+  document.getElementById('sfDate').value = new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
+}
+
+function saveStory() {
+  const title = document.getElementById('sfTitle').value.trim();
+  const body = document.getElementById('sfBody').value.trim();
+  if (!title) { flash('wsErr','Please add a title.'); return; }
+  if (!body) { flash('wsErr','Please write the story.'); return; }
+  const stories = getStories();
+  const eid = document.getElementById('seditId').value;
+  const id = eid || (title.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'') + '-' + Date.now());
+  const story = {
+    id, title,
+    category: document.getElementById('sfCat').value,
+    excerpt: document.getElementById('sfExcerpt').value.trim() || title,
+    date: document.getElementById('sfDate').value.trim(),
+    author: document.getElementById('sfAuthor').value.trim() || 'Dr. Nick',
+    published: document.getElementById('sPubNow').checked,
+    content: body
+  };
+  if (eid) { const i = stories.findIndex(s=>s.id===eid); if(i>-1) stories[i]=story; else stories.unshift(story); }
+  else stories.unshift(story);
+  setStories(stories); renderStoryList(); updateStoryBadge();
+  flash('wsOk', story.published ? `✓ "${title}" published!` : `✓ "${title}" saved as draft.`);
+  document.getElementById('wsErr').style.display='none';
+  if (!eid) clearStoryForm();
+  document.getElementById('seditId').value='';
+  document.getElementById('writeStoryHead').innerHTML='Write a New <em>Story</em>';
+  document.getElementById('saveSLbl').textContent='Publish Story →';
+}
+
+function editStory(id) {
+  const s = getStories().find(x=>x.id===id); if(!s) return;
+  document.getElementById('seditId').value=id;
+  document.getElementById('sfTitle').value=s.title;
+  document.getElementById('sfCat').value=s.category;
+  document.getElementById('sfExcerpt').value=s.excerpt||'';
+  document.getElementById('sfDate').value=s.date||'';
+  document.getElementById('sfAuthor').value=s.author||'Dr. Nick';
+  document.getElementById('sfBody').value=s.content||'';
+  document.getElementById('sPubNow').checked=s.published!==false;
+  document.getElementById('writeStoryHead').innerHTML='Edit <em>Story</em>';
+  document.getElementById('saveSLbl').textContent='Update Story →';
+  goTab('writestory');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function deleteStory(id) {
+  const s = getStories().find(x=>x.id===id);
+  if (!s||!confirm(`Delete "${s.title}"? This cannot be undone.`)) return;
+  setStories(getStories().filter(x=>x.id!==id));
+  renderStoryList(); updateStoryBadge();
+  flash('sOk', `✓ "${s.title}" deleted.`);
+}
+
+function renderStoryList() {
+  const stories = getStories();
+  const list = document.getElementById('storiesList');
+  const none = document.getElementById('noStoriesMsg');
+  if (stories.length===0) { list.innerHTML=''; none.style.display='block'; return; }
+  none.style.display='none';
+  list.innerHTML = stories.map(s=>`
+    <div class="pi">
+      <div class="pi-icon">📖</div>
+      <div class="pi-info">
+        <div class="pi-title">${esc(s.title)}${s.published===false?'<span class="draft">Draft</span>':''}</div>
+        <div class="pi-meta"><span>${esc(s.category)}</span>${esc(s.date||'')} · ${esc(s.author||'Dr. Nick')}</div>
+      </div>
+      <div class="pi-actions">
+        <button class="btn btn-outline btn-sm" onclick="editStory('${s.id}')">Edit</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteStory('${s.id}')">Delete</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function updateStoryBadge() {
+  document.getElementById('sbadge').textContent = getStories().length;
+}
+
+function clearStoryForm() {
+  document.getElementById('seditId').value='';
+  document.getElementById('sfTitle').value='';
+  document.getElementById('sfExcerpt').value='';
+  document.getElementById('sfAuthor').value='';
+  document.getElementById('sfBody').value='';
+  document.getElementById('sPubNow').checked=true;
+  document.getElementById('wsOk').style.display='none';
+  document.getElementById('wsErr').style.display='none';
+  setStoryDate();
+}
+
+async function publishStoriesToGH() {
+  const s = JSON.parse(localStorage.getItem(GHK)||'{}');
+  if (!s.tok||!s.user||!s.repo) { alert('Please set up GitHub Settings first!'); goTab('settings'); return; }
+  const stories = getStories().filter(x=>x.published!==false);
+  const btn = document.getElementById('pubStoriesBtn');
+  btn.textContent='⏳ Publishing...'; btn.disabled=true;
+  try {
+    const content = btoa(unescape(encodeURIComponent(JSON.stringify(stories,null,2))));
+    const getR = await fetch(`https://api.github.com/repos/${s.user}/${s.repo}/contents/stories.json`,{headers:{'Authorization':`token ${s.tok}`,'Accept':'application/vnd.github.v3+json'}});
+    let sha=null; if(getR.ok){const d=await getR.json();sha=d.sha;}
+    const putR = await fetch(`https://api.github.com/repos/${s.user}/${s.repo}/contents/stories.json`,{
+      method:'PUT',
+      headers:{'Authorization':`token ${s.tok}`,'Accept':'application/vnd.github.v3+json','Content-Type':'application/json'},
+      body:JSON.stringify({message:`Stories update: ${new Date().toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'})}`,content,...(sha?{sha}:{})})
+    });
+    if(putR.ok){
+      btn.textContent='✅ Published!';
+      flash('pubOk','🎉 Stories are live! Visit inspirewithdrnick.com/stories.html in about 60 seconds.');
+      setTimeout(()=>{btn.textContent='Publish Stories to inspirewithdrnick.com →';btn.disabled=false;},4000);
+    } else throw new Error();
+  } catch(e) {
+    btn.textContent='❌ Failed'; btn.disabled=false;
+    flash('pubErr','Publishing failed. Please check your GitHub Settings.');
+    setTimeout(()=>{btn.textContent='Publish Stories to inspirewithdrnick.com →';},4000);
+  }
 }
 
 // GITHUB
